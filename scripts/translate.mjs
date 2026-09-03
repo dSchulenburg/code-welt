@@ -61,7 +61,30 @@ function schemaFrom(data) {
   for (const [k, v] of Object.entries(data)) { properties[k] = schemaFrom(v); required.push(k); }
   return { type: 'object', properties, required, additionalProperties: false };
 }
+// Kanonische Zielbegriffe, damit eine Neuuebersetzung (oder ein --force-Lauf) nicht still eine
+// gleichwertige Alternativuebersetzung waehlt und die in tests/etappen-names.test.js bzw.
+// tests/glossary-terms.test.js gepinnten Werte zerstoert. etappen: alle fuenf Sprachen (deckt
+// tests/etappen-names.test.js komplett ab). glossary: nur die Sprachen mit einer per Handkorrektur
+// pinnten Auswahl (Task 9, 03.09.2026: es "befehl" kam als "Comando" statt "Orden" zurueck, uk
+// "zauberwort" als "Магічне слово" statt "Чарівне слово" — beides plausible Synonyme, aber nicht
+// die im Kurs etablierten Begriffe).
+const ETAPPEN_CANON = {
+  en: { holz: 'Wood', stein: 'Stone', eisen: 'Iron', gold: 'Gold', diamant: 'Diamond', netherite: 'Netherite', enderdrache: 'Ender Dragon' },
+  uk: { holz: 'Дерево', stein: 'Камінь', eisen: 'Залізо', gold: 'Золото', diamant: 'Алмаз', netherite: 'Незерит', enderdrache: 'Дракон Енду' },
+  ar: { holz: 'خشب', stein: 'حجر', eisen: 'حديد', gold: 'ذهب', diamant: 'ألماس', netherite: 'نيذرايت', enderdrache: 'تنين الإندر' },
+  es: { holz: 'Madera', stein: 'Piedra', eisen: 'Hierro', gold: 'Oro', diamant: 'Diamante', netherite: 'Netherita', enderdrache: 'Dragón del End' },
+  it: { holz: 'Legno', stein: 'Pietra', eisen: 'Ferro', gold: 'Oro', diamant: 'Diamante', netherite: 'Netherite', enderdrache: "Drago dell'End" },
+};
+const GLOSSARY_CANON = {
+  es: { befehl: 'Orden', programm: 'Programa', sequenz: 'Secuencia', zauberwort: 'Palabra mágica', bloecke: 'Bloques', fehler: 'Error' },
+  uk: { befehl: 'Команда', programm: 'Програма', sequenz: 'Послідовність', zauberwort: 'Чарівне слово', bloecke: 'Блоки', fehler: 'Помилка' },
+};
+function canonLine(canon) {
+  return canon ? Object.entries(canon).map(([k, v]) => `${k}→"${v}"`).join(', ') : '';
+}
 function systemPrompt(lang) {
+  const etappenLine = canonLine(ETAPPEN_CANON[lang]);
+  const glossaryLine = canonLine(GLOSSARY_CANON[lang]);
   return [
     `You translate a German learning app for a coding course (Minecraft Education, MakeCode, Python) into ${NAMES[lang]}.`,
     `Audience: vocational-school students aged 16-18 who are learning German (A2-B1) and speak ${NAMES[lang]} at home. The German stays visible next to your text; yours is the SUPPORT layer. Use short, plain sentences, informal "du"-register equivalent, no jargon beyond the coding terms.`,
@@ -70,9 +93,9 @@ function systemPrompt(lang) {
     `2. Placeholders in curly braces like {n}, {done}, {total} stay verbatim.`,
     `3. Character names stay: Nour, Dani. The word "Agent" for the Minecraft robot may be translated the way Minecraft Education names it in ${NAMES[lang]}, otherwise keep "Agent".`,
     `4. JSON keys are never translated; only string values. Booleans and numbers unchanged. Same shape, same array order, no added or removed keys.`,
-    `5. Etappen names (Holz, Stein, Eisen, Gold, Diamant, Netherite, Enderdrache) are translated to the Minecraft in-game names in ${NAMES[lang]} (e.g. wood, stone, iron, gold, diamond, netherite, ender dragon; uk: Дерево, Камінь, Залізо, Золото, Алмаз, Незерит, Дракон Енду).`,
+    `5. Etappen names (Holz, Stein, Eisen, Gold, Diamant, Netherite, Enderdrache) are translated to the Minecraft in-game item/mob names in ${NAMES[lang]}. These are fixed, established course vocabulary, not a free translation choice — use EXACTLY these canonical forms, no synonyms, no added grammatical articles (e.g. no Arabic ال- prefix beyond what a canonical form already contains): ${etappenLine}.`,
     `6. Quotation marks inside values: use the target language's own quotation marks, never a straight ASCII double quote.`,
-    `7. glossary.*.term is the target-language word for the concept (the app shows the German term next to it); only agent and python keep their names.`,
+    `7. glossary.*.term is the target-language word for the concept (the app shows the German term next to it); only agent and python keep their names.${glossaryLine ? ` These are fixed, established course vocabulary — use EXACTLY these canonical terms, no synonyms: ${glossaryLine}.` : ''}`,
     `8. Respond with ONLY the JSON object.`,
   ].join('\n');
 }
