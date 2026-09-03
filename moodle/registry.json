@@ -10,15 +10,67 @@
         "cmid": 76,
         "hash": "92423e018563"
       },
-      "s02-quiz": {
-        "cmid": 71,
-        "quizId": 6,
-        "questions": 4,
-        "hash": "08e5941dc018"
-      },
       "weltdateien": {
         "cmid": 75,
         "hash": "eae2849e2856"
+      },
+      "page-00-setup": {
+        "cmid": 77,
+        "hash": "07d9c38cf01a"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 78,
+        "hash": "580326ab564c"
+      },
+      "page-ds01": {
+        "cmid": 79,
+        "hash": "d2536b864f37"
+      },
+      "page-ds02": {
+        "cmid": 80,
+        "hash": "01b09d3bf82a"
+      },
+      "page-ds03": {
+        "cmid": 81,
+        "hash": "ef98964015ce"
+      },
+      "page-ds04": {
+        "cmid": 82,
+        "hash": "41ebdb8565a4"
+      },
+      "page-ds05": {
+        "cmid": 83,
+        "hash": "27a450cdc75b"
+      },
+      "page-ds06": {
+        "cmid": 84,
+        "hash": "40906cbb83b7"
+      },
+      "s01-station": {
+        "cmid": 85,
+        "hash": "ab8b7a17c446"
+      },
+      "s01-quiz": {
+        "cmid": 86,
+        "quizId": 7,
+        "questions": 4,
+        "hash": "7fd92e4d955b"
+      },
+      "s02-quiz": {
+        "cmid": 87,
+        "quizId": 8,
+        "questions": 4,
+        "hash": "ff47c311634d"
+      },
+      "s03-station": {
+        "cmid": 88,
+        "hash": "bb1996343ef1"
+      },
+      "s03-quiz": {
+        "cmid": 89,
+        "quizId": 9,
+        "questions": 4,
+        "hash": "fc3f0f4bbf18"
       }
     },
     "criteriaCmids": "71"
