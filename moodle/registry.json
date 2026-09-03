@@ -1,0 +1,21 @@
+{
+  "box": {
+    "courseId": 10,
+    "items": {
+      "welcome-lang": {
+        "cmid": 58
+      },
+      "teacher-setup": {
+        "cmid": 59
+      },
+      "s02-station": {
+        "cmid": 60
+      },
+      "s02-quiz": {
+        "cmid": 54,
+        "quizId": 5,
+        "questions": 4
+      }
+    }
+  }
+}
