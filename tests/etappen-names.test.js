@@ -3,7 +3,7 @@ import en from '../src/i18n/en.js';
 import uk from '../src/i18n/uk.js';
 import ar from '../src/i18n/ar.js';
 import es from '../src/i18n/es.js';
-import it from '../src/i18n/it.js'; // noch nicht in TRANSLATED — folgt, sobald it.js generiert ist
+import it from '../src/i18n/it.js';
 
 // Regressionstest fuer die sieben etappen.*.name-Werte (Minecraft-Ingame-Begriffe). Pinnt die
 // korrekten Uebersetzungen fest, damit eine Regenerierung mit --force keinen falschen
@@ -20,11 +20,11 @@ const EXPECTED = {
   uk: { holz: 'Дерево', stein: 'Камінь', eisen: 'Залізо', gold: 'Золото', diamant: 'Алмаз', netherite: 'Незерит', enderdrache: 'Дракон Енду' },
   ar: { holz: 'خشب', stein: 'حجر', eisen: 'حديد', gold: 'ذهب', diamant: 'ألماس', netherite: 'نيذرايت', enderdrache: 'تنين الإندر' },
   es: { holz: 'Madera', stein: 'Piedra', eisen: 'Hierro', gold: 'Oro', diamant: 'Diamante', netherite: 'Netherita', enderdrache: 'Dragón del End' },
+  it: { holz: 'Legno', stein: 'Pietra', eisen: 'Ferro', gold: 'Oro', diamant: 'Diamante', netherite: 'Netherite', enderdrache: "Drago dell'End" },
 };
 
-// Uebersetzte Sprachen. `it` fehlt noch: der API-Schluessel hatte am 03.09.2026 kein Guthaben
-// mehr (Task 8). Nach `node scripts/translate.mjs --lang it` hier + in EXPECTED ergaenzen.
-const TRANSLATED = { en, uk, ar, es };
+// Uebersetzte Sprachen. `it` seit 03.09.2026 vollstaendig (Nachtrag zu Task 8).
+const TRANSLATED = { en, uk, ar, es, it };
 
 for (const [code, bundle] of Object.entries(TRANSLATED)) {
   test(`${code}: etappen-Namen entsprechen den fixierten Minecraft-Ingame-Begriffen`, () => {

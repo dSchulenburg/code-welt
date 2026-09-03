@@ -3,7 +3,7 @@ import en from '../src/i18n/en.js';
 import uk from '../src/i18n/uk.js';
 import ar from '../src/i18n/ar.js';
 import es from '../src/i18n/es.js';
-import it from '../src/i18n/it.js'; // noch nicht in TRANSLATED — folgt, sobald it.js generiert ist
+import it from '../src/i18n/it.js';
 
 function paths(obj, prefix = '') {
   if (Array.isArray(obj)) return obj.flatMap((v, i) => paths(v, `${prefix}[${i}]`));
@@ -11,9 +11,8 @@ function paths(obj, prefix = '') {
   return [prefix];
 }
 
-// Uebersetzte Sprachen. `it` fehlt noch: der API-Schluessel hatte am 03.09.2026 kein Guthaben
-// mehr (Task 8). Nach `node scripts/translate.mjs --lang it` hier ergaenzen.
-const TRANSLATED = { en, uk, ar, es };
+// Uebersetzte Sprachen. `it` seit 03.09.2026 vollstaendig (Nachtrag zu Task 8).
+const TRANSLATED = { en, uk, ar, es, it };
 const want = paths(de);
 
 for (const [code, bundle] of Object.entries(TRANSLATED)) {

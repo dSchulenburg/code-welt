@@ -11,16 +11,16 @@
         "hash": "468901c2d8ae"
       },
       "s02-station": {
-        "cmid": 69,
-        "hash": "9528b9dc4406"
+        "cmid": 70,
+        "hash": "51c07d02521c"
       },
       "s02-quiz": {
-        "cmid": 54,
-        "quizId": 5,
+        "cmid": 71,
+        "quizId": 6,
         "questions": 4,
-        "hash": "25489056a882"
+        "hash": "08e5941dc018"
       }
     },
-    "criteriaCmids": "54"
+    "criteriaCmids": "71"
   }
 }
