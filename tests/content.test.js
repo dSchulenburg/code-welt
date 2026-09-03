@@ -69,11 +69,16 @@ test('jede Etappe hat ein Badge (Daten + i18n Name/Beschreibung)', () => {
   }
 });
 
-test('story-mood ist, wenn gesetzt, aus der erlaubten Menge', () => {
+test('story-mood ist, wenn gesetzt, aus der erlaubten Menge; mindestens eine Zeile im ganzen Content traegt eine mood (Regel darf nie vakuos sein)', () => {
   const ALLOWED = ['erklaerend', 'fragend', 'begeistert', 'nachdenklich', 'ueberrascht'];
+  let anyMoodSet = false;
   for (const [id, c] of Object.entries(content.stations)) {
     for (const line of c.story) {
-      if (line.mood !== undefined) expect(ALLOWED, `${id}: ${line.who}`).toContain(line.mood);
+      if (line.mood !== undefined) {
+        anyMoodSet = true;
+        expect(ALLOWED, `${id}: ${line.who}`).toContain(line.mood);
+      }
     }
   }
+  expect(anyMoodSet).toBe(true);
 });

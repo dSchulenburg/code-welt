@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { callTool, extractId, sleepBetween, hasShortname, parseSectionModules } from './lib/mcp.mjs';
-import { contentHash, needsUpdate, isOrderedSubsequence } from './lib/registry-ops.mjs';
+import { contentHash, needsUpdate, isOrderedSubsequence, orphanKeys } from './lib/registry-ops.mjs';
 import { buildCourseDef } from './course-def.mjs';
 import de from '../src/i18n/de.js';
 import en from '../src/i18n/en.js';
@@ -179,14 +179,18 @@ for (const s of def.sections) {
     if (item.type === 'folder') {
       // Wird nie aktualisiert (Dirk laedt die Weltdatei von Hand hoch). moodle_create_folder
       // meldet im Antworttext faelschlich die Item-ID statt der CMID als "Modul-ID" (gemessen
-      // 03.09.2026 gegen die Box) — die echte CMID kommt deshalb aus moodle_get_course_contents
-      // (neu angelegte Module haengen am Abschnittsende).
+      // 03.09.2026 gegen die Box) — die echte CMID kommt deshalb aus moodle_get_course_contents.
+      // Nicht per Listenposition (letztes Element) gesucht, sondern per Modultyp+Name — robuster
+      // gegen Abweichungen von der Anhaenge-Reihenfolge (z. B. wenn ein anderes Tool zwischendurch
+      // ein Modul anlegt).
       if (!have) {
         await callTool('moodle_create_folder', { courseId, sectionNum: s.num, name: item.name, itemId: 0 });
         const contentsText = await callTool('moodle_get_course_contents', { courseId });
         const parsed = parseSectionModules(contentsText, s.num);
-        const cmid = parsed?.cmids?.[parsed.cmids.length - 1];
-        if (!cmid) throw new Error(`Ordner ${item.key}: CMID nicht in Kursinhalten gefunden`);
+        const matches = (parsed?.modules || []).filter((mod) => mod.modname === 'folder' && mod.name === item.name);
+        if (matches.length === 0) throw new Error(`Ordner ${item.key}: kein Ordner-Modul namens "${item.name}" in Abschnitt ${s.num} gefunden`);
+        if (matches.length > 1) throw new Error(`Ordner ${item.key}: ${matches.length} Ordner-Module namens "${item.name}" in Abschnitt ${s.num} gefunden (cmids ${matches.map((mod) => mod.cmid).join(', ')}) — nicht eindeutig`);
+        const cmid = matches[0].cmid;
         reg.items[item.key] = { cmid, hash }; save();
         console.log(`Ordner ${item.key}: angelegt (cmid ${cmid})`);
       } else {
@@ -195,18 +199,40 @@ for (const s of def.sections) {
     }
     await sleepBetween(800);
   }
-  // Reihenfolge im Abschnitt erzwingen: moodle_update_label haengt aktualisierte Labels ans
-  // Abschnittsende, dadurch driftet die Modul-Reihenfolge bei jedem Update-Lauf. Nur Items aus
-  // der Registry werden angeordnet — Module, die build-course.mjs nicht kennt (z. B. das
-  // Ankuendigungsforum in Abschnitt 0), bleiben, wo der Tool sie hinstellt.
-  //
-  // moodle_reorder_modules ist auf dieser Box nicht nutzbar (lokale local_wsmanagesections-Version
-  // registriert keine reorder_modules-Webservice-Funktion, siehe Fix-Report). Ausweichroute:
-  // moodle_move_module im Section-ID-Modus (lehnt sich an local_course_move_module_to_specific_position
-  // an, das IST auf der Box registriert). Ohne beforeModuleId haengt ein Aufruf das Modul ans
-  // Abschnittsende — wer also die gewuenschten CMIDs der Reihe nach ans Ende haengt, hat sie am
-  // Ende in genau dieser Reihenfolge hintereinander stehen. "Append in order, only when needed":
-  // erst pruefen, ob die gewuenschte Reihenfolge schon als Teilfolge in der aktuellen steckt.
+}
+
+// 3b. Verwaiste Registry-Eintraege entfernen: Items, die course-def.mjs nicht mehr liefert (z. B.
+// entfernt oder umbenannt — die alte "teacher-setup"-Platzhalter-Seite war so ein Fall), verlieren
+// sonst dauerhaft ihre Zuordnung und bleiben als unverwaltete Modul-Leichen im Kurs stehen. Laeuft
+// global (nicht pro Abschnitt, orphanKeys sammelt ueber alle def.sections) und VOR der
+// Reihenfolge-Pruefung, damit moodle_get_course_contents dort schon den bereinigten Stand zeigt.
+// "Datensatz nicht gefunden" beim Loeschen wird toleriert (Modul war vermutlich schon von Hand
+// entfernt); jeder andere Fehler bricht den Lauf ab.
+for (const key of orphanKeys(reg.items, def)) {
+  const cmid = reg.items[key].cmid;
+  try {
+    await callTool('moodle_delete_module', { moduleId: cmid });
+  } catch (e) {
+    if (!/find data record|nicht gefunden|not found/i.test(e.message)) throw e;
+  }
+  delete reg.items[key]; save();
+  console.log(`Verwaist entfernt: ${key} (cmid ${cmid})`);
+  await sleepBetween(800);
+}
+
+// 4. Reihenfolge im Abschnitt erzwingen: moodle_update_label haengt aktualisierte Labels ans
+// Abschnittsende, dadurch driftet die Modul-Reihenfolge bei jedem Update-Lauf. Nur Items aus
+// der Registry werden angeordnet — Module, die build-course.mjs nicht kennt (z. B. das
+// Ankuendigungsforum in Abschnitt 0), bleiben, wo der Tool sie hinstellt.
+//
+// moodle_reorder_modules ist auf dieser Box nicht nutzbar (lokale local_wsmanagesections-Version
+// registriert keine reorder_modules-Webservice-Funktion, siehe Fix-Report). Ausweichroute:
+// moodle_move_module im Section-ID-Modus (lehnt sich an local_course_move_module_to_specific_position
+// an, das IST auf der Box registriert). Ohne beforeModuleId haengt ein Aufruf das Modul ans
+// Abschnittsende — wer also die gewuenschten CMIDs der Reihe nach ans Ende haengt, hat sie am
+// Ende in genau dieser Reihenfolge hintereinander stehen. "Append in order, only when needed":
+// erst pruefen, ob die gewuenschte Reihenfolge schon als Teilfolge in der aktuellen steckt.
+for (const s of def.sections) {
   const want = s.items.map((it) => reg.items[it.key]?.cmid).filter((cmid) => typeof cmid === 'number');
   if (want.length > 0) {
     const contentsText = await callTool('moodle_get_course_contents', { courseId });
@@ -231,17 +257,23 @@ for (const s of def.sections) {
   }
 }
 
-// 4. Kursabschluss: alle Quizze und Boss-Check-Aufgaben — nur aufrufen, wenn sich die Menge der
+// 5. Kursabschluss: alle Quizze und Boss-Check-Aufgaben — nur aufrufen, wenn sich die Menge der
 // CMIDs seit dem letzten Lauf geaendert hat. Der Aufruf schlaegt fehl (❌), sobald irgendein Nutzer
 // den Kurs bereits abgeschlossen hat; das ist dann eine WARNUNG statt eines Abbruchs, der Kurs ist
-// sonst fertig gebaut. Aufgaben-Registry-Keys sind der jeweilige bossCheck.key (z. B. "boss-holz"),
-// kein festes Suffix wie bei Quizzen — deshalb ueber die Item-Typen in def bestimmt.
-const assignmentKeys = new Set();
-for (const s of def.sections) for (const item of s.items) if (item.type === 'assignment') assignmentKeys.add(item.key);
-const quizCmids = Object.entries(reg.items).filter(([k]) => k.endsWith('-quiz')).map(([, v]) => v.cmid);
-const assignmentCmids = Object.entries(reg.items).filter(([k]) => assignmentKeys.has(k)).map(([, v]) => v.cmid);
-const allCriteriaCmids = [...quizCmids, ...assignmentCmids].sort((a, b) => a - b);
-const criteriaCmids = allCriteriaCmids.join(',');
+// sonst fertig gebaut. Die CMIDs kommen aus def.sections (nicht aus Registry-Key-Suffixen wie
+// "-quiz") — ein verwaister oder umbenannter Registry-Eintrag zaehlt so nie mit, auch nicht in der
+// kurzen Luecke zwischen dem Loeschen oben und diesem Schritt.
+const quizCmids = [];
+const assignmentCmids = [];
+for (const s of def.sections) {
+  for (const item of s.items) {
+    if (item.type !== 'quiz' && item.type !== 'assignment') continue;
+    const cmid = reg.items[item.key]?.cmid;
+    if (typeof cmid !== 'number') continue;
+    (item.type === 'quiz' ? quizCmids : assignmentCmids).push(cmid);
+  }
+}
+const criteriaCmids = [...quizCmids, ...assignmentCmids].sort((a, b) => a - b).join(',');
 if (reg.criteriaCmids === criteriaCmids) {
   console.log('Kursabschluss-Kriterien: unverändert');
 } else {

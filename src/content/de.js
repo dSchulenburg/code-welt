@@ -4,12 +4,12 @@ export default {
   stations: {
     s02: {
       story: [
-        { who: 'dani', text: 'Gestern habe ich dem Agent gesagt: Geh los! Er hat nichts gemacht.' },
-        { who: 'nour', text: 'Klar. Der Agent versteht kein Deutsch. Nur Code.' },
-        { who: 'dani', text: 'Und wenn ich ihm drei Befehle gebe?' },
-        { who: 'nour', text: 'Dann macht er sie. Einen nach dem anderen. Genau in der Reihenfolge.' },
-        { who: 'dani', text: 'Also ist die Reihenfolge wichtig?' },
-        { who: 'nour', text: 'Sehr wichtig. Erst gehen, dann drehen ist etwas anderes als erst drehen, dann gehen. Probier es aus.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Gestern habe ich dem Agent gesagt: Geh los! Er hat nichts gemacht.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Klar. Der Agent versteht kein Deutsch. Nur Code.' },
+        { who: 'dani', mood: 'fragend', text: 'Und wenn ich ihm drei Befehle gebe?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Dann macht er sie. Einen nach dem anderen. Genau in der Reihenfolge.' },
+        { who: 'dani', mood: 'begeistert', text: 'Also ist die Reihenfolge wichtig?' },
+        { who: 'nour', mood: 'nachdenklich', text: 'Sehr wichtig. Erst gehen, dann drehen ist etwas anderes als erst drehen, dann gehen. Probier es aus.' },
       ],
       concept: [
         'Ein Programm ist eine Liste von Befehlen. Der Agent liest die Liste von oben nach unten.',

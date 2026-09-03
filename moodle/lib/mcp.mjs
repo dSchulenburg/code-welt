@@ -33,7 +33,7 @@ export function extractId(text, label) {
 export async function sleepBetween(ms = 1500) { await sleep(ms); }
 
 // Liest aus der Markdown-Antwort von moodle_get_course_contents fuer einen Abschnitt die
-// Section-ID und die CMIDs aller Module in Anzeige-Reihenfolge heraus.
+// Section-ID und jedes Modul (Name, Modultyp, CMID) in Anzeige-Reihenfolge heraus.
 // Format (siehe moodle_get_course_contents):
 //   ### 📁 Abschnitt 2: Wood
 //   - **Section ID:** 26
@@ -44,6 +44,14 @@ export async function sleepBetween(ms = 1500) { await sleep(ms); }
 //       - CMID: 54, quiz-ID: 5
 //     - 🏷️ **…** (label)
 //       - CMID: 69, label-ID: 36
+// Name und Modultyp stehen auf der Zeile "- <emoji> **<Name>** (<modname>)", die CMID auf der
+// direkt folgenden Zeile "- CMID: <n>, <modname>-ID: <m>". Lange Namen (z. B. mehrsprachige
+// {mlang}-Labels) werden von moodle_get_course_contents selbst abgeschnitten — der Name-Teil ist
+// dann nur ein Praefix des echten Inhalts, aber fuer den Abgleich per exaktem Namen (kurze,
+// unuebersetzte Namen wie Ordner) reicht das.
+// `cmids` bleibt aus Kompatibilitaetsgruenden erhalten (= modules.map(m => m.cmid)); neuer Code
+// sollte `modules` nutzen, wenn Modultyp oder Name gebraucht werden (z. B. um ein Ordner-Modul
+// sicher per Name statt per Listenposition zu finden).
 // Gibt null zurueck, wenn der Abschnitt nicht in der Antwort vorkommt.
 export function parseSectionModules(contentsText, sectionNum) {
   const re = new RegExp(`### 📁 Abschnitt ${sectionNum}:[^\\n]*\\n([\\s\\S]*?)(?=\\n### 📁 Abschnitt \\d+:|$)`);
@@ -51,6 +59,7 @@ export function parseSectionModules(contentsText, sectionNum) {
   if (!m) return null;
   const block = m[1];
   const idMatch = block.match(/\*\*Section ID:\*\*\s*(\d+)/);
-  const cmids = [...block.matchAll(/CMID:\s*(\d+)/g)].map((c) => Number(c[1]));
-  return { sectionId: idMatch ? Number(idMatch[1]) : null, cmids };
+  const modules = [...block.matchAll(/\*\*(.*?)\*\*\s*\((\w+)\)\r?\n\s*- CMID:\s*(\d+),/g)]
+    .map((mm) => ({ name: mm[1], modname: mm[2], cmid: Number(mm[3]) }));
+  return { sectionId: idMatch ? Number(idMatch[1]) : null, cmids: modules.map((mod) => mod.cmid), modules };
 }

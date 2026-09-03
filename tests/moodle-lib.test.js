@@ -66,12 +66,32 @@ const COURSE_CONTENTS = `## Kursinhalte (Kurs ID: 10)
 `;
 
 test('parseSectionModules liest Section-ID und CMIDs in Anzeige-Reihenfolge', () => {
-  expect(parseSectionModules(COURSE_CONTENTS, 0)).toEqual({ sectionId: 24, cmids: [50, 67] });
-  expect(parseSectionModules(COURSE_CONTENTS, 2)).toEqual({ sectionId: 26, cmids: [54, 69] });
+  expect(parseSectionModules(COURSE_CONTENTS, 0)).toEqual({
+    sectionId: 24,
+    cmids: [50, 67],
+    modules: [
+      { name: 'Announcements', modname: 'forum', cmid: 50 },
+      { name: '🇩🇪 Deutsch: W&auml;hle deine Sprache: oben r', modname: 'label', cmid: 67 },
+    ],
+  });
+  expect(parseSectionModules(COURSE_CONTENTS, 2)).toEqual({
+    sectionId: 26,
+    cmids: [54, 69],
+    modules: [
+      { name: 'DS 2 · Check', modname: 'quiz', cmid: 54 },
+      { name: 'DS 2 · Station: Reihenfolge z&auml;hlt', modname: 'label', cmid: 69 },
+    ],
+  });
 });
 
-test('parseSectionModules liefert leere cmids fuer einen Abschnitt ohne Module', () => {
-  expect(parseSectionModules(COURSE_CONTENTS, 3)).toEqual({ sectionId: 27, cmids: [] });
+test('parseSectionModules liefert Name und Modultyp, mit denen sich ein Modul eindeutig per Name statt per Listenposition finden laesst', () => {
+  const parsed = parseSectionModules(COURSE_CONTENTS, 0);
+  const found = parsed.modules.find((mod) => mod.modname === 'forum' && mod.name === 'Announcements');
+  expect(found).toEqual({ name: 'Announcements', modname: 'forum', cmid: 50 });
+});
+
+test('parseSectionModules liefert leere cmids und modules fuer einen Abschnitt ohne Module', () => {
+  expect(parseSectionModules(COURSE_CONTENTS, 3)).toEqual({ sectionId: 27, cmids: [], modules: [] });
 });
 
 test('parseSectionModules gibt null zurueck, wenn der Abschnitt nicht vorkommt', () => {

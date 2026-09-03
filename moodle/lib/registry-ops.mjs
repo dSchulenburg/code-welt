@@ -27,7 +27,8 @@ export function contentHash(item) {
   if (item.type === 'quiz') payload = { name: item.name, intro: item.intro, questions: item.questions };
   else if (item.type === 'assignment') payload = { name: item.name, intro: item.intro, gradeMax: item.gradeMax };
   else if (item.type === 'page') payload = { name: item.name, html: item.html };
-  else payload = { html: item.html };
+  else if (item.type === 'folder') payload = 'folder'; // konstant und mit Absicht: Ordner werden nie aktualisiert (build-course.mjs prueft nur "existiert schon?"), Name/Key fliessen bewusst nicht ein
+  else payload = { html: item.html }; // label (und unbekannte/aeltere Item-Typen als Rueckfall)
   return createHash('sha256').update(stableStringify(payload)).digest('hex').slice(0, 12);
 }
 
@@ -49,4 +50,15 @@ export function isOrderedSubsequence(want, actual) {
     if (i < want.length && x === want[i]) i++;
   }
   return i === want.length;
+}
+
+// Liefert die Registry-Item-Keys, die in der aktuellen Kursdefinition (def, aus buildCourseDef)
+// nicht mehr vorkommen — Kandidaten fuer Verwaisung, weil course-def.mjs das Item entfernt oder
+// umbenannt hat. Reine Funktion (kein Registry-Feld wie "criteriaCmids" wird hier interpretiert,
+// nur registryItems-Keys gegen def.sections[].items[].key abgeglichen) — der Aufrufer entscheidet,
+// was mit den Treffern passiert (build-course.mjs loescht das Modul und den Registry-Eintrag).
+export function orphanKeys(registryItems, def) {
+  const wanted = new Set();
+  for (const s of def.sections) for (const item of s.items) wanted.add(item.key);
+  return Object.keys(registryItems).filter((k) => !wanted.has(k));
 }
