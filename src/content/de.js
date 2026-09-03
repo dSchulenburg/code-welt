@@ -63,5 +63,71 @@ export default {
         'Gerüst: agent.place(FORWARD), dann agent.move(UP, 1). Wiederhole beide Zeilen, bis der Turm hoch genug ist.',
       ],
     },
+    s04: {
+      story: [
+        { who: 'dani', mood: 'ueberrascht', text: 'Es wird dunkel. Gleich kommen die Monster!' },
+        { who: 'nour', mood: 'erklaerend', text: 'Dann bauen wir eine Mauer. Zehn Blöcke lang.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Gut. Ich schreibe die zwei Zeilen zehnmal untereinander.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Das sind zwanzig Zeilen. Das dauert ewig!' },
+        { who: 'nour', mood: 'begeistert', text: 'Stopp. Dafür gibt es die Schleife.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Du schreibst die Zeilen einmal. Der Computer wiederholt sie zehnmal.' },
+        { who: 'dani', mood: 'begeistert', text: 'Zwei Zeilen statt zwanzig? Das will ich sehen.' },
+      ],
+      concept: [
+        'Eine Schleife wiederholt Befehle. Du schreibst sie nur einmal. Der Computer macht sie viele Male.',
+        'In Python heißt das: for index in range(10). Das bedeutet zehnmal. Der Computer zählt dabei von 0 bis 9.',
+        'Computer fangen beim Zählen oft bei 0 an. Null ist die erste Runde, neun ist die zehnte. Zusammen sind das zehn Runden.',
+        'In den Blöcken hat die Schleife einen Bauch. Was im Bauch liegt, wird wiederholt. In Python macht das die Einrückung.',
+      ],
+      tips: [
+        'Frage: Ist deine Mauer zu kurz? Schau auf die Zahl in der Schleife.',
+        'Richtung: Der Agent legt nach hinten ab. Er geht vor und legt den Block hinter sich.',
+        'Gerüst: for index in range(___): und darunter eingerückt agent.move(FORWARD, 1) und agent.place(BACK).',
+      ],
+    },
+    s05: {
+      story: [
+        { who: 'dani', mood: 'nachdenklich', text: 'Die Mauer ist gut. Aber sie ist nur eine Reihe hoch.' },
+        { who: 'dani', mood: 'fragend', text: 'Ich will eine richtige Wand. Wie geht das?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Ganz einfach. Du wiederholst die ganze Reihe mehrmals.' },
+        { who: 'dani', mood: 'fragend', text: 'Also eine Schleife in der Schleife?' },
+        { who: 'nour', mood: 'begeistert', text: 'Genau. Die innere Schleife baut eine Reihe.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Die äußere Schleife geht hoch und dreht den Agent um.' },
+        { who: 'dani', mood: 'begeistert', text: 'Drei Reihen übereinander. Das probiere ich sofort!' },
+      ],
+      concept: [
+        'Eine Schleife kann in einer anderen Schleife stehen. Das nennt man verschachtelte Schleifen.',
+        'Die innere Schleife baut eine Reihe. Sie legt sechs Blöcke nebeneinander.',
+        'Die äußere Schleife wiederholt die ganze Reihe. Danach geht der Agent eine Ebene hoch.',
+        'Zweimal links drehen ist eine halbe Drehung. Der Agent schaut dann zurück. Die Einrückung zeigt dir, was innen und was außen ist.',
+      ],
+      tips: [
+        'Frage: Wie viele Reihen baut der Agent? Schau auf die Zahl in der äußeren Schleife.',
+        'Richtung: Nach einer Reihe steht der Agent falsch herum. Zweimal agent.turn(LEFT_TURN) dreht ihn zurück.',
+        'Gerüst: Schreibe for index in range(___): als äußere Schleife. Darunter eingerückt kommt for index2 in range(___): als innere Schleife.',
+      ],
+    },
+    s06: {
+      story: [
+        { who: 'dani', mood: 'begeistert', text: 'Ich habe eine Wand. Jetzt will ich ein Haus!' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Ein Haus hat vier Wände. Ich kopiere die Schleife viermal.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Warte. Das sind wieder viele gleiche Zeilen.' },
+        { who: 'dani', mood: 'fragend', text: 'Und was mache ich stattdessen?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Du legst eine Schleife außen herum. Sie läuft viermal.' },
+        { who: 'nour', mood: 'begeistert', text: 'Nach jeder Wand dreht sich der Agent. Dann steht er richtig für die nächste.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Eine Drehung reicht? Das ist clever.' },
+      ],
+      concept: [
+        'Ein Ring hat vier Seiten. Jede Seite ist gleich lang.',
+        'Die innere Schleife baut eine Wand. Die äußere Schleife wiederholt das viermal.',
+        'Nach jeder Wand kommt eine Drehung. agent.turn(LEFT_TURN) dreht den Agent um die Ecke.',
+        'Die Drehung steht in der äußeren Schleife. Sie ist weniger eingerückt als move und place. Deshalb kommt sie erst nach der ganzen Wand.',
+      ],
+      tips: [
+        'Frage: Wie viele Seiten hat dein Ring? Schau auf die Zahl in der äußeren Schleife.',
+        'Richtung: Nach jeder Wand dreht der Agent einmal. agent.turn(LEFT_TURN) macht die Ecke.',
+        'Gerüst: Lege eine dritte Schleife ganz außen. Der ganze Ring steht eingerückt darin.',
+      ],
+    },
   },
 };
