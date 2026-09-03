@@ -66,6 +66,9 @@ summary { cursor: pointer; font-weight: bold; }
 .cell.wrong { background: #ffd6d6; }
 .parsons-list { list-style: none; padding: 0; direction: ltr; text-align: left; }
 .parsons-list li { display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; margin: 4px 0; background: #fff; }
+/* Rumpfzeilen tragen ihre Einrueckung als fuehrende Leerzeichen (ab s01/s03). HTML wuerde sie
+   verschlucken; pre-wrap zeigt sie und laesst lange Zeilen auf dem Handy trotzdem umbrechen. */
+.parsons-list code { white-space: pre-wrap; }
 .parsons-btns button { font: inherit; padding: 2px 8px; margin-inline-start: 4px; }
 .ok { color: #1f7a2e; font-weight: bold; }
 .nope { color: #9b2c2c; font-weight: bold; }
