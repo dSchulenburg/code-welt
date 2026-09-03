@@ -31,7 +31,7 @@ export const BLOCK_SPECS = {
   call:                    { cat: 'functions', label: ['call', { slot: 'name', kind: 'text' }] },
 };
 
-function assertKnown(b) {
+export function assertKnown(b) {
   if (!BLOCK_SPECS[b.kind]) throw new Error(`Unbekannte Blockart: ${b.kind}`);
 }
 

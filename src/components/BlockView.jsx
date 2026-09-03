@@ -1,4 +1,4 @@
-import { BLOCK_SPECS, CATEGORY_COLORS, slotText } from '../lib/blocks.js';
+import { BLOCK_SPECS, CATEGORY_COLORS, slotText, assertKnown } from '../lib/blocks.js';
 
 // Zeichnet eine Blockbeschreibung als SVG im Look des MakeCode-Editors:
 // Hutbloecke (on …), C-Bloecke (repeat/for/if) mit eingerueckter Rumpfspalte,
@@ -16,6 +16,7 @@ function measure(spec, b) {
 
 function layout(tree, depth = 0, y = 0, rows = []) {
   for (const b of tree) {
+    assertKnown(b);
     const spec = BLOCK_SPECS[b.kind];
     rows.push({ b, spec, depth, y, w: measure(spec, b) });
     y += ROW;
@@ -38,6 +39,7 @@ function shape(row) {
 
 export default function BlockView({ blocks }) {
   const { rows, y } = layout(blocks);
+  if (rows.length === 0) return null;
   const width = Math.max(...rows.map((r) => r.depth * IND + r.w)) + PAD;
   return (
     <svg className="blockview" viewBox={`0 0 ${width} ${y + 8}`} width="100%" role="img" aria-label="MakeCode-Blöcke" style={{ fontFamily: FONT, fontWeight: 600, fontSize: 13 }}>
