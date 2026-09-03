@@ -3,13 +3,13 @@
     "courseId": 10,
     "items": {
       "welcome-lang": {
-        "cmid": 61
+        "cmid": 67
       },
       "teacher-setup": {
-        "cmid": 62
+        "cmid": 68
       },
       "s02-station": {
-        "cmid": 63
+        "cmid": 69
       },
       "s02-quiz": {
         "cmid": 54,
