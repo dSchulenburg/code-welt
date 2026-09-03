@@ -15,7 +15,7 @@ export default {
         'Der Agent ist dein Roboter in Minecraft. Er geht, dreht sich und legt Blöcke. Er macht nur das, was im Code steht.',
         'Deinen Code schreibst du im Code Builder. Du öffnest ihn mit der Taste C. Dort wählst du Blöcke oder Python.',
         'Ein Befehl ist eine Zeile Code. agent.move(FORWARD, 1) heißt: Geh einen Schritt vor. Jede Zeile macht genau eine Sache.',
-        'Ganz unten steht das Zauberwort. Hier ist es hi. Du tippst hi in den Chat. Erst dann läuft dein Programm.',
+        'Im Python steht das Zauberwort ganz unten. In den Blöcken sitzt es ganz oben. Hier ist es hi. Du tippst hi in den Chat. Erst dann läuft dein Programm.',
       ],
       tips: [
         'Frage: Hast du das Zauberwort in den Chat geschrieben? Ohne Chat startet nichts.',
@@ -50,7 +50,7 @@ export default {
         { who: 'nour', mood: 'erklaerend', text: 'Dann nimm zwei Zauberwörter. Jedes Wort startet ein eigenes Programm.' },
         { who: 'dani', mood: 'fragend', text: 'Und wenn ich beide Wörter sage?' },
         { who: 'nour', mood: 'erklaerend', text: 'Dann laufen beide Programme. Eins nach dem anderen.' },
-        { who: 'dani', mood: 'begeistert', text: 'Gut. Dann baue ich erst den Weg und dann den Turm.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Gut. Dann baue ich erst den Weg und dann den Turm.' },
       ],
       concept: [
         'Ein Ereignis ist: Etwas passiert im Spiel. Zum Beispiel schreibst du ein Wort in den Chat. Dann startet ein Programm.',

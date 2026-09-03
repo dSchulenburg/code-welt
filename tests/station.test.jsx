@@ -34,7 +34,8 @@ test('Sortier-Puzzle laesst sich loesen', () => {
   render(<StationView id="s02" lang="de" />);
   const list = screen.getByTestId('parsons');
   // Solange sortieren, bis die Reihenfolge stimmt: Zeile "teleport" ganz nach oben usw.
-  const want = ['agent.teleport_to_player()', 'agent.move(FORWARD, 2)', 'agent.turn(LEFT_TURN)', 'agent.move(FORWARD, 1)'];
+  // Rumpfzeilen tragen ihre Einrueckung mit (vier Leerzeichen), genau wie in den Daten.
+  const want = ['    agent.teleport_to_player()', '    agent.move(FORWARD, 2)', '    agent.turn(LEFT_TURN)', '    agent.move(FORWARD, 1)'];
   for (let target = 0; target < want.length; target++) {
     for (let guard = 0; guard < 10; guard++) {
       const items = [...list.querySelectorAll('li')].map((li) => li.dataset.line);

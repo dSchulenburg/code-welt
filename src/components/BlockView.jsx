@@ -18,6 +18,9 @@ function layout(tree, depth = 0, y = 0, rows = []) {
   for (const b of tree) {
     assertKnown(b);
     const spec = BLOCK_SPECS[b.kind];
+    // Luft vor jedem weiteren Hut: zwei Programme nebeneinander (s03: "weg" und "turm")
+    // klebten sonst aneinander und sahen aus wie ein einziger Stapel.
+    if (spec.hat && rows.length > 0) y += ROW * 0.5;
     rows.push({ b, spec, depth, y, w: measure(spec, b) });
     y += ROW;
     if (spec.c || spec.hat) {

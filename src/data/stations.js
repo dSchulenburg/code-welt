@@ -75,12 +75,13 @@ player.on_chat("weg", on_weg)`,
         program: ['forward 2', 'left', 'forward 1'],
       },
       {
+        // Rumpfzeilen mit Einrueckung wie bei s01/s03 — die drei Stationen sollen gleich aussehen.
         type: 'parsons',
         lines: [
-          'agent.teleport_to_player()',
-          'agent.move(FORWARD, 2)',
-          'agent.turn(LEFT_TURN)',
-          'agent.move(FORWARD, 1)',
+          '    agent.teleport_to_player()',
+          '    agent.move(FORWARD, 2)',
+          '    agent.turn(LEFT_TURN)',
+          '    agent.move(FORWARD, 1)',
         ],
       },
     ],

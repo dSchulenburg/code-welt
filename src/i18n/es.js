@@ -166,7 +166,7 @@ export default {
           "text": "Erfinde ein zweites Zauberwort. Der Agent soll damit etwas anderes machen. Zeig es deinem Partner oder deiner Partnerin."
         }
       ],
-      "tipSolution": "Schreibe agent.teleport_to_player() und darunter agent.move(FORWARD, 3). In der letzten Zeile ersetzt du hi durch hallo. Dann tippst du hallo in den Chat.",
+      "tipSolution": "Schreibe agent.teleport_to_player() und darunter agent.move(FORWARD, 3). In der letzten Zeile ersetzt du \"hi\" durch \"hallo\". Nur das Wort in den Anführungszeichen. Dann tippst du hallo in den Chat.",
       "exercises": [
         {
           "prompt": "Der Agent steht unten in der Mitte. Seine Nase zeigt nach oben. Das Programm: 1 Schritt vor."
@@ -354,14 +354,14 @@ export default {
       "title": "Zauberwörter",
       "storyShort": "Ein Wort im Chat ist ein Ereignis. Jedes Zauberwort startet sein eigenes Programm. Du kannst mehrere Zauberwörter haben.",
       "bridge": {
-        "game": "Du tippst weg oder turm in den Chat. Der Agent baut das, was zu dem Wort gehört.",
+        "game": "Du tippst weg oder turm in den Chat. Der Agent baut den Weg oder den Turm.",
         "code": "Jedes Zauberwort hat einen eigenen Hut-Block. Darunter steht sein eigenes Programm."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "Zwei Wörter",
-          "text": "Schreibe weg in den Chat. Dann schreibe turm. Schau dir beide Bauten genau an."
+          "text": "Schreibe weg in den Chat. Dann schreibe turm. Der Weg ist hier kürzer als in Station 2. Schau dir beides genau an."
         },
         {
           "kind": "nochEiner",
@@ -455,7 +455,7 @@ export default {
       ],
       "bossCheck": {
         "title": "Boss-Check Holz: Das L",
-        "task": "Der Agent legt ein L aus Blöcken: 4 Blöcke geradeaus, dann Ecke, dann 2 Blöcke. Ohne Tipp-Leiter. Gib den Share-Link ab und schreibe drei Sätze: Was macht dein Programm? Warum ist die Reihenfolge wichtig? Was war schwer?"
+        "task": "Der Agent legt ein L: erst 4 Blöcke geradeaus, dann 2 um die Ecke. Was macht dein Programm? Warum ist die Reihenfolge wichtig? Was war schwer?"
       }
     }
   }

@@ -14,6 +14,18 @@ test('BlockView zeichnet alle Bloecke von s02 mit englischen Labels', () => {
   expect(container.querySelector('[data-kind="agent.move"] path').getAttribute('fill')).toBe('#d83b01');
 });
 
+test('zwei Hutbloecke (s03) stehen mit Luft untereinander, nicht auf Stoss', () => {
+  const { container } = render(<BlockView blocks={STATIONS.s03.blocks} />);
+  const yOf = (el) => Number(el.getAttribute('transform').match(/translate\([\d.]+,([\d.]+)\)/)[1]);
+  const rows = [...container.querySelectorAll('[data-kind]')];
+  const hats = rows.filter((r) => r.dataset.kind === 'onChat');
+  expect(hats).toHaveLength(2);
+  const ROW = 30; // wie in BlockView.jsx
+  // Die Zeile direkt vor dem zweiten Hut ist die letzte des ersten Programms.
+  const lastOfFirstProgram = yOf(rows[rows.indexOf(hats[1]) - 1]);
+  expect(yOf(hats[1])).toBeGreaterThan(lastOfFirstProgram + ROW);
+});
+
 test('BlockView rendert bei leerem Array kein svg und wirft nicht', () => {
   const { container } = render(<BlockView blocks={[]} />);
   expect(container.querySelector('svg')).toBeNull();
