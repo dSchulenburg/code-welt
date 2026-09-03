@@ -229,7 +229,11 @@ export default {
         },
       ],
       bossCheck: {
-        title: 'Boss-Check Holz: Das L',
+        // Kurzer Titel wegen der Moodle-Spaltenlaenge (assign.name ist varchar(255), sieben
+        // {mlang}-Bloecke sprengen das bei einem langen Titel — siehe Fix-Report Task 3b).
+        // subtitle traegt den Rest, course-def.mjs setzt ihn fett vor den Aufgabentext.
+        title: 'Boss-Check Holz',
+        subtitle: 'Das L',
         // Ohne Tipp-Leiter, Share-Link und die drei Saetze stehen schon in ui.bossCheckHint;
         // course-def.mjs haengt den Hinweis hinter diese Aufgabe (sonst stuende alles doppelt da).
         task: 'Der Agent legt ein L: erst 4 Blöcke geradeaus, dann 2 um die Ecke. Was macht dein Programm? Warum ist die Reihenfolge wichtig? Was war schwer?',
@@ -392,7 +396,9 @@ export default {
         },
       ],
       bossCheck: {
-        title: 'Boss-Check Stein: Der Zaun',
+        // Kurzer Titel wegen der Moodle-Spaltenlaenge (siehe s03 oben und Fix-Report Task 3b).
+        title: 'Boss-Check Stein',
+        subtitle: 'Der Zaun',
         // Ohne Tipp-Leiter, Share-Link und die drei Saetze stehen schon in ui.bossCheckHint;
         // course-def.mjs haengt den Hinweis hinter diese Aufgabe (sonst stuende alles doppelt da).
         task: 'Baue einen Zaun um dich herum. Der Ring hat 8 Blöcke pro Seite. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?',

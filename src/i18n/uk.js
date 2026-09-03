@@ -454,7 +454,8 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "Boss-Check Holz: Das L",
+        "title": "Boss-Check Holz",
+        "subtitle": "Das L",
         "task": "Der Agent legt ein L: erst 4 Blöcke geradeaus, dann 2 um die Ecke. Was macht dein Programm? Warum ist die Reihenfolge wichtig? Was war schwer?"
       }
     },
@@ -770,7 +771,8 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "Boss-Check Stein: Der Zaun",
+        "title": "Boss-Check Stein",
+        "subtitle": "Der Zaun",
         "task": "Baue einen Zaun um dich herum. Der Ring hat 8 Blöcke pro Seite. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?"
       }
     }

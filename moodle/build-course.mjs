@@ -7,6 +7,7 @@ import path from 'node:path';
 import { execSync } from 'node:child_process';
 import { callTool, extractId, sleepBetween, hasShortname, parseSectionModules } from './lib/mcp.mjs';
 import { contentHash, needsUpdate, isOrderedSubsequence, orphanKeys } from './lib/registry-ops.mjs';
+import { assertNameLengths } from './lib/limits.mjs';
 import { buildCourseDef } from './course-def.mjs';
 import de from '../src/i18n/de.js';
 import en from '../src/i18n/en.js';
@@ -25,6 +26,9 @@ const reg = (registry[ENV] ||= { courseId: null, items: {} });
 const save = () => fs.writeFileSync(REG_PATH, JSON.stringify(registry, null, 2) + '\n');
 
 const def = buildCourseDef({ bundles: { de, en, uk, ar, es, it }, appBase: APP_BASE });
+// Vor dem ersten API-Aufruf pruefen, nicht erst bei moodle_create_assignment scheitern lassen
+// (Fix-Report Task 3b: "Error writing to database" war das Symptom, nicht die Ursache).
+assertNameLengths(def);
 
 // Fallback, falls moodle_get_course_contents fuer einen Abschnitt einmal keine Section-ID
 // mitliefert: direkt aus der Box-DB lesen und fuer den restlichen Lauf cachen (lazy, hoechstens

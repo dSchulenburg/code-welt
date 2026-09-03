@@ -71,8 +71,46 @@
         "quizId": 9,
         "questions": 4,
         "hash": "fc3f0f4bbf18"
+      },
+      "boss-holz": {
+        "cmid": 93,
+        "hash": "297bb0308c15"
+      },
+      "s04-station": {
+        "cmid": 94,
+        "hash": "b8388c148e42"
+      },
+      "s04-quiz": {
+        "cmid": 95,
+        "quizId": 10,
+        "questions": 4,
+        "hash": "99a5be837ec2"
+      },
+      "s05-station": {
+        "cmid": 96,
+        "hash": "f9a2bfce822b"
+      },
+      "s05-quiz": {
+        "cmid": 97,
+        "quizId": 11,
+        "questions": 4,
+        "hash": "2d568e806062"
+      },
+      "s06-station": {
+        "cmid": 98,
+        "hash": "bbe3d4d12f50"
+      },
+      "s06-quiz": {
+        "cmid": 99,
+        "quizId": 12,
+        "questions": 4,
+        "hash": "d50a7dd2be9f"
+      },
+      "boss-stein": {
+        "cmid": 100,
+        "hash": "bd2fe2529a8f"
       }
     },
-    "criteriaCmids": "71"
+    "criteriaCmids": "86,87,89,93,95,97,99,100"
   }
 }

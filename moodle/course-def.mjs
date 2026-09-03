@@ -89,7 +89,10 @@ export function buildCourseDef({ bundles, appBase, etappen = ETAPPEN, stations =
       // Boss-Check: Aufgabe direkt nach dem Quiz der Station, die ihn traegt (Nachtrag Plan 2,
       // Entscheidung 3 — Aufgabe mit Online-Text, Abschluss bei Abgabe, keine automatische Note).
       if (s.bossCheck) {
+        // Der Aufgabenname bleibt kurz (Moodle-Spaltenlaenge, siehe assertNameLengths); der Rest
+        // des Titels steht als fette Zeile am Anfang der Intro (Fix-Report Task 3b).
         const intro = toEntities(
+          `<p><strong>${mlang(pick(bundles, `stations.${sid}.bossCheck.subtitle`))}</strong></p>` +
           `<p>${mlang(pick(bundles, `stations.${sid}.bossCheck.task`))}</p>` +
           `<p>${mlang(pick(bundles, 'ui.bossCheckHint'))}</p>`
         );

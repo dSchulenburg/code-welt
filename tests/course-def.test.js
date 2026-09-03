@@ -1,13 +1,21 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildCourseDef } from '../moodle/course-def.mjs';
+import { assertNameLengths } from '../moodle/lib/limits.mjs';
 import { STATIONS } from '../src/data/stations.js';
 import de from '../src/i18n/de.js';
+import en from '../src/i18n/en.js';
 import uk from '../src/i18n/uk.js';
+import ar from '../src/i18n/ar.js';
+import es from '../src/i18n/es.js';
+import it from '../src/i18n/it.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 
 const def = buildCourseDef({ bundles: { de, uk }, appBase: 'http://app/code-welt/' });
+// Volle Sechs-Sprachen-Definition wie im echten Build (moodle/build-course.mjs) — nur damit sind
+// die {mlang}-Laengen im Laengen-Guard-Test unten realistisch (Fix-Report Task 3b).
+const defAll = buildCourseDef({ bundles: { de, en, uk, ar, es, it }, appBase: 'http://app/code-welt/' });
 
 test('Kursmetadaten mehrsprachig, Kurzname fest', () => {
   expect(def.shortname).toBe('code-welt');
@@ -63,12 +71,12 @@ test('Boss-Check-Aufgabe erscheint nach dem Quiz der Station mit bossCheck', () 
     de: {
       ...de,
       ui: { ...de.ui, bossCheckHint: 'Löse die Aufgabe ohne Tipp-Leiter.' },
-      stations: { ...de.stations, s02: { ...de.stations.s02, bossCheck: { title: 'Boss-Check Holz: Das L', task: 'Baue ein L aus Blöcken.' } } },
+      stations: { ...de.stations, s02: { ...de.stations.s02, bossCheck: { title: 'Boss-Check Holz', subtitle: 'Das L', task: 'Baue ein L aus Blöcken.' } } },
     },
     uk: {
       ...uk,
       ui: { ...uk.ui, bossCheckHint: 'Виконай завдання без драбинки підказок.' },
-      stations: { ...uk.stations, s02: { ...uk.stations.s02, bossCheck: { title: 'Бос-перевірка Дерево: Літера Л', task: 'Побудуй літеру Л із блоків.' } } },
+      stations: { ...uk.stations, s02: { ...uk.stations.s02, bossCheck: { title: 'Бос-перевірка Дерево', subtitle: 'Літера Л', task: 'Побудуй літеру Л із блоків.' } } },
     },
   };
   const withBoss = buildCourseDef({ bundles, appBase: 'http://app/code-welt/', stations });
@@ -80,8 +88,12 @@ test('Boss-Check-Aufgabe erscheint nach dem Quiz der Station mit bossCheck', () 
   const item = holz.items[assignmentIdx];
   expect(item.type).toBe('assignment');
   expect(item.gradeMax).toBe(100);
-  expect(item.name).toContain('{mlang uk}Бос-перевірка Дерево: Літера Л{mlang}');
-  expect(item.name).toContain('{mlang other}Boss-Check Holz: Das L{mlang}');
+  // Name bleibt kurz (nur der Titel, ohne Untertitel — Fix-Report Task 3b: Moodle-Spaltenlaenge).
+  expect(item.name).toContain('{mlang uk}Бос-перевірка Дерево{mlang}');
+  expect(item.name).toContain('{mlang other}Boss-Check Holz{mlang}');
+  expect(item.name).not.toContain('Das L');
+  // Untertitel steht fett am Anfang der Intro, vor dem Aufgabentext (mlang-Reihenfolge: de vor uk).
+  expect(item.intro).toMatch(/^<p><strong>\{mlang de\}Das L\{mlang\}\{mlang uk\}Літера Л\{mlang\}\{mlang other\}Das L\{mlang\}<\/strong><\/p>/);
   expect(item.intro).toContain('{mlang uk}');
   expect(item.intro).toContain('Виконай завдання без драбинки підказок.');
   expect(item.intro).not.toMatch(/[äöüÄÖÜß]/);
@@ -122,4 +134,37 @@ test('Lehrkraft-Abschnitt mit echten Daten: Ordner, dann acht Seiten in Dateirei
     'DS 5 – Schleife in der Schleife',
     'DS 6 – Das Haus',
   ]);
+});
+
+// Fix-Report Task 3b: assign.name/quiz.name/page.name/folder.name/course_sections.name sind in
+// Moodle varchar(255) (per SHOW COLUMNS auf der Box gemessen), course.fullname char(1333) (auf
+// dieser Moodle-Version fuer {mlang}-Mehrsprachigkeit verlaengert, siehe limits.mjs). Sieben
+// {mlang}-Bloecke aus einem zu langen Boss-Check-Titel sprengten assign.name (boss-holz: 276
+// Zeichen, boss-stein: 304) und liessen build-course.mjs erst bei moodle_create_assignment mit
+// "Error writing to database" abbrechen.
+test('kein Abschnitts- oder Aktivitaetsname ueberschreitet die Moodle-Spaltenlaenge (defAll, sechs Sprachen)', () => {
+  expect(() => assertNameLengths(defAll)).not.toThrow();
+  expect(defAll.fullname.length).toBeLessThanOrEqual(1333);
+  for (const s of defAll.sections) {
+    expect(s.name.length, `Abschnitt ${s.num}`).toBeLessThanOrEqual(255);
+    for (const item of s.items) {
+      if (['quiz', 'assignment', 'page', 'folder'].includes(item.type)) {
+        expect(item.name.length, item.key).toBeLessThanOrEqual(255);
+      }
+    }
+  }
+});
+
+test('assertNameLengths schlaegt bei einem 40-Zeichen-Boss-Check-Titel in allen sechs Sprachen an (Guard-Nachweis)', () => {
+  const stations = { ...STATIONS, s02: { ...STATIONS.s02, bossCheck: { key: 'boss-guard-test', gradeMax: 100 } } };
+  const longTitle = 'X'.repeat(40);
+  const bundles = {};
+  for (const [code, bundle] of Object.entries({ de, en, uk, ar, es, it })) {
+    bundles[code] = {
+      ...bundle,
+      stations: { ...bundle.stations, s02: { ...bundle.stations.s02, bossCheck: { title: longTitle, subtitle: 'Y', task: 'Z' } } },
+    };
+  }
+  const tooLong = buildCourseDef({ bundles, appBase: 'http://app/code-welt/', stations });
+  expect(() => assertNameLengths(tooLong)).toThrow(/boss-guard-test/);
 });

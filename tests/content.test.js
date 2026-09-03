@@ -47,13 +47,14 @@ test('in jeder Etappe mit drei oder mehr Stationen traegt genau die letzte Stati
   }
 });
 
-test('jede Station mit bossCheck hat i18n bossCheck.title/task und einen key/gradeMax', () => {
+test('jede Station mit bossCheck hat i18n bossCheck.title/subtitle/task und einen key/gradeMax', () => {
   for (const [id, s] of Object.entries(STATIONS)) {
     if (!s.bossCheck) continue;
     expect(typeof s.bossCheck.key, id).toBe('string');
     expect(typeof s.bossCheck.gradeMax, id).toBe('number');
     const bc = de.stations[id].bossCheck;
     expect(typeof bc.title, id).toBe('string');
+    expect(typeof bc.subtitle, id).toBe('string');
     expect(typeof bc.task, id).toBe('string');
   }
 });
