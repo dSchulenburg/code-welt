@@ -1,0 +1,11 @@
+player.onChat("weg", function () {
+    agent.teleportToPlayer()
+    agent.setItem(GRASS, 64, 1)
+    agent.move(FORWARD, 1)
+    agent.place(BACK)
+    agent.move(FORWARD, 1)
+    agent.place(BACK)
+    agent.turn(LEFT_TURN)
+    agent.move(FORWARD, 1)
+    agent.place(BACK)
+})
