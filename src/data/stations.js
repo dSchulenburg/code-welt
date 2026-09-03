@@ -202,8 +202,12 @@ player.on_chat("mauer", on_mauer)`,
         agent.move(UP, 1)
         agent.turn(LEFT_TURN)
         agent.turn(LEFT_TURN)
+        agent.move(FORWARD, 1)
 player.on_chat("wand", on_wand)`,
     // Schleife im Bauch der Schleife: der innere for-Block sitzt im body des aeusseren.
+    // Der Schritt nach den zwei Drehungen ist Geometrie, kein Schmuck: nach sechsmal
+    // move+place steht der Agent ein Feld hinter der Reihe. Ohne ihn legt die naechste
+    // Reihe ihren ersten Block eins zu weit und aus der Wand wird eine Treppe.
     blocks: [{ kind: 'onChat', word: 'wand', body: [
       { kind: 'agent.teleportToPlayer' },
       { kind: 'agent.setItem', block: 'cobblestone', count: 64, slot: 1 },
@@ -214,6 +218,7 @@ player.on_chat("wand", on_wand)`,
         { kind: 'agent.move', dir: 'up', n: 1 },
         { kind: 'agent.turn', dir: 'left' },
         { kind: 'agent.turn', dir: 'left' },
+        { kind: 'agent.move', dir: 'forward', n: 1 },
       ] },
     ] }],
     exercises: [
@@ -225,8 +230,10 @@ player.on_chat("wand", on_wand)`,
       },
       {
         // Fuenf Zeilen des Schleifennests, drei Einrueckungsstufen. Die beiden
-        // agent.turn(LEFT_TURN)-Zeilen bleiben draussen: sie sind zeichengleich, und
+        // agent.turn(LEFT_TURN)-Zeilen und der Schritt danach bleiben draussen: die turns sind
+        // zeichengleich, und agent.move(FORWARD, 1) steht schon mit 12 Leerzeichen im Puzzle.
         // checkOrder vergleicht Zeilentexte — doppelte Zeilen machen die Loesung mehrdeutig.
+        // Der Uebungstext sagt darum, dass Drehungen und Schritt hier fehlen.
         type: 'parsons',
         lines: [
           '    for index in range(3):',

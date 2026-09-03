@@ -510,7 +510,7 @@ export default {
           ]
         },
         {
-          "q": "Wie oft läuft for index in range(10)?",
+          "q": "Wie oft läuft eine Schleife mit range(10)?",
           "answers": [
             {
               "text": "Zehnmal",
@@ -544,7 +544,7 @@ export default {
           ]
         },
         {
-          "q": "Was passiert bei for index in range(0)?",
+          "q": "Was passiert bei range(0)?",
           "answers": [
             {
               "text": "Nichts. Die Schleife läuft keinmal",
@@ -586,13 +586,13 @@ export default {
           "text": "Baue eine Wand mit einem Fenster. Eine Reihe wird dafür kürzer. Zeig es deinem Partner oder deiner Partnerin."
         }
       ],
-      "tipSolution": "Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Zähle nach: zwei Schleifen, eine im Bauch der anderen.",
+      "tipSolution": "Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Nach den zwei Drehungen kommt ein Schritt vor. So steht der Agent wieder über der Reihe. Zähle nach: zwei Schleifen, eine im Bauch der anderen.",
       "exercises": [
         {
           "prompt": "Der Agent steht unten links. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen, links drehen, 1 Schritt vor."
         },
         {
-          "prompt": "Der Agent hat schon Bruchstein dabei. Jetzt kommt die Wand: außen die Ebenen, innen die Reihe. Achte auf die Einrückung."
+          "prompt": "Der Agent hat schon Bruchstein dabei. Jetzt kommt die Wand: außen die Ebenen, innen die Reihe. Die Drehungen und der Schritt danach fehlen hier. Achte auf die Einrückung."
         }
       ],
       "quiz": [
@@ -608,7 +608,7 @@ export default {
               "correct": false
             },
             {
-              "text": "63 Blöcke",
+              "text": "24 Blöcke",
               "correct": false
             }
           ]
@@ -625,7 +625,7 @@ export default {
               "correct": false
             },
             {
-              "text": "Sie dreht den Agent um",
+              "text": "Sie dreht den Agenten um",
               "correct": false
             }
           ]
@@ -668,10 +668,10 @@ export default {
     },
     "s06": {
       "title": "Das Haus",
-      "storyShort": "Ein Haus hat vier Wände. Du kopierst die Wand nicht viermal. Du legst eine Schleife außen herum. Nach jeder Wand dreht sich der Agent.",
+      "storyShort": "Ein Haus hat vier Wände. Du kopierst die Wand nicht viermal. Du legst eine Schleife außen herum. Nach jeder Seite dreht sich der Agent.",
       "bridge": {
-        "game": "Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Wänden.",
-        "code": "Die äußere Schleife läuft viermal. Nach jeder Wand dreht der Agent um die Ecke."
+        "game": "Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Seiten.",
+        "code": "Die äußere Schleife läuft viermal. Nach jeder Seite dreht der Agent um die Ecke."
       },
       "tasks": [
         {
@@ -696,12 +696,12 @@ export default {
           "prompt": "Der Agent steht unten in der Mitte. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen. Dann noch einmal: 2 Schritte vor, links drehen. Zum Schluss 2 Schritte vor."
         },
         {
-          "prompt": "Der Agent baut einen Ring. Innen die Wand, außen die vier Seiten. Die Drehung gehört zur äußeren Schleife."
+          "prompt": "Der Agent baut einen Ring. Innen eine Seite, außen die vier Seiten. Die Drehung gehört zur äußeren Schleife."
         }
       ],
       "quiz": [
         {
-          "q": "Wie viele Wände baut for index in range(4)?",
+          "q": "Wie viele Seiten baut range(4)?",
           "answers": [
             {
               "text": "Vier",
@@ -759,11 +759,11 @@ export default {
               "correct": true
             },
             {
-              "text": "9 Blöcke",
+              "text": "16 Blöcke",
               "correct": false
             },
             {
-              "text": "45 Blöcke",
+              "text": "25 Blöcke",
               "correct": false
             }
           ]
@@ -771,7 +771,7 @@ export default {
       ],
       "bossCheck": {
         "title": "Boss-Check Stein: Der Zaun",
-        "task": "Baue einen Zaun um dich herum: ein Ring aus 8×8 Blöcken. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?"
+        "task": "Baue einen Zaun um dich herum. Der Ring hat 8 Blöcke pro Seite. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?"
       }
     }
   }

@@ -164,7 +164,7 @@ export default {
           answers: [
             { text: 'Wenn du das Zauberwort in den Chat schreibst', correct: true },
             { text: 'Sofort, wenn du den Code Builder öffnest', correct: false },
-            { text: 'Wenn du den Agent anklickst', correct: false },
+            { text: 'Wenn du den Agenten anklickst', correct: false },
           ],
         },
         {
@@ -262,7 +262,7 @@ export default {
           ],
         },
         {
-          q: 'Wie oft läuft for index in range(10)?',
+          q: 'Wie oft läuft eine Schleife mit range(10)?',
           answers: [
             { text: 'Zehnmal', correct: true },
             { text: 'Neunmal', correct: false },
@@ -278,7 +278,7 @@ export default {
           ],
         },
         {
-          q: 'Was passiert bei for index in range(0)?',
+          q: 'Was passiert bei range(0)?',
           answers: [
             { text: 'Nichts. Die Schleife läuft keinmal', correct: true },
             { text: 'Die Schleife läuft einmal', correct: false },
@@ -300,10 +300,10 @@ export default {
         { kind: 'remix', title: 'Das Fenster', text: 'Baue eine Wand mit einem Fenster. Eine Reihe wird dafür kürzer. Zeig es deinem Partner oder deiner Partnerin.' },
       ],
       // Code-Wort nie ans Satzende: for … range(8): gefolgt von einem Punkt liest sich als ":.".
-      tipSolution: 'Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Zähle nach: zwei Schleifen, eine im Bauch der anderen.',
+      tipSolution: 'Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Nach den zwei Drehungen kommt ein Schritt vor. So steht der Agent wieder über der Reihe. Zähle nach: zwei Schleifen, eine im Bauch der anderen.',
       exercises: [
         { prompt: 'Der Agent steht unten links. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen, links drehen, 1 Schritt vor.' },
-        { prompt: 'Der Agent hat schon Bruchstein dabei. Jetzt kommt die Wand: außen die Ebenen, innen die Reihe. Achte auf die Einrückung.' },
+        { prompt: 'Der Agent hat schon Bruchstein dabei. Jetzt kommt die Wand: außen die Ebenen, innen die Reihe. Die Drehungen und der Schritt danach fehlen hier. Achte auf die Einrückung.' },
       ],
       quiz: [
         {
@@ -311,7 +311,7 @@ export default {
           answers: [
             { text: '18 Blöcke', correct: true },
             { text: '9 Blöcke', correct: false },
-            { text: '63 Blöcke', correct: false },
+            { text: '24 Blöcke', correct: false },
           ],
         },
         {
@@ -319,7 +319,7 @@ export default {
           answers: [
             { text: 'Sie baut eine Reihe', correct: true },
             { text: 'Sie geht eine Ebene hoch', correct: false },
-            { text: 'Sie dreht den Agent um', correct: false },
+            { text: 'Sie dreht den Agenten um', correct: false },
           ],
         },
         {
@@ -342,10 +342,10 @@ export default {
     },
     s06: {
       title: 'Das Haus',
-      storyShort: 'Ein Haus hat vier Wände. Du kopierst die Wand nicht viermal. Du legst eine Schleife außen herum. Nach jeder Wand dreht sich der Agent.',
+      storyShort: 'Ein Haus hat vier Wände. Du kopierst die Wand nicht viermal. Du legst eine Schleife außen herum. Nach jeder Seite dreht sich der Agent.',
       bridge: {
-        game: 'Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Wänden.',
-        code: 'Die äußere Schleife läuft viermal. Nach jeder Wand dreht der Agent um die Ecke.',
+        game: 'Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Seiten.',
+        code: 'Die äußere Schleife läuft viermal. Nach jeder Seite dreht der Agent um die Ecke.',
       },
       tasks: [
         { kind: 'auftrag', title: 'Der Ring', text: 'Schreibe haus in den Chat. Der Agent baut einen Ring: 5 Blöcke pro Seite.' },
@@ -355,11 +355,11 @@ export default {
       tipSolution: 'Schreibe for index3 in range(3): ganz nach außen. Der ganze Ring steht eingerückt darin. Danach kommt agent.move(UP, 1). Zähle nach: drei Schleifen, eine in der anderen.',
       exercises: [
         { prompt: 'Der Agent steht unten in der Mitte. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen. Dann noch einmal: 2 Schritte vor, links drehen. Zum Schluss 2 Schritte vor.' },
-        { prompt: 'Der Agent baut einen Ring. Innen die Wand, außen die vier Seiten. Die Drehung gehört zur äußeren Schleife.' },
+        { prompt: 'Der Agent baut einen Ring. Innen eine Seite, außen die vier Seiten. Die Drehung gehört zur äußeren Schleife.' },
       ],
       quiz: [
         {
-          q: 'Wie viele Wände baut for index in range(4)?',
+          q: 'Wie viele Seiten baut range(4)?',
           answers: [
             { text: 'Vier', correct: true },
             { text: 'Drei', correct: false },
@@ -386,8 +386,8 @@ export default {
           q: 'Der Ring hat 4 Seiten mit je 5 Blöcken. Wie viele Blöcke sind das?',
           answers: [
             { text: '20 Blöcke', correct: true },
-            { text: '9 Blöcke', correct: false },
-            { text: '45 Blöcke', correct: false },
+            { text: '16 Blöcke', correct: false },
+            { text: '25 Blöcke', correct: false },
           ],
         },
       ],
@@ -395,7 +395,7 @@ export default {
         title: 'Boss-Check Stein: Der Zaun',
         // Ohne Tipp-Leiter, Share-Link und die drei Saetze stehen schon in ui.bossCheckHint;
         // course-def.mjs haengt den Hinweis hinter diese Aufgabe (sonst stuende alles doppelt da).
-        task: 'Baue einen Zaun um dich herum: ein Ring aus 8×8 Blöcken. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?',
+        task: 'Baue einen Zaun um dich herum. Der Ring hat 8 Blöcke pro Seite. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?',
       },
     },
   },
