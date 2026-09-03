@@ -59,8 +59,8 @@ export default function StationView({ id, lang }) {
         <h2 id="check-h">{ui.checkHeading}</h2>
         {s.exercises.map((ex, i) => {
           const props = { exercise: ex, prompt: t.exercises[i].prompt, supportPrompt: st?.exercises?.[i]?.prompt, ui, showSupport: !!(support && showSupport) };
-          if (ex.type === 'predict') return <AgentGrid key={i} {...props} />;
-          if (ex.type === 'parsons') return <ParsonsPuzzle key={i} {...props} />;
+          if (ex.type === 'predict') return <AgentGrid key={`${id}-${i}`} {...props} />;
+          if (ex.type === 'parsons') return <ParsonsPuzzle key={`${id}-${i}`} {...props} />;
           return null;
         })}
       </section>
