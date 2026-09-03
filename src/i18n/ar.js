@@ -370,7 +370,7 @@ export default {
         {
           "kind": "remix",
           "title": "Die Brücke",
-          "text": "Erfinde ein drittes Zauberwort: brücke. Der Agent baut damit einen Weg über eine Lücke."
+          "text": "Erfinde ein drittes Zauberwort: bruecke. Zauberwörter haben keine Umlaute. Der Agent baut damit einen Weg über eine Lücke."
         }
       ],
       "tipSolution": "Für fünf Blöcke schreibst du agent.place(FORWARD) und agent.move(UP, 1) abwechselnd. Am Ende kommt noch einmal agent.place(FORWARD). Zähle nach: fünf Zeilen mit place.",
@@ -582,8 +582,8 @@ export default {
         },
         {
           "kind": "remix",
-          "title": "Das Fenster",
-          "text": "Baue eine Wand mit einem Fenster. Eine Reihe wird dafür kürzer. Zeig es deinem Partner oder deiner Partnerin."
+          "title": "Die Zinne",
+          "text": "Mach die oberste Reihe kürzer. Wie sieht die Wand jetzt aus? Zeig es deinem Partner oder deiner Partnerin."
         }
       ],
       "tipSolution": "Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Nach den zwei Drehungen kommt ein Schritt vor. So steht der Agent wieder über der Reihe. Zähle nach: zwei Schleifen, eine im Bauch der anderen.",

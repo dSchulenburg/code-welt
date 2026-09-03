@@ -57,14 +57,21 @@ player.on_chat("hi", on_hi)`,
     agent.turn(LEFT_TURN)
     agent.move(FORWARD, 1)
     agent.place(BACK)
+    agent.move(FORWARD, 1)
+    agent.place(BACK)
 player.on_chat("weg", on_weg)`,
     blockImage: 's02-weg.png',
+    // Eck-Regel (Fix-Runde 1): move(FORWARD, 1) + place(BACK) legt den Block immer in das gerade
+    // verlassene Feld. Nach der Drehung liegt der erste Block deshalb noch in der alten Linie —
+    // er ist der Eck-Block. Vier Paare ergeben vier Bloecke: drei in einer Linie (der dritte ist
+    // die Ecke) und einer um die Ecke. Mit nur drei Paaren waere es eine gerade Linie ohne Ecke.
     blocks: [{ kind: 'onChat', word: 'weg', body: [
       { kind: 'agent.teleportToPlayer' },
       { kind: 'agent.setItem', block: 'grass', count: 64, slot: 1 },
       { kind: 'agent.move', dir: 'forward', n: 1 }, { kind: 'agent.place', dir: 'back' },
       { kind: 'agent.move', dir: 'forward', n: 1 }, { kind: 'agent.place', dir: 'back' },
       { kind: 'agent.turn', dir: 'left' },
+      { kind: 'agent.move', dir: 'forward', n: 1 }, { kind: 'agent.place', dir: 'back' },
       { kind: 'agent.move', dir: 'forward', n: 1 }, { kind: 'agent.place', dir: 'back' },
     ] }],
     exercises: [

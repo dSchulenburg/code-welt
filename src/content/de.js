@@ -36,6 +36,7 @@ export default {
         'Ein Programm ist eine Liste von Befehlen. Der Agent liest die Liste von oben nach unten.',
         'Er macht jeden Befehl genau einmal. Dann kommt der nächste Befehl.',
         'Das nennt man eine Sequenz. Sequenz heißt: Reihenfolge.',
+        'Der Agent legt den Block hinter sich. Er geht erst einen Schritt. Dann legt er den Block in das alte Feld. Nach dem Drehen legt der Agent zuerst den Eck-Block. Dann geht es in die neue Richtung.',
         'Der Agent denkt nicht mit. Wenn die Reihenfolge falsch ist, geht er falsch. Das ist kein Fehler von dir. Das ist ein Missverständnis. Du kannst es reparieren.',
       ],
       tips: [

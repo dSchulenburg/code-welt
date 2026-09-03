@@ -14,8 +14,11 @@ nie mit Minecraft gespielt hast.
 
 ## Installation
 
-- Minecraft Education speichert und lädt `.mkcd`-/`.mcworld`-Dateien **nur unter Windows
-  64-bit**. Auf anderen Systemen geht nur ein Share-Link, kein Doppelklick-Import.
+- Minecraft Education speichert und lädt **`.mkcd`-Dateien** — das sind die MakeCode-Projekte,
+  also der Code — **nur unter Windows 64-bit**. Auf anderen Systemen bleibt nur der Share-Link.
+- Ob dieselbe Einschränkung auch für **Weltdateien** (`.mcworld`) gilt, ist nicht belegt:
+  **im Spiel prüfen**. Belegt ist nur der Satz über `.mkcd`. Plane für den Import der Weltdatei
+  sicherheitshalber einen Windows-Rechner ein.
 - Installationsweg (Microsoft Store oder Schul-Deployment): **im Spiel prüfen** bzw. vorab mit
   der zuständigen IT-Kollegin/dem IT-Kollegen klären.
 
@@ -33,11 +36,18 @@ nie mit Minecraft gespielt hast.
 - Genauer Menüpfad im Editor: **im Spiel prüfen** (vermutlich eine Spracheinstellung im
   Code-Builder-Fenster selbst, nicht die Minecraft-Systemsprache).
 
+## Kein Auto-Run
+
+- Seit den Updates 2026 startet ein Programm **nicht mehr von selbst**. Der Code läuft erst,
+  wenn im Code Builder auf **Play** geklickt wurde. Erst danach reagiert das Zauberwort im Chat.
+- Das ist die häufigste Ursache für „Ich tippe hi und nichts passiert". Sag es in DS 1 aktiv
+  dazu, bevor die erste Hand hochgeht — es kostet sonst zehn Minuten Fehlersuche pro Tisch.
+
 ## Weltdatei importieren
 
 - Die Weltdatei `codewelt-ankunft.mcworld` liegt im Ordner „Weltdateien" dieses Abschnitts.
-- Import: Datei herunterladen, dann **Doppelklick** — Minecraft Education öffnet sie automatisch
-  und legt die Welt lokal an.
+- Import: Datei herunterladen, dann **Doppelklick** — Minecraft Education öffnet sie und legt die
+  Welt lokal an. Genauer Menüpfad, falls der Doppelklick nichts tut: **im Spiel prüfen**.
 - Jede Schülerin/jeder Schüler importiert die Datei auf dem eigenen Rechner. Für die Etappen Holz
   und Stein reicht eine lokale Einzelwelt, kein Multiplayer nötig.
 
@@ -55,10 +65,11 @@ nie mit Minecraft gespielt hast.
 
 ## Checkliste — eine Woche vor Kursstart
 
-- [ ] Lizenzen zugewiesen (Toggle oder Auto-Claim geprüft)
-- [ ] Minecraft Education installiert (64-bit)
-- [ ] Login mit einem Schülerkonto getestet
-- [ ] MakeCode-Editor auf Englisch gestellt
-- [ ] Weltdatei `codewelt-ankunft.mcworld` importiert und geöffnet
-- [ ] Join-Code-Ablauf einmal geprobt
-- [ ] Firewall `*.minecrafteduservices.com` freigegeben
+- Lizenzen zugewiesen (Toggle oder Auto-Claim geprüft)
+- Minecraft Education installiert (64-bit)
+- Login mit einem Schülerkonto getestet
+- MakeCode-Editor auf Englisch gestellt
+- Play-Button einmal selbst benutzt (kein Auto-Run)
+- Weltdatei `codewelt-ankunft.mcworld` importiert und geöffnet
+- Join-Code-Ablauf einmal geprobt
+- Firewall `*.minecrafteduservices.com` freigegeben

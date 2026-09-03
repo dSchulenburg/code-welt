@@ -14,37 +14,9 @@
         "cmid": 75,
         "hash": "eae2849e2856"
       },
-      "page-00-setup": {
-        "cmid": 77,
-        "hash": "07d9c38cf01a"
-      },
-      "page-01-welt-ankunft": {
-        "cmid": 78,
-        "hash": "580326ab564c"
-      },
-      "page-ds01": {
-        "cmid": 79,
-        "hash": "d2536b864f37"
-      },
-      "page-ds02": {
-        "cmid": 80,
-        "hash": "01b09d3bf82a"
-      },
-      "page-ds03": {
-        "cmid": 81,
-        "hash": "ef98964015ce"
-      },
       "page-ds04": {
         "cmid": 82,
         "hash": "41ebdb8565a4"
-      },
-      "page-ds05": {
-        "cmid": 83,
-        "hash": "27a450cdc75b"
-      },
-      "page-ds06": {
-        "cmid": 84,
-        "hash": "40906cbb83b7"
       },
       "s01-station": {
         "cmid": 85,
@@ -109,6 +81,34 @@
       "boss-stein": {
         "cmid": 100,
         "hash": "bd2fe2529a8f"
+      },
+      "page-00-setup": {
+        "cmid": 101,
+        "hash": "6a7cb00a2e18"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 102,
+        "hash": "5404e5f5ebd9"
+      },
+      "page-ds01": {
+        "cmid": 103,
+        "hash": "83a33424f321"
+      },
+      "page-ds02": {
+        "cmid": 104,
+        "hash": "74b9ed046133"
+      },
+      "page-ds03": {
+        "cmid": 105,
+        "hash": "709789d5e74a"
+      },
+      "page-ds05": {
+        "cmid": 106,
+        "hash": "fc99cbec5ebf"
+      },
+      "page-ds06": {
+        "cmid": 107,
+        "hash": "fc6f64bf6fe5"
       }
     },
     "criteriaCmids": "86,87,89,93,95,97,99,100"

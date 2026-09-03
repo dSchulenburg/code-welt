@@ -133,11 +133,11 @@ export default {
         code: 'Ein Programm ist eine Liste von Befehlen. Der Computer macht sie von oben nach unten.',
       },
       tasks: [
-        { kind: 'auftrag', title: 'Der Weg', text: 'Schreibe das Zauberwort weg in den Chat. Der Agent legt drei Blöcke. Schau genau: Wo ist die Ecke?' },
-        { kind: 'nochEiner', title: 'Länger', text: 'Ändere das Programm. Der Agent soll fünf Blöcke legen, dann um die Ecke, dann noch zwei.' },
+        { kind: 'auftrag', title: 'Der Weg', text: 'Schreibe das Zauberwort weg in den Chat. Der Agent legt vier Blöcke. Schau genau: Wo ist die Ecke?' },
+        { kind: 'nochEiner', title: 'Länger', text: 'Ändere das Programm. Der Agent legt fünf Blöcke geradeaus, dann die Ecke, dann noch zwei.' },
         { kind: 'remix', title: 'Dein Muster', text: 'Baue ein eigenes Muster aus Blöcken. Zum Beispiel ein Z oder ein U. Zeig es deinem Partner oder deiner Partnerin.' },
       ],
-      tipSolution: 'Für fünf Blöcke: Schreibe agent.move(FORWARD, 1) und agent.place(BACK) fünfmal. Dann agent.turn(LEFT_TURN). Dann noch zweimal move und place.',
+      tipSolution: 'Für fünf Blöcke: Schreibe agent.move(FORWARD, 1) und agent.place(BACK) fünfmal. Dann agent.turn(LEFT_TURN). Danach kommen noch drei Paare move und place. Das erste Paar legt den Eck-Block.',
       exercises: [
         { prompt: 'Der Agent steht unten in der Mitte. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen, 1 Schritt vor.' },
         { prompt: 'Der Agent soll zu dir kommen, zwei Schritte gehen, links drehen und noch einen Schritt gehen.' },
@@ -187,7 +187,7 @@ export default {
       tasks: [
         { kind: 'auftrag', title: 'Zwei Wörter', text: 'Schreibe weg in den Chat. Dann schreibe turm. Der Weg ist hier kürzer als in Station 2. Schau dir beides genau an.' },
         { kind: 'nochEiner', title: 'Höher', text: 'Ändere das Programm für turm. Der Turm soll fünf Blöcke hoch werden.' },
-        { kind: 'remix', title: 'Die Brücke', text: 'Erfinde ein drittes Zauberwort: brücke. Der Agent baut damit einen Weg über eine Lücke.' },
+        { kind: 'remix', title: 'Die Brücke', text: 'Erfinde ein drittes Zauberwort: bruecke. Zauberwörter haben keine Umlaute. Der Agent baut damit einen Weg über eine Lücke.' },
       ],
       tipSolution: 'Für fünf Blöcke schreibst du agent.place(FORWARD) und agent.move(UP, 1) abwechselnd. Am Ende kommt noch einmal agent.place(FORWARD). Zähle nach: fünf Zeilen mit place.',
       exercises: [
@@ -301,7 +301,7 @@ export default {
       tasks: [
         { kind: 'auftrag', title: 'Die Wand', text: 'Schreibe wand in den Chat. Der Agent baut eine Wand: 6 Blöcke breit, 3 hoch.' },
         { kind: 'nochEiner', title: 'Größer', text: 'Ändere die Wand auf 8 Blöcke breit und 4 hoch. Welche zwei Zahlen musst du ändern?' },
-        { kind: 'remix', title: 'Das Fenster', text: 'Baue eine Wand mit einem Fenster. Eine Reihe wird dafür kürzer. Zeig es deinem Partner oder deiner Partnerin.' },
+        { kind: 'remix', title: 'Die Zinne', text: 'Mach die oberste Reihe kürzer. Wie sieht die Wand jetzt aus? Zeig es deinem Partner oder deiner Partnerin.' },
       ],
       // Code-Wort nie ans Satzende: for … range(8): gefolgt von einem Punkt liest sich als ":.".
       tipSolution: 'Schreibe for index in range(4): in die äußere Schleife. Das ist die Höhe. Schreibe for index2 in range(8): in die innere Schleife. Das ist die Breite. Nach den zwei Drehungen kommt ein Schritt vor. So steht der Agent wieder über der Reihe. Zähle nach: zwei Schleifen, eine im Bauch der anderen.',

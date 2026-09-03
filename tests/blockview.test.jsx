@@ -6,7 +6,9 @@ import { STATIONS } from '../src/data/stations.js';
 test('BlockView zeichnet alle Bloecke von s02 mit englischen Labels', () => {
   const { container } = render(<BlockView blocks={STATIONS.s02.blocks} />);
   const rows = container.querySelectorAll('[data-kind]');
-  expect(rows.length).toBe(10); // 1 Hut + 9 Befehle
+  // 1 Hut + 11 Befehle: teleport, set_item und vier Paare move/place mit der Drehung dazwischen.
+  // Das vierte Paar kam in Fix-Runde 1 dazu (Eck-Regel) — ohne es waere der Weg eine gerade Linie.
+  expect(rows.length).toBe(12);
   expect(container.textContent).toMatch(/on chat command/);
   expect(container.textContent).toMatch(/agent move/);
   expect(container.textContent).toMatch(/agent place/);
