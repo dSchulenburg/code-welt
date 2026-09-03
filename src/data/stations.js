@@ -14,7 +14,7 @@ export const STATIONS = {
   s02: {
     etappe: 'holz',
     ds: 2,
-    // Aus dem Browser-Editor uebernommen (Task 4 Step 1), nicht abgetippt.
+    // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
     agent.teleport_to_player()
     agent.set_item(GRASS, 64, 1)
