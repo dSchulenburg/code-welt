@@ -3,7 +3,7 @@
 Lern-App zum Moodle-Kurs „Code-Welt" für AVM-Klassen (16–18, Deutsch A2–B1).
 Deutsch ist die Leitsprache, Stütze in Englisch, Arabisch, Ukrainisch, Spanisch, Italienisch.
 
-- Design: `docker/docs/specs/2026-09-02-code-welt-minecraft-kurs-design.md` (privates Repo)
+- Design: `docs/specs/2026-09-02-code-welt-minecraft-kurs-design.md` · Pläne: `docs/plans/`
 - Live: https://lernmodule.dirk-schulenburg.net/code-welt/ (ab Phase 6)
 
 ## Entwickeln
