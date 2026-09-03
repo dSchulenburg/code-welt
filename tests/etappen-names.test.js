@@ -14,6 +14,7 @@ import it from '../src/i18n/it.js'; // noch nicht in TRANSLATED — folgt, sobal
 //
 // Werte per 03.09.2026 aus den aktuellen Sprachdateien uebernommen (en/ar/es unveraendert,
 // uk nach der Handkorrektur).
+// uk: Алмаз/Незерит stammen aus dem Übersetzungslauf; Java- und Bedrock-Edition schreiben einige Begriffe verschieden — vor Kursstart von einer ukrainischsprachigen Person am Spiel (Minecraft Education) prüfen.
 const EXPECTED = {
   en: { holz: 'Wood', stein: 'Stone', eisen: 'Iron', gold: 'Gold', diamant: 'Diamond', netherite: 'Netherite', enderdrache: 'Ender Dragon' },
   uk: { holz: 'Дерево', stein: 'Камінь', eisen: 'Залізо', gold: 'Золото', diamant: 'Алмаз', netherite: 'Незерит', enderdrache: 'Дракон Енду' },

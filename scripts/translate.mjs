@@ -70,7 +70,7 @@ function systemPrompt(lang) {
     `2. Placeholders in curly braces like {n}, {done}, {total} stay verbatim.`,
     `3. Character names stay: Nour, Dani. The word "Agent" for the Minecraft robot may be translated the way Minecraft Education names it in ${NAMES[lang]}, otherwise keep "Agent".`,
     `4. JSON keys are never translated; only string values. Booleans and numbers unchanged. Same shape, same array order, no added or removed keys.`,
-    `5. Etappen names (Holz, Stein, Eisen, Gold, Diamant, Netherite, Enderdrache) are translated to the Minecraft in-game names in ${NAMES[lang]} (e.g. wood, stone, iron, gold, diamond, netherite, ender dragon; uk: Дерево, Камінь, Залізо, Золото, Діамант, Незеріт, Дракон Енду).`,
+    `5. Etappen names (Holz, Stein, Eisen, Gold, Diamant, Netherite, Enderdrache) are translated to the Minecraft in-game names in ${NAMES[lang]} (e.g. wood, stone, iron, gold, diamond, netherite, ender dragon; uk: Дерево, Камінь, Залізо, Золото, Алмаз, Незерит, Дракон Енду).`,
     `6. Quotation marks inside values: use the target language's own quotation marks, never a straight ASCII double quote.`,
     `7. glossary.*.term is the target-language word for the concept (the app shows the German term next to it); only agent and python keep their names.`,
     `8. Respond with ONLY the JSON object.`,
