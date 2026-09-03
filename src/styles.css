@@ -1,0 +1,22 @@
+:root {
+  --bg: #f4f1e8;
+  --ink: #1b2a1f;
+  --accent: #3f8f4a;
+  --accent-ink: #ffffff;
+  --card: #ffffff;
+  --line: #d9d4c7;
+  --support: #eef4ff;
+  --support-line: #b9c9ea;
+  --warn: #b5e505;
+  --code-bg: #1e2a24;
+  --code-ink: #e8f0e9;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+.page { max-width: 900px; margin: 0 auto; padding: 16px; }
+[dir="rtl"] .page { text-align: right; }

@@ -1,0 +1,36 @@
+{
+  "name": "code-welt",
+  "private": false,
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "author": "Dirk Schulenburg (https://dirk-schulenburg.net)",
+  "homepage": "https://lernmodule.dirk-schulenburg.net/code-welt/",
+  "description": "Code-Welt: Programmieren lernen mit Minecraft Education. Deutsch als Leitsprache, Stuetze in EN/AR/UK/ES/IT. Open Educational Resource (Inhalte CC BY 4.0).",
+  "scripts": {
+    "dev": "vite --port 3030",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "translate": "node scripts/translate.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "moodle:build": "node moodle/build-course.mjs",
+    "moodle:smoke": "node moodle/smoke-box.mjs"
+  },
+  "dependencies": {
+    "prismjs": "^1.29.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "playwright-core": "^1.49.0",
+    "vite": "^6.0.5",
+    "vitest": "^3.2.7"
+  }
+}
