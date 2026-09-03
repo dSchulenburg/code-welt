@@ -3,19 +3,24 @@
     "courseId": 10,
     "items": {
       "welcome-lang": {
-        "cmid": 67
+        "cmid": 67,
+        "hash": "3b3cb8d49925"
       },
       "teacher-setup": {
-        "cmid": 68
+        "cmid": 68,
+        "hash": "468901c2d8ae"
       },
       "s02-station": {
-        "cmid": 69
+        "cmid": 69,
+        "hash": "9528b9dc4406"
       },
       "s02-quiz": {
         "cmid": 54,
         "quizId": 5,
-        "questions": 4
+        "questions": 4,
+        "hash": "25489056a882"
       }
-    }
+    },
+    "criteriaCmids": "54"
   }
 }

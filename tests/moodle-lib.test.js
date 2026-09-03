@@ -1,4 +1,4 @@
-import { extractId, hasShortname } from '../moodle/lib/mcp.mjs';
+import { extractId, hasShortname, parseSectionModules } from '../moodle/lib/mcp.mjs';
 import { mlang, pick } from '../moodle/lib/mlang.mjs';
 import { toEntities } from '../moodle/lib/entities.mjs';
 
@@ -32,4 +32,48 @@ test('hasShortname erkennt exakten Kurzname-Treffer aus der echten Kursliste', (
   expect(hasShortname(text, 'ki-handel')).toBe(true);
   expect(hasShortname(text, 'ki-hand')).toBe(false);
   expect(hasShortname(text, 'code-welt')).toBe(false);
+});
+
+const COURSE_CONTENTS = `## Kursinhalte (Kurs ID: 10)
+
+### 📁 Abschnitt 0: Welcome
+- **Section ID:** 24
+- **Sichtbar:** Ja
+
+**Module (2):**
+  - 💬 **Announcements** (forum)
+    - CMID: 50, forum-ID: 9
+    - URL: http://localhost:8080/mod/forum/view.php?id=50
+  - 🏷️ **🇩🇪 Deutsch: W&auml;hle deine Sprache: oben r** (label)
+    - CMID: 67, label-ID: 34
+
+### 📁 Abschnitt 2: Wood
+- **Section ID:** 26
+- **Sichtbar:** Ja
+
+**Module (2):**
+  - 📝 **DS 2 · Check** (quiz)
+    - CMID: 54, quiz-ID: 5
+    - URL: http://localhost:8080/mod/quiz/view.php?id=54
+  - 🏷️ **DS 2 · Station: Reihenfolge z&auml;hlt** (label)
+    - CMID: 69, label-ID: 36
+
+### 📁 Abschnitt 3: Stone
+- **Section ID:** 27
+- **Sichtbar:** Ja
+
+*Keine Module in diesem Abschnitt*
+`;
+
+test('parseSectionModules liest Section-ID und CMIDs in Anzeige-Reihenfolge', () => {
+  expect(parseSectionModules(COURSE_CONTENTS, 0)).toEqual({ sectionId: 24, cmids: [50, 67] });
+  expect(parseSectionModules(COURSE_CONTENTS, 2)).toEqual({ sectionId: 26, cmids: [54, 69] });
+});
+
+test('parseSectionModules liefert leere cmids fuer einen Abschnitt ohne Module', () => {
+  expect(parseSectionModules(COURSE_CONTENTS, 3)).toEqual({ sectionId: 27, cmids: [] });
+});
+
+test('parseSectionModules gibt null zurueck, wenn der Abschnitt nicht vorkommt', () => {
+  expect(parseSectionModules(COURSE_CONTENTS, 99)).toBeNull();
 });

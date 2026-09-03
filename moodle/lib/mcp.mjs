@@ -31,3 +31,26 @@ export function extractId(text, label) {
 }
 
 export async function sleepBetween(ms = 1500) { await sleep(ms); }
+
+// Liest aus der Markdown-Antwort von moodle_get_course_contents fuer einen Abschnitt die
+// Section-ID und die CMIDs aller Module in Anzeige-Reihenfolge heraus.
+// Format (siehe moodle_get_course_contents):
+//   ### 📁 Abschnitt 2: Wood
+//   - **Section ID:** 26
+//   - **Sichtbar:** Ja
+//
+//   **Module (2):**
+//     - 📝 **…** (quiz)
+//       - CMID: 54, quiz-ID: 5
+//     - 🏷️ **…** (label)
+//       - CMID: 69, label-ID: 36
+// Gibt null zurueck, wenn der Abschnitt nicht in der Antwort vorkommt.
+export function parseSectionModules(contentsText, sectionNum) {
+  const re = new RegExp(`### 📁 Abschnitt ${sectionNum}:[^\\n]*\\n([\\s\\S]*?)(?=\\n### 📁 Abschnitt \\d+:|$)`);
+  const m = contentsText.match(re);
+  if (!m) return null;
+  const block = m[1];
+  const idMatch = block.match(/\*\*Section ID:\*\*\s*(\d+)/);
+  const cmids = [...block.matchAll(/CMID:\s*(\d+)/g)].map((c) => Number(c[1]));
+  return { sectionId: idMatch ? Number(idMatch[1]) : null, cmids };
+}
