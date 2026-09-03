@@ -1,8 +1,9 @@
 import CodeView from './CodeView.jsx';
 import Support from './Support.jsx';
+import BlockView from './BlockView.jsx';
 import { pair } from '../lib/bilingual.js';
 
-export default function ConceptCard({ paragraphs, bridge, supportBridge, python, blockImage, ui, sui, showSupport }) {
+export default function ConceptCard({ paragraphs, bridge, supportBridge, python, blockImage, blocks, ui, sui, showSupport }) {
   return (
     <section className="card concept" aria-labelledby="concept-h">
       <h2 id="concept-h">{pair(ui.conceptHeading, sui?.conceptHeading)}</h2>
@@ -16,7 +17,9 @@ export default function ConceptCard({ paragraphs, bridge, supportBridge, python,
           <figcaption>{pair(ui.blocksLabel, sui?.blocksLabel)}</figcaption>
           {blockImage
             ? <img src={blockImage} alt="MakeCode-Blöcke des Programms" />
-            : <div className="blocks-missing">Block-Bild folgt</div>}
+            : blocks
+              ? <BlockView blocks={blocks} />
+              : <div className="blocks-missing">Block-Bild folgt</div>}
         </figure>
         <CodeView code={python} label={pair(ui.pythonLabel, sui?.pythonLabel)} />
       </div>

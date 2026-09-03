@@ -72,3 +72,4 @@ summary { cursor: pointer; font-weight: bold; }
 textarea { width: 100%; font: inherit; padding: 8px; border-radius: 8px; border: 1px solid var(--line); }
 .muted { color: #888; }
 .foot { color: #666; font-size: 0.9rem; margin: 20px 0; text-align: center; }
+.blockview { max-width: 100%; height: auto; direction: ltr; }

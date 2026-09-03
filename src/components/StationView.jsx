@@ -52,7 +52,7 @@ export default function StationView({ id, lang }) {
       </header>
 
       <StoryPanel lines={c.story} short={st?.storyShort} ui={ui} sui={sui} showSupport={!!(support && showSupport)} />
-      <ConceptCard paragraphs={c.concept} bridge={t.bridge} supportBridge={st?.bridge} python={s.python} blockImage={blockImage} ui={ui} sui={sui} showSupport={!!(support && showSupport)} />
+      <ConceptCard paragraphs={c.concept} bridge={t.bridge} supportBridge={st?.bridge} python={s.python} blockImage={blockImage} blocks={s.blocks} ui={ui} sui={sui} showSupport={!!(support && showSupport)} />
       <TaskCard tasks={t.tasks} supportTasks={st?.tasks} ui={ui} sui={sui} showSupport={!!(support && showSupport)} />
       <TipLadder tips={c.tips} solution={t.tipSolution} supportSolution={st?.tipSolution} ui={ui} sui={sui} showSupport={!!(support && showSupport)} />
 
