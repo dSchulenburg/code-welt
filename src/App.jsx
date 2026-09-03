@@ -23,5 +23,5 @@ export default function App() {
       </main>
     );
   }
-  return <main className="page"><Home switcher={switcher} /></main>;
+  return <main className="page"><Home switcher={switcher} lang={lang} /></main>;
 }

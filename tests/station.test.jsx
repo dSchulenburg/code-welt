@@ -46,3 +46,14 @@ test('Sortier-Puzzle laesst sich loesen', () => {
   fireEvent.click(screen.getByRole('button', { name: /Prüfen/ }));
   expect(screen.getByText(/Richtig! Das ist die Reihenfolge/)).toBeInTheDocument();
 });
+
+test('mit Stuetzsprache sind Ueberschriften zweisprachig, Buttons deutsch', () => {
+  render(<StationView id="s02" lang="uk" />);
+  const h2 = screen.getByRole('heading', { name: /Die Geschichte · / });
+  expect(h2).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Prüfen' })).toBeInTheDocument();
+});
+test('auf Deutsch bleiben Ueberschriften einsprachig', () => {
+  render(<StationView id="s02" lang="de" />);
+  expect(screen.getByRole('heading', { name: 'Die Geschichte' })).toBeInTheDocument();
+});
