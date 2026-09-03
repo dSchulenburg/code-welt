@@ -16,6 +16,7 @@
     "translate": "node scripts/translate.mjs",
     "smoke": "node scripts/smoke.mjs",
     "moodle:build": "node moodle/build-course.mjs",
+    "moodle:postbuild": "node moodle/postbuild.mjs",
     "moodle:smoke": "node moodle/smoke-box.mjs"
   },
   "dependencies": {

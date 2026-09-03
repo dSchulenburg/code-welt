@@ -109,8 +109,15 @@
       "page-ds06": {
         "cmid": 107,
         "hash": "fc6f64bf6fe5"
+      },
+      "forum-nour": {
+        "cmid": 108
       }
     },
-    "criteriaCmids": "86,87,89,93,95,97,99,100"
+    "criteriaCmids": "86,87,89,93,95,97,99,100",
+    "badges": {
+      "badge-holz": 1,
+      "badge-stein": 2
+    }
   }
 }

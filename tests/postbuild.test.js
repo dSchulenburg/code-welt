@@ -1,0 +1,51 @@
+import { parseCmidLine, parseBadgeLines, applyForumResult, applyBadgeResults } from '../moodle/postbuild.mjs';
+
+test('parseCmidLine liest cmid=<n> aus der create-forum.php-Ausgabe', () => {
+  expect(parseCmidLine('cmid=12\n')).toBe(12);
+  expect(parseCmidLine('irgendein Text davor cmid=345 danach')).toBe(345);
+});
+
+test('parseCmidLine wirft, wenn keine cmid=-Zeile vorkommt', () => {
+  expect(() => parseCmidLine('nichts hier')).toThrow(/cmid=/);
+});
+
+test('parseBadgeLines liest alle badge=<key> id=<n>-Zeilen, ignoriert andere Ausgabezeilen', () => {
+  const out = [
+    'badge badge-holz: neu angelegt (id 3)',
+    'badge=badge-holz id=3',
+    'badge badge-stein: existiert bereits (id 4)',
+    'badge=badge-stein id=4',
+  ].join('\n');
+  expect(parseBadgeLines(out)).toEqual([
+    { key: 'badge-holz', id: 3 },
+    { key: 'badge-stein', id: 4 },
+  ]);
+});
+
+test('parseBadgeLines liefert ein leeres Array ohne Treffer', () => {
+  expect(parseBadgeLines('nichts hier')).toEqual([]);
+});
+
+test('applyForumResult schreibt items["forum-nour"] mit der cmid', () => {
+  const reg = { items: {} };
+  applyForumResult(reg, 42);
+  expect(reg.items['forum-nour']).toEqual({ cmid: 42 });
+});
+
+test('applyForumResult ueberschreibt einen bestehenden Eintrag (idempotent bei erneutem Lauf)', () => {
+  const reg = { items: { 'forum-nour': { cmid: 1 } } };
+  applyForumResult(reg, 1);
+  expect(reg.items['forum-nour']).toEqual({ cmid: 1 });
+});
+
+test('applyBadgeResults legt reg.badges an und traegt beide Badges ein', () => {
+  const reg = {};
+  applyBadgeResults(reg, [{ key: 'badge-holz', id: 3 }, { key: 'badge-stein', id: 4 }]);
+  expect(reg.badges).toEqual({ 'badge-holz': 3, 'badge-stein': 4 });
+});
+
+test('applyBadgeResults ergaenzt ein bestehendes badges-Objekt, statt es zu ersetzen', () => {
+  const reg = { badges: { 'badge-holz': 3 } };
+  applyBadgeResults(reg, [{ key: 'badge-stein', id: 4 }]);
+  expect(reg.badges).toEqual({ 'badge-holz': 3, 'badge-stein': 4 });
+});
