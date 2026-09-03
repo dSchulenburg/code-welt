@@ -11,7 +11,8 @@ function loadVisited() {
 
 export default function Home({ switcher, lang }) {
   const ui = de.ui;
-  const sui = isSupport(lang) ? getBundle(lang).ui : null;
+  const support = isSupport(lang) ? getBundle(lang) : null;
+  const sui = support?.ui || null;
   const visited = loadVisited();
   const total = Object.keys(STATIONS).length;
   return (
@@ -24,7 +25,7 @@ export default function Home({ switcher, lang }) {
       </header>
       {ETAPPEN.map((e) => (
         <section key={e.id} className="card etappe">
-          <h2>{e.emoji} {de.etappen[e.id].name}</h2>
+          <h2>{e.emoji} {pair(de.etappen[e.id].name, support?.etappen?.[e.id]?.name)}</h2>
           {e.stations.length === 0 && <p className="muted">…</p>}
           <ul className="station-list">
             {e.stations.map((sid) => (
