@@ -14,7 +14,7 @@
  * Uebersetzt in Teilbaeumen (ui, glossary, etappen, stations.<sid>) mit je eigenem
  * kleinen JSON-Schema; faellt bei Grammatik-/Parse-Fehlern auf Prompt+JSON-Repair zurueck.
  * Teilbaum-Modus ist der Standard, kein Flag noetig.
- * Stand 03.09.2026: `it` steht noch aus (API-Guthaben aufgebraucht) — Nachtrag mit `--lang it`.
+ * Stand 03.09.2026: alle sechs Sprachen (inkl. `it`) sind erzeugt.
  */
 import fs from 'node:fs';
 import path from 'node:path';

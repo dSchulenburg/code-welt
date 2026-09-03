@@ -24,5 +24,5 @@ Dateien (braucht `ANTHROPIC_API_KEY`). `src/content/de.js` wird nie übersetzt.
 
 ## Stand
 
-Fundament (Plan 1) fertig: eine Station (DS 2) in fünf von sechs Sprachen (Italienisch folgt, sobald das API-Guthaben aufgeladen ist: `npm run translate -- --lang it`), Box-Kurs 10 gebaut, App-Smoke und Box-Smoke grün. Das Block-Bild von DS 2 fehlt noch (manueller Screenshot, siehe `scripts/render-blocks.mjs`).
+Fundament (Plan 1) fertig: eine Station (DS 2) in allen sechs Sprachen (Italienisch seit 03.09.2026 nachgezogen), Box-Kurs 10 gebaut, App-Smoke und Box-Smoke grün. Das Block-Bild von DS 2 fehlt noch (manueller Screenshot, siehe `scripts/render-blocks.mjs`).
 Nächster Schritt: Plan 2 (Etappen Holz und Stein, Charaktere, Welt „ankunft").
