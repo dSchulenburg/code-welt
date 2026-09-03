@@ -1,4 +1,4 @@
-import { extractId } from '../moodle/lib/mcp.mjs';
+import { extractId, hasShortname } from '../moodle/lib/mcp.mjs';
 import { mlang, pick } from '../moodle/lib/mlang.mjs';
 import { toEntities } from '../moodle/lib/entities.mjs';
 
@@ -25,4 +25,11 @@ test('pick zieht denselben Pfad aus allen Bundles', () => {
 
 test('toEntities ersetzt nur deutsche Sonderzeichen', () => {
   expect(toEntities('Büro & Straße ÄÖÜ — Дерево خشب')).toBe('B&uuml;ro & Stra&szlig;e &Auml;&Ouml;&Uuml; — Дерево خشب');
+});
+
+test('hasShortname erkennt exakten Kurzname-Treffer aus der echten Kursliste', () => {
+  const text = '## Gefundene Kurse\n\n### KI im Handel\n- **ID:** 1\n- **Kurzname:** ki-handel\n- **Kategorie ID:** 0\n';
+  expect(hasShortname(text, 'ki-handel')).toBe(true);
+  expect(hasShortname(text, 'ki-hand')).toBe(false);
+  expect(hasShortname(text, 'code-welt')).toBe(false);
 });

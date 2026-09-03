@@ -10,6 +10,11 @@ test('Kursmetadaten mehrsprachig, Kurzname fest', () => {
   expect(def.fullname).toMatch(/\{mlang other\}/);
 });
 
+test('Kurszusammenfassung in allen sechs Sprachen', () => {
+  expect(def.summary).toMatch(/\{mlang uk\}/);
+  expect(def.summary).toMatch(/\{mlang it\}/);
+});
+
 test('neun Abschnitte, Lehrkraft versteckt, Etappennamen aus den Bundles', () => {
   expect(def.sections.map((s) => s.num)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
   expect(def.sections[1].visible).toBe(0);

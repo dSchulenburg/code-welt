@@ -19,6 +19,10 @@ export async function callTool(name, args, { retries = 3 } = {}) {
   }
 }
 
+export function hasShortname(listText, shortname) {
+  return listText.includes(`**Kurzname:** ${shortname}\n`);
+}
+
 export function extractId(text, label) {
   const re = new RegExp(`\\*\\*${label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?: \\(cmid\\))?:\\*\\*\\s*(\\d+)`);
   const m = text.match(re);

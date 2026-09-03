@@ -4,7 +4,7 @@
 import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { callTool, extractId, sleepBetween } from './lib/mcp.mjs';
+import { callTool, extractId, sleepBetween, hasShortname } from './lib/mcp.mjs';
 import { buildCourseDef } from './course-def.mjs';
 import de from '../src/i18n/de.js';
 import en from '../src/i18n/en.js';
@@ -27,7 +27,7 @@ const def = buildCourseDef({ bundles: { de, en, uk, ar, es, it }, appBase: APP_B
 // 1. Kurs
 if (!reg.courseId) {
   const list = await callTool('moodle_list_courses', {});
-  if (list.includes(`**Kurzname:** ${def.shortname}\n`)) throw new Error(`Kurs ${def.shortname} existiert schon, aber nicht im Register — courseId von Hand in registry.json eintragen`);
+  if (hasShortname(list, def.shortname)) throw new Error(`Kurs ${def.shortname} existiert schon, aber nicht im Register — courseId von Hand in registry.json eintragen`);
   const r = await callTool('moodle_create_course', { fullname: def.fullname, shortname: def.shortname, categoryid: 1, summary: def.summary, format: 'topics', numsections: 8, visible: 1 });
   reg.courseId = extractId(r, 'ID'); save();
   console.log(`Kurs angelegt: ${reg.courseId}`);
@@ -63,7 +63,17 @@ for (const s of def.sections) {
     if (item.type === 'quiz') {
       if (have) {
         await callTool('moodle_update_quiz', { quizId: have.quizId, name: item.name });
-        console.log(`Quiz ${item.key}: Name aktualisiert (${have.questions} Fragen bleiben)`);
+        const missing = item.questions.slice(have.questions || 0);
+        for (const q of missing) {
+          await callTool('moodle_add_quiz_question_multichoice', { quizId: have.quizId, questionText: q.text, answers: q.answers, name: q.name, single: 1, shuffleAnswers: 1 });
+          have.questions++; save();
+          await sleepBetween(800);
+        }
+        if (missing.length > 0) {
+          console.log(`Quiz ${item.key}: ${missing.length} fehlende Fragen nachgetragen`);
+        } else {
+          console.log(`Quiz ${item.key}: Name aktualisiert (${have.questions} Fragen bleiben)`);
+        }
       } else {
         const r = await callTool('moodle_create_quiz', { courseId, sectionNum: s.num, quizName: item.name, intro: item.intro, attempts: 0, grademethod: 1, shufflequestions: 0 });
         const entry = { cmid: extractId(r, 'Modul-ID'), quizId: extractId(r, 'Quiz-ID'), questions: 0 };
@@ -74,9 +84,10 @@ for (const s of def.sections) {
           await sleepBetween(800);
         }
         console.log(`Quiz ${item.key}: angelegt (quizId ${entry.quizId}, ${entry.questions} Fragen)`);
+        // Aktivitaetsabschluss (manuell) ist Voraussetzung fuer moodle_set_course_completion_criteria weiter unten;
+        // nur beim Anlegen setzen, sonst ueberschreibt ein spaeterer Update-Lauf ein von Plan 2 gesetztes completion=2
+        await callTool('moodle_set_completion', { cmid: entry.cmid, completion: 1 });
       }
-      // Aktivitaetsabschluss (manuell) ist Voraussetzung fuer moodle_set_course_completion_criteria weiter unten
-      await callTool('moodle_set_completion', { cmid: reg.items[item.key].cmid, completion: 1 });
     }
     await sleepBetween(800);
   }
