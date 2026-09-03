@@ -14,16 +14,20 @@ function stableStringify(value) {
   return JSON.stringify(value);
 }
 
-// Nur der inhaltlich relevante Ausschnitt geht in den Hash — bei Labels das HTML, bei Quizzen
-// Name+Intro+Fragen. Ein separates questionsHash-Feld gibt es bewusst nicht: eine reine
-// Namensaenderung loest damit ebenfalls eine Quiz-Neuanlage aus (siehe build-course.mjs,
-// Abschnitt 3) statt eines billigen In-Place-Renames. Das ist in Kauf genommen, weil es die
-// Fallunterscheidung im Build-Skript klein haelt und Namensaenderungen an bestehenden Quizzen
-// in der Praxis selten sind.
+// Nur der inhaltlich relevante Ausschnitt geht in den Hash — bei Labels und Seiten das HTML
+// (Seiten zusaetzlich der Name, da der Seitenname selbst sichtbarer Inhalt ist), bei Quizzen und
+// Aufgaben Name+Intro(+Fragen bzw. +gradeMax). Ein separates questionsHash-Feld gibt es bewusst
+// nicht: eine reine Namensaenderung loest damit ebenfalls eine Quiz-/Aufgaben-Neuanlage aus (siehe
+// build-course.mjs, Abschnitt 3) statt eines billigen In-Place-Renames. Das ist in Kauf genommen,
+// weil es die Fallunterscheidung im Build-Skript klein haelt und Namensaenderungen an bestehenden
+// Quizzen/Aufgaben in der Praxis selten sind. Ordner haben keinen Update-Pfad (werden nie
+// aktualisiert) — der Hash wird trotzdem berechnet (harmlos, ungenutzt fuer Ordner).
 export function contentHash(item) {
-  const payload = item.type === 'quiz'
-    ? { name: item.name, intro: item.intro, questions: item.questions }
-    : { html: item.html };
+  let payload;
+  if (item.type === 'quiz') payload = { name: item.name, intro: item.intro, questions: item.questions };
+  else if (item.type === 'assignment') payload = { name: item.name, intro: item.intro, gradeMax: item.gradeMax };
+  else if (item.type === 'page') payload = { name: item.name, html: item.html };
+  else payload = { html: item.html };
   return createHash('sha256').update(stableStringify(payload)).digest('hex').slice(0, 12);
 }
 

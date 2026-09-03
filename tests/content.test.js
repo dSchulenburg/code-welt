@@ -30,6 +30,50 @@ test('jede Station hat Stuetz-Ebene und Leit-Ebene mit vollstaendigem Schema', (
 
 test('Etappennamen und UI-Strings vorhanden', () => {
   for (const e of ETAPPEN) expect(typeof de.etappen[e.id].name).toBe('string');
-  for (const k of ['appTitle', 'home', 'support', 'supportShow', 'supportHide', 'station', 'check', 'next', 'prev', 'play', 'langLabel'])
+  for (const k of ['appTitle', 'home', 'support', 'supportShow', 'supportHide', 'station', 'check', 'next', 'prev', 'play', 'langLabel', 'bossCheckHeading', 'bossCheckHint'])
     expect(typeof de.ui[k], k).toBe('string');
+});
+
+test('jede Station hat eine iframeHeight ab 800', () => {
+  for (const [id, s] of Object.entries(STATIONS)) expect(s.iframeHeight, id).toBeGreaterThanOrEqual(800);
+});
+
+test('in jeder Etappe mit drei oder mehr Stationen traegt genau die letzte Station einen bossCheck', () => {
+  // Vor Task 4/5 hat Holz nur s02 (Etappen mit < 3 Stationen sind hiervon nicht betroffen).
+  for (const e of ETAPPEN) {
+    if (e.stations.length < 3) continue;
+    const withBossCheck = e.stations.filter((sid) => STATIONS[sid].bossCheck);
+    expect(withBossCheck, e.id).toEqual([e.stations[e.stations.length - 1]]);
+  }
+});
+
+test('jede Station mit bossCheck hat i18n bossCheck.title/task und einen key/gradeMax', () => {
+  for (const [id, s] of Object.entries(STATIONS)) {
+    if (!s.bossCheck) continue;
+    expect(typeof s.bossCheck.key, id).toBe('string');
+    expect(typeof s.bossCheck.gradeMax, id).toBe('number');
+    const bc = de.stations[id].bossCheck;
+    expect(typeof bc.title, id).toBe('string');
+    expect(typeof bc.task, id).toBe('string');
+  }
+});
+
+test('jede Etappe hat ein Badge (Daten + i18n Name/Beschreibung)', () => {
+  for (const e of ETAPPEN) {
+    expect(e.badge, e.id).toBeDefined();
+    expect(typeof e.badge.key, e.id).toBe('string');
+    expect(typeof e.badge.icon, e.id).toBe('string');
+    const b = de.etappen[e.id].badge;
+    expect(typeof b.name, e.id).toBe('string');
+    expect(typeof b.description, e.id).toBe('string');
+  }
+});
+
+test('story-mood ist, wenn gesetzt, aus der erlaubten Menge', () => {
+  const ALLOWED = ['erklaerend', 'fragend', 'begeistert', 'nachdenklich', 'ueberrascht'];
+  for (const [id, c] of Object.entries(content.stations)) {
+    for (const line of c.story) {
+      if (line.mood !== undefined) expect(ALLOWED, `${id}: ${line.who}`).toContain(line.mood);
+    }
+  }
 });

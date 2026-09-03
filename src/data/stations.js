@@ -1,19 +1,20 @@
 // Sprachfreie Strukturdaten. Alles Uebersetzbare liegt in src/i18n/<lang>.js,
 // alles Deutsche der Leit-Ebene in src/content/de.js — beide mit denselben Station-IDs.
 export const ETAPPEN = [
-  { id: 'holz', emoji: '🪵', stations: ['s02'] },
-  { id: 'stein', emoji: '🪨', stations: [] },
-  { id: 'eisen', emoji: '⛏️', stations: [] },
-  { id: 'gold', emoji: '🟡', stations: [] },
-  { id: 'diamant', emoji: '💎', stations: [] },
-  { id: 'netherite', emoji: '🏙️', stations: [] },
-  { id: 'enderdrache', emoji: '🐉', stations: [] },
+  { id: 'holz', emoji: '🪵', stations: ['s02'], badge: { key: 'badge-holz', icon: 'holz.png' } },
+  { id: 'stein', emoji: '🪨', stations: [], badge: { key: 'badge-stein', icon: 'stein.png' } },
+  { id: 'eisen', emoji: '⛏️', stations: [], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
+  { id: 'gold', emoji: '🟡', stations: [], badge: { key: 'badge-gold', icon: 'gold.png' } },
+  { id: 'diamant', emoji: '💎', stations: [], badge: { key: 'badge-diamant', icon: 'diamant.png' } },
+  { id: 'netherite', emoji: '🏙️', stations: [], badge: { key: 'badge-netherite', icon: 'netherite.png' } },
+  { id: 'enderdrache', emoji: '🐉', stations: [], badge: { key: 'badge-enderdrache', icon: 'enderdrache.png' } },
 ];
 
 export const STATIONS = {
   s02: {
     etappe: 'holz',
     ds: 2,
+    iframeHeight: 1400,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
     agent.teleport_to_player()

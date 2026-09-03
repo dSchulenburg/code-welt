@@ -47,6 +47,8 @@ export default {
     play: 'Vorlesen',
     langLabel: 'Sprache',
     footer: 'Ein Lernmodul von Dirk Schulenburg · CC BY 4.0 · Kein offizielles Minecraft-Produkt.',
+    bossCheckHeading: 'Boss-Check',
+    bossCheckHint: 'Löse die Aufgabe ohne Tipp-Leiter. Gib den Share-Link ab und schreibe drei Sätze.',
   },
 
   glossary: {
@@ -61,13 +63,13 @@ export default {
   },
 
   etappen: {
-    holz: { name: 'Holz' },
-    stein: { name: 'Stein' },
-    eisen: { name: 'Eisen' },
-    gold: { name: 'Gold' },
-    diamant: { name: 'Diamant' },
-    netherite: { name: 'Netherite' },
-    enderdrache: { name: 'Enderdrache' },
+    holz: { name: 'Holz', badge: { name: 'Holz', description: 'Du hast alle Checks der Etappe Holz bestanden und den Boss-Check abgegeben.' } },
+    stein: { name: 'Stein', badge: { name: 'Stein', description: 'Du hast alle Checks der Etappe Stein bestanden und den Boss-Check abgegeben.' } },
+    eisen: { name: 'Eisen', badge: { name: 'Eisen', description: 'Du hast alle Checks der Etappe Eisen bestanden und den Boss-Check abgegeben.' } },
+    gold: { name: 'Gold', badge: { name: 'Gold', description: 'Du hast alle Checks der Etappe Gold bestanden und den Boss-Check abgegeben.' } },
+    diamant: { name: 'Diamant', badge: { name: 'Diamant', description: 'Du hast alle Checks der Etappe Diamant bestanden und den Boss-Check abgegeben.' } },
+    netherite: { name: 'Netherite', badge: { name: 'Netherite', description: 'Du hast alle Checks der Etappe Netherite bestanden und den Boss-Check abgegeben.' } },
+    enderdrache: { name: 'Enderdrache', badge: { name: 'Enderdrache', description: 'Du hast alle Checks der Etappe Enderdrache bestanden und den Boss-Check abgegeben.' } },
   },
 
   stations: {

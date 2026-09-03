@@ -138,6 +138,61 @@ for (const s of def.sections) {
         }
       }
     }
+    if (item.type === 'assignment') {
+      // Boss-Check als Aufgabe (Nachtrag Plan 2, Entscheidung 3): kein Update-Tool, also wie beim
+      // Quiz Recreate bei Hash-Aenderung. completionSubmit=1 setzt den Aktivitaetsabschluss schon
+      // beim Anlegen (bei Abgabe) — ein separates moodle_set_completion ist hier nicht noetig.
+      if (!have) {
+        const r = await callTool('moodle_create_assignment', { courseId, sectionNum: s.num, name: item.name, intro: item.intro, grade: item.gradeMax, submissionOnlineText: 1, submissionFile: 0, completionSubmit: 1 });
+        reg.items[item.key] = { cmid: extractId(r, 'Modul-ID'), hash }; save();
+        console.log(`Aufgabe ${item.key}: angelegt (cmid ${reg.items[item.key].cmid})`);
+      } else if (have.hash !== undefined && needsUpdate(have, item)) {
+        const oldCmid = have.cmid;
+        await callTool('moodle_delete_module', { moduleId: have.cmid });
+        delete reg.items[item.key]; save();
+        const r = await callTool('moodle_create_assignment', { courseId, sectionNum: s.num, name: item.name, intro: item.intro, grade: item.gradeMax, submissionOnlineText: 1, submissionFile: 0, completionSubmit: 1 });
+        reg.items[item.key] = { cmid: extractId(r, 'Modul-ID'), hash }; save();
+        console.log(`Aufgabe ${item.key}: geändert → neu angelegt (cmid ${oldCmid} → ${reg.items[item.key].cmid})`);
+      } else {
+        if (have.hash === undefined) { have.hash = hash; save(); }
+        console.log(`Aufgabe ${item.key}: unverändert`);
+      }
+    }
+    if (item.type === 'page') {
+      // Kein Update-Tool fuer Seiten, also wie beim Quiz Recreate bei Hash-Aenderung.
+      if (!have) {
+        const r = await callTool('moodle_create_page', { courseId, sectionNum: s.num, pageName: item.name, content: item.html });
+        reg.items[item.key] = { cmid: extractId(r, 'Modul-ID'), hash }; save();
+        console.log(`Seite ${item.key}: angelegt (cmid ${reg.items[item.key].cmid})`);
+      } else if (have.hash !== undefined && needsUpdate(have, item)) {
+        const oldCmid = have.cmid;
+        await callTool('moodle_delete_module', { moduleId: have.cmid });
+        delete reg.items[item.key]; save();
+        const r = await callTool('moodle_create_page', { courseId, sectionNum: s.num, pageName: item.name, content: item.html });
+        reg.items[item.key] = { cmid: extractId(r, 'Modul-ID'), hash }; save();
+        console.log(`Seite ${item.key}: geändert → neu angelegt (cmid ${oldCmid} → ${reg.items[item.key].cmid})`);
+      } else {
+        if (have.hash === undefined) { have.hash = hash; save(); }
+        console.log(`Seite ${item.key}: unverändert`);
+      }
+    }
+    if (item.type === 'folder') {
+      // Wird nie aktualisiert (Dirk laedt die Weltdatei von Hand hoch). moodle_create_folder
+      // meldet im Antworttext faelschlich die Item-ID statt der CMID als "Modul-ID" (gemessen
+      // 03.09.2026 gegen die Box) — die echte CMID kommt deshalb aus moodle_get_course_contents
+      // (neu angelegte Module haengen am Abschnittsende).
+      if (!have) {
+        await callTool('moodle_create_folder', { courseId, sectionNum: s.num, name: item.name, itemId: 0 });
+        const contentsText = await callTool('moodle_get_course_contents', { courseId });
+        const parsed = parseSectionModules(contentsText, s.num);
+        const cmid = parsed?.cmids?.[parsed.cmids.length - 1];
+        if (!cmid) throw new Error(`Ordner ${item.key}: CMID nicht in Kursinhalten gefunden`);
+        reg.items[item.key] = { cmid, hash }; save();
+        console.log(`Ordner ${item.key}: angelegt (cmid ${cmid})`);
+      } else {
+        console.log(`Ordner ${item.key}: unverändert (Ordner werden nie aktualisiert)`);
+      }
+    }
     await sleepBetween(800);
   }
   // Reihenfolge im Abschnitt erzwingen: moodle_update_label haengt aktualisierte Labels ans
@@ -176,19 +231,24 @@ for (const s of def.sections) {
   }
 }
 
-// 4. Kursabschluss: alle Quizze — nur aufrufen, wenn sich die Menge der Quiz-CMIDs seit dem
-// letzten Lauf geaendert hat. Der Aufruf schlaegt fehl (❌), sobald irgendein Nutzer den Kurs
-// bereits abgeschlossen hat; das ist dann eine WARNUNG statt eines Abbruchs, der Kurs ist sonst
-// fertig gebaut.
-const quizCmids = Object.entries(reg.items).filter(([k]) => k.endsWith('-quiz')).map(([, v]) => v.cmid).sort((a, b) => a - b);
-const criteriaCmids = quizCmids.join(',');
+// 4. Kursabschluss: alle Quizze und Boss-Check-Aufgaben — nur aufrufen, wenn sich die Menge der
+// CMIDs seit dem letzten Lauf geaendert hat. Der Aufruf schlaegt fehl (❌), sobald irgendein Nutzer
+// den Kurs bereits abgeschlossen hat; das ist dann eine WARNUNG statt eines Abbruchs, der Kurs ist
+// sonst fertig gebaut. Aufgaben-Registry-Keys sind der jeweilige bossCheck.key (z. B. "boss-holz"),
+// kein festes Suffix wie bei Quizzen — deshalb ueber die Item-Typen in def bestimmt.
+const assignmentKeys = new Set();
+for (const s of def.sections) for (const item of s.items) if (item.type === 'assignment') assignmentKeys.add(item.key);
+const quizCmids = Object.entries(reg.items).filter(([k]) => k.endsWith('-quiz')).map(([, v]) => v.cmid);
+const assignmentCmids = Object.entries(reg.items).filter(([k]) => assignmentKeys.has(k)).map(([, v]) => v.cmid);
+const allCriteriaCmids = [...quizCmids, ...assignmentCmids].sort((a, b) => a - b);
+const criteriaCmids = allCriteriaCmids.join(',');
 if (reg.criteriaCmids === criteriaCmids) {
   console.log('Kursabschluss-Kriterien: unverändert');
 } else {
   try {
     await callTool('moodle_set_course_completion_criteria', { courseId, cmids: criteriaCmids, aggregation: 1 });
     reg.criteriaCmids = criteriaCmids; save();
-    console.log(`Kursabschluss-Kriterien: ${quizCmids.length} Quizze`);
+    console.log(`Kursabschluss-Kriterien: ${quizCmids.length} Quizze, ${assignmentCmids.length} Aufgaben`);
   } catch (e) {
     console.log(`WARNUNG: Kriterien nicht gesetzt: ${e.message}`);
   }

@@ -6,19 +6,19 @@
         "cmid": 67,
         "hash": "3b3cb8d49925"
       },
-      "teacher-setup": {
-        "cmid": 68,
-        "hash": "468901c2d8ae"
-      },
       "s02-station": {
-        "cmid": 70,
-        "hash": "51c07d02521c"
+        "cmid": 76,
+        "hash": "92423e018563"
       },
       "s02-quiz": {
         "cmid": 71,
         "quizId": 6,
         "questions": 4,
         "hash": "08e5941dc018"
+      },
+      "weltdateien": {
+        "cmid": 75,
+        "hash": "eae2849e2856"
       }
     },
     "criteriaCmids": "71"
