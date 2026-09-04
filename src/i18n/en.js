@@ -48,7 +48,8 @@ export default {
     "play": "Read aloud",
     "langLabel": "Language",
     "footer": "A learning module by Dirk Schulenburg · CC BY 4.0 · Not an official Minecraft product.",
-    "bossCheckHeading": "Boss check",
+    // Handkorrektur 2026-09-03 (Review T9): Produktbegriff "Boss-Check" wie im Deutschen und wie in den beiden bossCheck-Titeln unten.
+    "bossCheckHeading": "Boss-Check",
     "bossCheckHint": "Solve the task without the hint ladder. Hand in the share link and write three sentences."
   },
   "glossary": {
@@ -139,7 +140,9 @@ export default {
   "stations": {
     "s01": {
       "title": "The New World",
-      "storyShort": "The Agent is your robot in Minecraft. It does not understand English, only code. It only starts when you type a magic word in the chat.",
+      // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt der Name der deutschen Sprache — die SuS lernen Deutsch, nicht Englisch.
+      // Vorher: "does not understand English".
+      "storyShort": "The Agent is your robot in Minecraft. It does not understand German, only code. It only starts when you type a magic word in the chat.",
       "bridge": {
         "game": "You type hi in the chat. The Agent comes to you and walks one step.",
         "code": "A command is one line of code. The magic word starts the whole program."
@@ -189,18 +192,19 @@ export default {
           ]
         },
         {
+          // Handkorrektur 2026-09-03 (Review T9): "The C/E/T key" statt "The key C/E/T" — gilt fuer alle drei Antworten dieser Frage.
           "q": "Which key opens the Code Builder?",
           "answers": [
             {
-              "text": "The key C",
+              "text": "The C key",
               "correct": true
             },
             {
-              "text": "The key E",
+              "text": "The E key",
               "correct": false
             },
             {
-              "text": "The key T",
+              "text": "The T key",
               "correct": false
             }
           ]
@@ -234,7 +238,8 @@ export default {
               "correct": false
             },
             {
-              "text": "English, if you type slowly",
+              // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt Deutsch (siehe storyShort). Vorher: "English, if you type slowly".
+              "text": "German, if you type slowly",
               "correct": false
             }
           ]
@@ -449,7 +454,8 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "Boss Check wood",
+        // Handkorrektur 2026-09-03 (Review T9): Schreibweise "Boss-Check" wie im Deutschen, Etappenname gross. Vorher: "Boss Check wood".
+        "title": "Boss-Check Wood",
         "subtitle": "The L",
         "task": "The Agent places an L: first 4 blocks straight ahead, then 2 around the corner. What does your program do? Why is the order important? What was hard?"
       }
@@ -766,7 +772,8 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "Boss Check stone",
+        // Handkorrektur 2026-09-03 (Review T9): Schreibweise "Boss-Check" wie im Deutschen, Etappenname gross. Vorher: "Boss Check stone".
+        "title": "Boss-Check Stone",
         "subtitle": "The Fence",
         "task": "Build a fence around yourself. The ring has 8 blocks per side. What does the loop save you? How many commands would it be without a loop?"
       }

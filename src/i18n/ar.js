@@ -2,11 +2,17 @@
 // Source: src/i18n/de.js   sourceHash: 8114d96e4319
 // Language: ar   model: claude-opus-5   generated: 2026-09-03T21:36:13.335Z
 // Stuetz-Ebene: Deutsch bleibt daneben sichtbar. Bei Aenderung an de.js neu erzeugen.
+// Handkorrektur 2026-09-03 (Review T9): drei durchgaengige Korrekturen, deshalb hier gebuendelt
+// statt an jeder Zeile: (1) "Agent" ohne Artikel an 28 Stellen (vorher "الـ Agent" 23x und
+// geklebt "الAgent" 5x; Kanon AGENT_CANON in scripts/translate.mjs); (2) Bloecke einheitlich
+// "مكعب"/"مكعبات" an 10 Stellen (vorher "كتل"/"بلوكات"; Kanon BLOCKS_CANON); (3) nur
+// lateinische Ziffern — 14 arabisch-indische Ziffern in 10 Strings ersetzt, Zahlenwerte
+// unveraendert. Einzelkorrekturen sind unten in der Zeile davor markiert.
 
 export default {
   "ui": {
     "appTitle": "عالم الكود",
-    "tagline": "الـ Agent يفهم الكود فقط.",
+    "tagline": "Agent يفهم الكود فقط.",
     "home": "نظرة عامة",
     "station": "المحطة {n}",
     "ds": "الحصة المزدوجة {n}",
@@ -17,7 +23,7 @@ export default {
     "conceptHeading": "الفكرة",
     "bridgeGame": "في اللعبة",
     "bridgeCode": "في الكود",
-    "blocksLabel": "هكذا يكون الشكل بالبلوكات",
+    "blocksLabel": "هكذا يكون الشكل بالمكعبات",
     "pythonLabel": "هكذا يكون الشكل بـ Python",
     "tasksHeading": "مهامك في اللعبة",
     "taskAuftrag": "مهمة",
@@ -29,17 +35,19 @@ export default {
     "tipRemixNote": "إذا أخذت الحل: غيّر بعده شيئاً واحداً. هذا واجب.",
     "check": "تحقّق",
     "checkHeading": "هل فهمت؟",
-    "predictPrompt": "أين يقف الـ Agent في النهاية؟ اضغط على المربع.",
-    "predictRight": "صحيح! الـ Agent يقف هناك بالضبط.",
+    "predictPrompt": "أين يقف Agent في النهاية؟ اضغط على المربع.",
+    "predictRight": "صحيح! Agent يقف هناك بالضبط.",
     "predictWrong": "ليس بعد. اقرأ البرنامج من الأعلى إلى الأسفل. إلى أين يتّجه وجهه؟",
     "parsonsPrompt": "رتّب السطور بالترتيب الصحيح.",
     "parsonsUp": "إلى الأعلى",
     "parsonsDown": "إلى الأسفل",
     "parsonsCheck": "تحقّق",
     "parsonsRight": "صحيح! هذا هو الترتيب.",
-    "parsonsWrong": "ليس بعد. ما الذي يجب أن يفعله الـ Agent أولاً؟",
+    "parsonsWrong": "ليس بعد. ما الذي يجب أن يفعله Agent أولاً؟",
     "spielstandHeading": "حالة اللعب",
-    "spielstandPrompt": "ماذا تعرف الآن؟ اكتب ثلاث جمل قصيرة.",
+    // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich,
+    // "ماذا تعرف" war maennlich.
+    "spielstandPrompt": "ماذا تعلّمت الآن؟ اكتب ثلاث جمل قصيرة.",
     "spielstandSave": "احفظ",
     "spielstandSaved": "تم الحفظ. على هذا الجهاز فقط.",
     "progress": "لقد زرت {done} من {total} محطات.",
@@ -54,7 +62,7 @@ export default {
   "glossary": {
     "befehl": {
       "term": "أمر",
-      "short": "سطر واحد من الكود. الـ Agent ينفّذه بالضبط."
+      "short": "سطر واحد من الكود. Agent ينفّذه بالضبط."
     },
     "programm": {
       "term": "برنامج",
@@ -77,12 +85,12 @@ export default {
       "short": "لغة برمجة. كودك على شكل نص."
     },
     "bloecke": {
-      "term": "كتل",
+      "term": "مكعبات",
       "short": "كودك على شكل قطع تسحبها."
     },
     "fehler": {
       "term": "خطأ",
-      "short": "الـ Agent فهمك بشكل خطأ. يمكنك إصلاح ذلك."
+      "short": "Agent فهمك بشكل خطأ. يمكنك إصلاح ذلك."
     }
   },
   "etappen": {
@@ -139,16 +147,17 @@ export default {
   "stations": {
     "s01": {
       "title": "العالم الجديد",
-      "storyShort": "الـ Agent هو الروبوت الخاص بك في Minecraft. هو لا يفهم اللغة، بل الكود فقط. ولا يبدأ إلا إذا كتبت كلمة سحرية في الدردشة.",
+      // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt der Name der deutschen Sprache. Vorher stand nur "اللغة" (die Sprache).
+      "storyShort": "Agent هو الروبوت الخاص بك في Minecraft. هو لا يفهم الألمانية، بل الكود فقط. ولا يبدأ إلا إذا كتبت كلمة سحرية في الدردشة.",
       "bridge": {
-        "game": "تكتب hi في الدردشة. يأتي الـ Agent إليك ويمشي خطوة واحدة.",
+        "game": "تكتب hi في الدردشة. يأتي Agent إليك ويمشي خطوة واحدة.",
         "code": "الأمر هو سطر واحد من الكود. والكلمة السحرية تشغّل البرنامج كله."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "قل hi",
-          "text": "اكتب hi في الدردشة. يأتي الـ Agent إليك. ثم يمشي خطوة واحدة إلى الأمام."
+          "text": "اكتب hi في الدردشة. يأتي Agent إليك. ثم يمشي خطوة واحدة إلى الأمام."
         },
         {
           "kind": "nochEiner",
@@ -158,16 +167,16 @@ export default {
         {
           "kind": "remix",
           "title": "كلمة أخرى",
-          "text": "اخترع كلمة سحرية ثانية. يجب أن يفعل الـ Agent شيئاً آخر بها. اعرض ذلك على شريكك أو شريكتك."
+          "text": "اخترع كلمة سحرية ثانية. يجب أن يفعل Agent شيئاً آخر بها. اعرض ذلك على شريكك أو شريكتك."
         }
       ],
       "tipSolution": "اكتب agent.teleport_to_player() وتحتها agent.move(FORWARD, 3). في السطر الأخير استبدل «hi» بـ «hallo». فقط الكلمة بين علامتي التنصيص. ثم اكتب hallo في الدردشة.",
       "exercises": [
         {
-          "prompt": "يقف الـ Agent في الأسفل في الوسط. أنفه يشير إلى الأعلى. البرنامج: خطوة واحدة إلى الأمام."
+          "prompt": "يقف Agent في الأسفل في الوسط. أنفه يشير إلى الأعلى. البرنامج: خطوة واحدة إلى الأمام."
         },
         {
-          "prompt": "يجب أن يأتي الـ Agent إليك ويمشي خطوة واحدة. السطر الذي فيه الكلمة السحرية يأتي في النهاية."
+          "prompt": "يجب أن يأتي Agent إليك ويمشي خطوة واحدة. السطر الذي فيه الكلمة السحرية يأتي في النهاية."
         }
       ],
       "quiz": [
@@ -209,21 +218,21 @@ export default {
           "q": "ماذا يفعل agent.teleport_to_player()؟",
           "answers": [
             {
-              "text": "يأتي الـ Agent إليك",
+              "text": "يأتي Agent إليك",
               "correct": true
             },
             {
-              "text": "يمشي الـ Agent خطوة إلى الأمام",
+              "text": "يمشي Agent خطوة إلى الأمام",
               "correct": false
             },
             {
-              "text": "يضع الـ Agent مكعباً",
+              "text": "يضع Agent مكعباً",
               "correct": false
             }
           ]
         },
         {
-          "q": "الـ Agent يفهم …",
+          "q": "Agent يفهم …",
           "answers": [
             {
               "text": "الكود فقط",
@@ -234,7 +243,8 @@ export default {
               "correct": false
             },
             {
-              "text": "اللغة إذا كتبت ببطء",
+              // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt Deutsch (siehe storyShort). Vorher: "اللغة".
+              "text": "الألمانية إذا كتبت ببطء",
               "correct": false
             }
           ]
@@ -276,7 +286,7 @@ export default {
       ],
       "quiz": [
         {
-          "q": "يجب أن يمشي Agent ٣ خطوات ثم يستدير إلى اليسار. أي ترتيب صحيح؟",
+          "q": "يجب أن يمشي Agent 3 خطوات ثم يستدير إلى اليسار. أي ترتيب صحيح؟",
           "answers": [
             {
               "text": "أولًا agent.move(FORWARD, 3)، ثم agent.turn(LEFT_TURN)",
@@ -296,11 +306,11 @@ export default {
           "q": "تكتب agent.move(FORWARD, 3) مرتين واحدة تحت الأخرى. ماذا يفعل Agent؟",
           "answers": [
             {
-              "text": "يمشي ٦ خطوات",
+              "text": "يمشي 6 خطوات",
               "correct": true
             },
             {
-              "text": "يمشي ٣ خطوات",
+              "text": "يمشي 3 خطوات",
               "correct": false
             },
             {
@@ -350,7 +360,7 @@ export default {
       "storyShort": "الكلمة في الدردشة هي حدث. كل كلمة سحرية تشغّل برنامجها الخاص. يمكنك أن تملك عدة كلمات سحرية.",
       "bridge": {
         "game": "تكتب weg أو turm في الدردشة. فيبني Agent الطريق أو البرج.",
-        "code": "كل كلمة سحرية لها كتلة قبعة خاصة بها. وتحتها يوجد برنامجها الخاص."
+        "code": "كل كلمة سحرية لها مكعب قبعة خاص به. وتحته يوجد برنامجها الخاص."
       },
       "tasks": [
         {
@@ -361,21 +371,23 @@ export default {
         {
           "kind": "nochEiner",
           "title": "أعلى",
-          "text": "غيّر البرنامج الخاص بـ turm. يجب أن يصبح البرج بارتفاع خمس كتل."
+          "text": "غيّر البرنامج الخاص بـ turm. يجب أن يصبح البرج بارتفاع خمسة مكعبات."
         },
         {
           "kind": "remix",
           "title": "الجسر",
-          "text": "اخترع كلمة سحرية ثالثة: bruecke. الكلمات السحرية لا تحتوي على حروف مزخرفة. بها يبني Agent طريقاً فوق فجوة."
+          // Handkorrektur 2026-09-03 (Review T9): Umlaut-Regel wiederhergestellt: die Buchstaben lateinisch nennen und die Folge fuer
+          // bruecke benennen. Vorher: "حروف مزخرفة" (verzierte Buchstaben) — Sinn verfehlt.
+          "text": "اخترع كلمة سحرية ثالثة: bruecke. الكلمات السحرية لا تحتوي على الحروف ä و ö و ü. لذلك نكتبها bruecke. بها يبني Agent طريقاً فوق فجوة."
         }
       ],
-      "tipSolution": "من أجل خمس كتل، تكتب agent.place(FORWARD) و agent.move(UP, 1) بالتناوب. وفي النهاية يأتي agent.place(FORWARD) مرة أخرى. عُدّ: خمسة أسطر فيها place.",
+      "tipSolution": "من أجل خمسة مكعبات، تكتب agent.place(FORWARD) و agent.move(UP, 1) بالتناوب. وفي النهاية يأتي agent.place(FORWARD) مرة أخرى. عُدّ: خمسة أسطر فيها place.",
       "exercises": [
         {
           "prompt": "يقف Agent في الأسفل على اليسار. أنفه يشير إلى الأعلى. البرنامج: خطوتان إلى الأمام، الدوران يميناً، خطوتان إلى الأمام."
         },
         {
-          "prompt": "يأتي Agent إليك. يأخذ عشباً. يمشي خطوة ويضع كتلة. السطر الذي فيه الكلمة السحرية يأتي في النهاية."
+          "prompt": "يأتي Agent إليك. يأخذ عشباً. يمشي خطوة ويضع مكعبًا. السطر الذي فيه الكلمة السحرية يأتي في النهاية."
         }
       ],
       "quiz": [
@@ -391,7 +403,7 @@ export default {
               "correct": false
             },
             {
-              "text": "كتلة يضعها Agent",
+              "text": "مكعب يضعه Agent",
               "correct": false
             }
           ]
@@ -417,7 +429,7 @@ export default {
           "q": "ماذا يفعل agent.move(UP, 1)؟",
           "answers": [
             {
-              "text": "يصعد Agent كتلة واحدة إلى الأعلى",
+              "text": "يصعد Agent مكعبًا واحدًا إلى الأعلى",
               "correct": true
             },
             {
@@ -425,7 +437,7 @@ export default {
               "correct": false
             },
             {
-              "text": "يضع Agent كتلة فوقه",
+              "text": "يضع Agent مكعبًا فوقه",
               "correct": false
             }
           ]
@@ -451,21 +463,21 @@ export default {
       "bossCheck": {
         "title": "اختبار الزعيم: خشب",
         "subtitle": "حرف L",
-        "task": "يضع Agent شكل حرف L: أولاً 4 كتل إلى الأمام، ثم 2 عند الزاوية. ماذا يفعل برنامجك؟ لماذا الترتيب مهم؟ ما الذي كان صعباً؟"
+        "task": "يضع Agent شكل حرف L: أولاً 4 مكعبات إلى الأمام، ثم 2 عند الزاوية. ماذا يفعل برنامجك؟ لماذا الترتيب مهم؟ ما الذي كان صعباً؟"
       }
     },
     "s04": {
       "title": "التكرار",
       "storyShort": "كتابة الشيء نفسه عشر مرات أمر متعب. لهذا توجد الحلقة. أنت تكتب الأسطر مرة واحدة. والحاسوب يكرّرها لك.",
       "bridge": {
-        "game": "تكتب mauer في الدردشة. فيضع الAgent عشرة مكعبات في صف واحد.",
+        "game": "تكتب mauer في الدردشة. فيضع Agent عشرة مكعبات في صف واحد.",
         "code": "الحلقة تكرّر سطرين عشر مرات. وأنت تكتبهما مرة واحدة فقط."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "الجدار",
-          "text": "اكتب mauer في الدردشة. سيبني الAgent جدارًا من عشرة مكعبات. عُدّ المكعبات."
+          "text": "اكتب mauer في الدردشة. سيبني Agent جدارًا من عشرة مكعبات. عُدّ المكعبات."
         },
         {
           "kind": "nochEiner",
@@ -481,10 +493,10 @@ export default {
       "tipSolution": "اكتب for index in range(20): في سطر الحلقة. السطران تحته يبقيان مُزاحَين إلى الداخل. من أجل خشب استخدم agent.set_item(PLANKS_OAK, 64, 1). عُدّ: حلقة واحدة، وسطران في داخلها.",
       "exercises": [
         {
-          "prompt": "الAgent يقف في الأسفل في المنتصف. أنفه يشير إلى الأعلى. البرنامج: 3 خطوات إلى الأمام."
+          "prompt": "Agent يقف في الأسفل في المنتصف. أنفه يشير إلى الأعلى. البرنامج: 3 خطوات إلى الأمام."
         },
         {
-          "prompt": "الAgent يأتي إليك ويأخذ الحجر المكسور. ثم تكرّر الحلقة سطرين. الإزاحة إلى الداخل جزء من السطر."
+          "prompt": "Agent يأتي إليك ويأخذ الحجر المكسور. ثم تكرّر الحلقة سطرين. الإزاحة إلى الداخل جزء من السطر."
         }
       ],
       "quiz": [
@@ -551,7 +563,7 @@ export default {
               "correct": false
             },
             {
-              "text": "الAgent يعرض رسالة خطأ",
+              "text": "Agent يعرض رسالة خطأ",
               "correct": false
             }
           ]
@@ -664,21 +676,21 @@ export default {
     },
     "s06": {
       "title": "البيت",
-      "storyShort": "البيت له أربعة جُدران. لا تنسخ الجدار أربع مرات. ضع حلقة حول الكل. بعد كل جهة يدور الـ Agent.",
+      "storyShort": "البيت له أربعة جُدران. لا تنسخ الجدار أربع مرات. ضع حلقة حول الكل. بعد كل جهة يدور Agent.",
       "bridge": {
-        "game": "تكتب haus في الدردشة. يبني الـ Agent حلقة من أربع جهات.",
-        "code": "الحلقة الخارجية تعمل أربع مرات. بعد كل جهة يدور الـ Agent عند الزاوية."
+        "game": "تكتب haus في الدردشة. يبني Agent حلقة من أربع جهات.",
+        "code": "الحلقة الخارجية تعمل أربع مرات. بعد كل جهة يدور Agent عند الزاوية."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "الحلقة",
-          "text": "اكتب haus في الدردشة. يبني الـ Agent حلقة: ٥ مكعبات في كل جهة."
+          "text": "اكتب haus في الدردشة. يبني Agent حلقة: 5 مكعبات في كل جهة."
         },
         {
           "kind": "nochEiner",
           "title": "أعلى",
-          "text": "يجب أن يصبح ارتفاع الحلقة ٣ مكعبات. لهذا تحتاج حلقة ثالثة."
+          "text": "يجب أن يصبح ارتفاع الحلقة 3 مكعبات. لهذا تحتاج حلقة ثالثة."
         },
         {
           "kind": "remix",
@@ -689,10 +701,10 @@ export default {
       "tipSolution": "اكتب for index3 in range(3): في الخارج تمامًا. كل الحلقة تكون بإزاحة داخله. بعد ذلك يأتي agent.move(UP, 1). عُدَّ: ثلاث حلقات، كل واحدة داخل الأخرى.",
       "exercises": [
         {
-          "prompt": "الـ Agent يقف في الأسفل في الوسط. أنفه يتجه إلى الأعلى. البرنامج: خطوتان إلى الأمام، ثم دوران إلى اليسار. ثم مرة أخرى: خطوتان إلى الأمام، ثم دوران إلى اليسار. وفي النهاية خطوتان إلى الأمام."
+          "prompt": "Agent يقف في الأسفل في الوسط. أنفه يتجه إلى الأعلى. البرنامج: خطوتان إلى الأمام، ثم دوران إلى اليسار. ثم مرة أخرى: خطوتان إلى الأمام، ثم دوران إلى اليسار. وفي النهاية خطوتان إلى الأمام."
         },
         {
-          "prompt": "الـ Agent يبني حلقة. في الداخل جهة واحدة، وفي الخارج الجهات الأربع. الدوران ينتمي إلى الحلقة الخارجية."
+          "prompt": "Agent يبني حلقة. في الداخل جهة واحدة، وفي الخارج الجهات الأربع. الدوران ينتمي إلى الحلقة الخارجية."
         }
       ],
       "quiz": [
@@ -731,7 +743,7 @@ export default {
           ]
         },
         {
-          "q": "لماذا يدور الـ Agent مرة واحدة فقط لكل جدار؟",
+          "q": "لماذا يدور Agent مرة واحدة فقط لكل جدار؟",
           "answers": [
             {
               "text": "لأن الزاوية هي رُبع دورة",
@@ -748,18 +760,18 @@ export default {
           ]
         },
         {
-          "q": "الحلقة لها ٤ جهات، وفي كل جهة ٥ مكعبات. كم مكعبًا هذا؟",
+          "q": "الحلقة لها 4 جهات، وفي كل جهة 5 مكعبات. كم مكعبًا هذا؟",
           "answers": [
             {
-              "text": "٢٠ مكعبًا",
+              "text": "20 مكعبًا",
               "correct": true
             },
             {
-              "text": "١٦ مكعبًا",
+              "text": "16 مكعبًا",
               "correct": false
             },
             {
-              "text": "٢٥ مكعبًا",
+              "text": "25 مكعبًا",
               "correct": false
             }
           ]
@@ -768,7 +780,7 @@ export default {
       "bossCheck": {
         "title": "اختبار الزعيم: حجر",
         "subtitle": "السياج",
-        "task": "ابنِ سياجًا حولك. الحلقة فيها ٨ مكعبات في كل جهة. ما الذي توفّره الحلقة؟ كم أمرًا سيكون العدد بدون حلقة؟"
+        "task": "ابنِ سياجًا حولك. الحلقة فيها 8 مكعبات في كل جهة. ما الذي توفّره الحلقة؟ كم أمرًا سيكون العدد بدون حلقة؟"
       }
     }
   }

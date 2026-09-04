@@ -2,11 +2,16 @@
 // Source: src/i18n/de.js   sourceHash: 8114d96e4319
 // Language: es   model: claude-opus-5   generated: 2026-09-03T21:32:11.377Z
 // Stuetz-Ebene: Deutsch bleibt daneben sichtbar. Bei Aenderung an de.js neu erzeugen.
+// Handkorrektur 2026-09-03 (Review T9): zwei durchgaengige Korrekturen, deshalb hier gebuendelt
+// statt an jeder Zeile: (1) "Agente" statt "Agent" an 17 Stellen (Kanon AGENT_CANON in
+// scripts/translate.mjs), (2) "Boss-Check" statt "Check final" in allen sieben
+// etappen.*.badge.description — der Begriff muss zum ui-Label passen. Einzelkorrekturen
+// sind unten in der Zeile davor markiert.
 
 export default {
   "ui": {
     "appTitle": "Mundo-Código",
-    "tagline": "El Agent solo entiende código.",
+    "tagline": "El Agente solo entiende código.",
     "home": "Vista general",
     "station": "Estación {n}",
     "ds": "Clase doble {n}",
@@ -29,16 +34,17 @@ export default {
     "tipRemixNote": "Si usas la solución: después cambia una cosa. Es obligatorio.",
     "check": "Check",
     "checkHeading": "¿Lo has entendido?",
-    "predictPrompt": "¿Dónde está el Agent al final? Haz clic en la casilla.",
-    "predictRight": "¡Correcto! El Agent está justo ahí.",
+    "predictPrompt": "¿Dónde está el Agente al final? Haz clic en la casilla.",
+    "predictRight": "¡Correcto! El Agente está justo ahí.",
     "predictWrong": "Todavía no. Lee el programa de arriba abajo. ¿Hacia dónde mira?",
     "parsonsPrompt": "Pon las líneas en el orden correcto.",
     "parsonsUp": "hacia arriba",
     "parsonsDown": "hacia abajo",
     "parsonsCheck": "Comprobar",
     "parsonsRight": "¡Correcto! Ese es el orden.",
-    "parsonsWrong": "Todavía no. ¿Qué tiene que hacer el Agent primero?",
-    "spielstandHeading": "Punto de partida",
+    "parsonsWrong": "Todavía no. ¿Qué tiene que hacer el Agente primero?",
+    // Handkorrektur 2026-09-03 (Review T9): Zwischenstand, nicht Startpunkt. Vorher: "Punto de partida".
+    "spielstandHeading": "Tu progreso",
     "spielstandPrompt": "¿Qué sabes hacer ahora? Escribe tres frases cortas.",
     "spielstandSave": "Guardar",
     "spielstandSaved": "Guardado. Solo en este dispositivo.",
@@ -48,13 +54,14 @@ export default {
     "play": "Leer en voz alta",
     "langLabel": "Idioma",
     "footer": "Un módulo de aprendizaje de Dirk Schulenburg · CC BY 4.0 · No es un producto oficial de Minecraft.",
-    "bossCheckHeading": "Check final",
+    // Handkorrektur 2026-09-03 (Review T9): Produktbegriff "Boss-Check" wie in den bossCheck-Titeln. Vorher: "Check final".
+    "bossCheckHeading": "Boss-Check",
     "bossCheckHint": "Resuelve la tarea sin la escalera de pistas. Entrega el enlace para compartir y escribe tres frases."
   },
   "glossary": {
     "befehl": {
       "term": "Orden",
-      "short": "Una línea de código. El Agent hace exactamente eso."
+      "short": "Una línea de código. El Agente hace exactamente eso."
     },
     "programm": {
       "term": "Programa",
@@ -62,10 +69,11 @@ export default {
     },
     "sequenz": {
       "term": "Secuencia",
-      "short": "El orden de las órdenes."
+      // Handkorrektur 2026-09-03 (Review T9): Vorher "El orden de las órdenes." — Doppelung von orden/órdenes, unverstaendlich.
+      "short": "El orden de los pasos."
     },
     "agent": {
-      "term": "Agent",
+      "term": "Agente",
       "short": "El robot en Minecraft. Solo entiende código."
     },
     "zauberwort": {
@@ -82,7 +90,7 @@ export default {
     },
     "fehler": {
       "term": "Error",
-      "short": "El Agent te entendió mal. Tú lo puedes arreglar."
+      "short": "El Agente te entendió mal. Tú lo puedes arreglar."
     }
   },
   "etappen": {
@@ -90,56 +98,57 @@ export default {
       "name": "Madera",
       "badge": {
         "name": "Madera",
-        "description": "Has aprobado todos los checks de la etapa Madera y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Madera y has entregado el Boss-Check."
       }
     },
     "stein": {
       "name": "Piedra",
       "badge": {
         "name": "Piedra",
-        "description": "Has aprobado todos los checks de la etapa Piedra y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Piedra y has entregado el Boss-Check."
       }
     },
     "eisen": {
       "name": "Hierro",
       "badge": {
         "name": "Hierro",
-        "description": "Has aprobado todos los checks de la etapa Hierro y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Hierro y has entregado el Boss-Check."
       }
     },
     "gold": {
       "name": "Oro",
       "badge": {
         "name": "Oro",
-        "description": "Has aprobado todos los checks de la etapa Oro y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Oro y has entregado el Boss-Check."
       }
     },
     "diamant": {
       "name": "Diamante",
       "badge": {
         "name": "Diamante",
-        "description": "Has aprobado todos los checks de la etapa Diamante y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Diamante y has entregado el Boss-Check."
       }
     },
     "netherite": {
       "name": "Netherita",
       "badge": {
         "name": "Netherita",
-        "description": "Has aprobado todos los checks de la etapa Netherita y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Netherita y has entregado el Boss-Check."
       }
     },
     "enderdrache": {
       "name": "Dragón del End",
       "badge": {
         "name": "Dragón del End",
-        "description": "Has aprobado todos los checks de la etapa Dragón del End y has entregado el check final."
+        "description": "Has aprobado todos los checks de la etapa Dragón del End y has entregado el Boss-Check."
       }
     }
   },
   "stations": {
     "s01": {
       "title": "El mundo nuevo",
-      "storyShort": "El Agente es tu robot en Minecraft. No entiende español, solo entiende código. Solo arranca cuando escribes una palabra mágica en el chat.",
+      // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt der Name der deutschen Sprache. Vorher: "No entiende español".
+      "storyShort": "El Agente es tu robot en Minecraft. No entiende alemán, solo entiende código. Solo arranca cuando escribes una palabra mágica en el chat.",
       "bridge": {
         "game": "Escribes hi en el chat. El Agente viene hacia ti y da un paso.",
         "code": "Una orden es una línea de código. La palabra mágica arranca todo el programa."
@@ -234,7 +243,8 @@ export default {
               "correct": false
             },
             {
-              "text": "español, si escribes despacio",
+              // Handkorrektur 2026-09-03 (Review T9): "Deutsch" bleibt Deutsch (siehe storyShort). Vorher: "español, si escribes despacio".
+              "text": "alemán, si escribes despacio",
               "correct": false
             }
           ]
@@ -243,21 +253,21 @@ export default {
     },
     "s02": {
       "title": "El orden importa",
-      "storyShort": "El Agent hace las órdenes exactamente en el orden en que las escribes. Primero caminar y después girar no es lo mismo que primero girar y después caminar.",
+      "storyShort": "El Agente hace las órdenes exactamente en el orden en que las escribes. Primero caminar y después girar no es lo mismo que primero girar y después caminar.",
       "bridge": {
-        "game": "El Agent camina paso a paso y deja bloques detrás de sí.",
+        "game": "El Agente camina paso a paso y deja bloques detrás de sí.",
         "code": "Un programa es una lista de órdenes. La computadora las hace de arriba hacia abajo."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "El camino",
-          "text": "Escribe la palabra mágica weg en el chat. El Agent pone cuatro bloques. Mira bien: ¿dónde está la esquina?"
+          "text": "Escribe la palabra mágica weg en el chat. El Agente pone cuatro bloques. Mira bien: ¿dónde está la esquina?"
         },
         {
           "kind": "nochEiner",
           "title": "Más largo",
-          "text": "Cambia el programa. El Agent pone cinco bloques en línea recta, después la esquina y después dos más."
+          "text": "Cambia el programa. El Agente pone cinco bloques en línea recta, después la esquina y después dos más."
         },
         {
           "kind": "remix",
@@ -268,15 +278,15 @@ export default {
       "tipSolution": "Para cinco bloques: escribe agent.move(FORWARD, 1) y agent.place(BACK) cinco veces. Después agent.turn(LEFT_TURN). Luego vienen tres pares más de move y place. El primer par pone el bloque de la esquina.",
       "exercises": [
         {
-          "prompt": "El Agent está abajo en el medio. Su nariz mira hacia arriba. El programa: 2 pasos adelante, girar a la izquierda, 1 paso adelante."
+          "prompt": "El Agente está abajo en el medio. Su nariz mira hacia arriba. El programa: 2 pasos adelante, girar a la izquierda, 1 paso adelante."
         },
         {
-          "prompt": "El Agent debe venir hacia ti, caminar dos pasos, girar a la izquierda y caminar un paso más."
+          "prompt": "El Agente debe venir hacia ti, caminar dos pasos, girar a la izquierda y caminar un paso más."
         }
       ],
       "quiz": [
         {
-          "q": "El Agent debe caminar 3 pasos y después girar a la izquierda. ¿Qué orden es correcto?",
+          "q": "El Agente debe caminar 3 pasos y después girar a la izquierda. ¿Qué orden es correcto?",
           "answers": [
             {
               "text": "Primero agent.move(FORWARD, 3), después agent.turn(LEFT_TURN)",
@@ -293,7 +303,7 @@ export default {
           ]
         },
         {
-          "q": "Escribes agent.move(FORWARD, 3) dos veces, una debajo de la otra. ¿Qué hace el Agent?",
+          "q": "Escribes agent.move(FORWARD, 3) dos veces, una debajo de la otra. ¿Qué hace el Agente?",
           "answers": [
             {
               "text": "Camina 6 pasos",
@@ -321,13 +331,13 @@ export default {
               "correct": false
             },
             {
-              "text": "Cuando haces clic en el Agent",
+              "text": "Cuando haces clic en el Agente",
               "correct": false
             }
           ]
         },
         {
-          "q": "El Agent entiende …",
+          "q": "El Agente entiende …",
           "answers": [
             {
               "text": "solo código",
@@ -375,7 +385,8 @@ export default {
           "prompt": "El Agente está abajo a la izquierda. Su nariz apunta hacia arriba. El programa: 2 pasos hacia delante, girar a la derecha, 2 pasos hacia delante."
         },
         {
-          "prompt": "El Agente viene hacia ti. Coge hierba. Da un paso y coloca un bloque. La línea con la palabra mágica va al final."
+          // Handkorrektur 2026-09-03 (Review T9): "Toma" statt "Coge" — "coger" ist in weiten Teilen Lateinamerikas vulgaer.
+          "prompt": "El Agente viene hacia ti. Toma hierba. Da un paso y coloca un bloque. La línea con la palabra mágica va al final."
         }
       ],
       "quiz": [
@@ -484,7 +495,8 @@ export default {
           "prompt": "El Agente está abajo en el centro. Su nariz mira hacia arriba. El programa: 3 pasos hacia delante."
         },
         {
-          "prompt": "El Agente viene hacia ti y coge Roca. Después el bucle repite dos líneas. La sangría forma parte de la línea."
+          // Handkorrektur 2026-09-03 (Review T9): "toma" statt "coge", gleicher Grund wie in s03.
+          "prompt": "El Agente viene hacia ti y toma Roca. Después el bucle repite dos líneas. La sangría forma parte de la línea."
         }
       ],
       "quiz": [

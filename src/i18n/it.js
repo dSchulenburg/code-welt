@@ -2,11 +2,15 @@
 // Source: src/i18n/de.js   sourceHash: 8114d96e4319
 // Language: it   model: claude-opus-5   generated: 2026-09-03T21:28:33.003Z
 // Stuetz-Ebene: Deutsch bleibt daneben sichtbar. Bei Aenderung an de.js neu erzeugen.
+// Handkorrektur 2026-09-03 (Review T9): zwei durchgaengige Korrekturen, deshalb hier gebuendelt
+// statt an jeder Zeile: (1) "Agente" statt "Agent" an 17 Stellen (Kanon AGENT_CANON in
+// scripts/translate.mjs), (2) "nella chat" statt "nel chat" an 4 Stellen in s03 (chat ist
+// feminin). Einzelkorrekturen sind unten in der Zeile davor markiert.
 
 export default {
   "ui": {
     "appTitle": "Mondo del codice",
-    "tagline": "L'Agent capisce solo il codice.",
+    "tagline": "L'Agente capisce solo il codice.",
     "home": "Panoramica",
     "station": "Stazione {n}",
     "ds": "Lezione doppia {n}",
@@ -29,15 +33,15 @@ export default {
     "tipRemixNote": "Se prendi la soluzione: dopo devi cambiare una cosa. È obbligatorio.",
     "check": "Check",
     "checkHeading": "Hai capito?",
-    "predictPrompt": "Dove si trova l'Agent alla fine? Clicca sulla casella.",
-    "predictRight": "Giusto! L'Agent è proprio lì.",
+    "predictPrompt": "Dove si trova l'Agente alla fine? Clicca sulla casella.",
+    "predictRight": "Giusto! L'Agente è proprio lì.",
     "predictWrong": "Non ancora. Leggi il programma dall'alto verso il basso. Da che parte guarda?",
     "parsonsPrompt": "Metti le righe nell'ordine giusto.",
     "parsonsUp": "in su",
     "parsonsDown": "in giù",
     "parsonsCheck": "Verifica",
     "parsonsRight": "Giusto! Questo è l'ordine.",
-    "parsonsWrong": "Non ancora. Che cosa deve fare per primo l'Agent?",
+    "parsonsWrong": "Non ancora. Che cosa deve fare per primo l'Agente?",
     "spielstandHeading": "Punto della situazione",
     "spielstandPrompt": "Che cosa sai fare adesso? Scrivi tre frasi brevi.",
     "spielstandSave": "Salva",
@@ -48,13 +52,14 @@ export default {
     "play": "Leggi ad alta voce",
     "langLabel": "Lingua",
     "footer": "Un modulo didattico di Dirk Schulenburg · CC BY 4.0 · Non è un prodotto ufficiale Minecraft.",
-    "bossCheckHeading": "Check del boss",
+    // Handkorrektur 2026-09-03 (Review T9): Produktbegriff "Boss-Check" wie in den bossCheck-Titeln. Vorher: "Check del boss".
+    "bossCheckHeading": "Boss-Check",
     "bossCheckHint": "Risolvi il compito senza la scala dei suggerimenti. Consegna il link di condivisione e scrivi tre frasi."
   },
   "glossary": {
     "befehl": {
       "term": "Comando",
-      "short": "Una riga di codice. L'Agent fa esattamente questo."
+      "short": "Una riga di codice. L'Agente fa esattamente questo."
     },
     "programm": {
       "term": "Programma",
@@ -65,7 +70,7 @@ export default {
       "short": "L'ordine dei comandi."
     },
     "agent": {
-      "term": "Agent",
+      "term": "Agente",
       "short": "Il robot in Minecraft. Capisce solo il codice."
     },
     "zauberwort": {
@@ -82,7 +87,7 @@ export default {
     },
     "fehler": {
       "term": "Errore",
-      "short": "L'Agent ti ha capito male. Puoi sistemarlo."
+      "short": "L'Agente ti ha capito male. Puoi sistemarlo."
     }
   },
   "etappen": {
@@ -243,21 +248,21 @@ export default {
     },
     "s02": {
       "title": "L'ordine conta",
-      "storyShort": "L'Agent esegue i comandi esattamente nell'ordine in cui li scrivi. Prima camminare e poi girare non è la stessa cosa che prima girare e poi camminare.",
+      "storyShort": "L'Agente esegue i comandi esattamente nell'ordine in cui li scrivi. Prima camminare e poi girare non è la stessa cosa che prima girare e poi camminare.",
       "bridge": {
-        "game": "L'Agent avanza passo dopo passo e posa blocchi dietro di sé.",
+        "game": "L'Agente avanza passo dopo passo e posa blocchi dietro di sé.",
         "code": "Un programma è una lista di comandi. Il computer li esegue dall'alto verso il basso."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "Il percorso",
-          "text": "Scrivi la parola magica weg nella chat. L'Agent posa quattro blocchi. Guarda bene: dov'è l'angolo?"
+          "text": "Scrivi la parola magica weg nella chat. L'Agente posa quattro blocchi. Guarda bene: dov'è l'angolo?"
         },
         {
           "kind": "nochEiner",
           "title": "Più lungo",
-          "text": "Cambia il programma. L'Agent posa cinque blocchi dritti, poi fa l'angolo, poi altri due."
+          "text": "Cambia il programma. L'Agente posa cinque blocchi dritti, poi fa l'angolo, poi altri due."
         },
         {
           "kind": "remix",
@@ -268,15 +273,15 @@ export default {
       "tipSolution": "Per cinque blocchi: scrivi agent.move(FORWARD, 1) e agent.place(BACK) cinque volte. Poi agent.turn(LEFT_TURN). Dopo servono ancora tre coppie di move e place. La prima coppia posa il blocco dell'angolo.",
       "exercises": [
         {
-          "prompt": "L'Agent sta in basso al centro. Il suo naso punta verso l'alto. Il programma: 2 passi avanti, gira a sinistra, 1 passo avanti."
+          "prompt": "L'Agente sta in basso al centro. Il suo naso punta verso l'alto. Il programma: 2 passi avanti, gira a sinistra, 1 passo avanti."
         },
         {
-          "prompt": "L'Agent deve venire da te, fare due passi, girare a sinistra e fare ancora un passo."
+          "prompt": "L'Agente deve venire da te, fare due passi, girare a sinistra e fare ancora un passo."
         }
       ],
       "quiz": [
         {
-          "q": "L'Agent deve fare 3 passi e poi girare a sinistra. Quale ordine è corretto?",
+          "q": "L'Agente deve fare 3 passi e poi girare a sinistra. Quale ordine è corretto?",
           "answers": [
             {
               "text": "Prima agent.move(FORWARD, 3), poi agent.turn(LEFT_TURN)",
@@ -293,7 +298,7 @@ export default {
           ]
         },
         {
-          "q": "Scrivi agent.move(FORWARD, 3) due volte, una sotto l'altra. Cosa fa l'Agent?",
+          "q": "Scrivi agent.move(FORWARD, 3) due volte, una sotto l'altra. Cosa fa l'Agente?",
           "answers": [
             {
               "text": "Fa 6 passi",
@@ -321,13 +326,13 @@ export default {
               "correct": false
             },
             {
-              "text": "Quando clicchi sull'Agent",
+              "text": "Quando clicchi sull'Agente",
               "correct": false
             }
           ]
         },
         {
-          "q": "L'Agent capisce …",
+          "q": "L'Agente capisce …",
           "answers": [
             {
               "text": "solo il codice",
@@ -347,16 +352,16 @@ export default {
     },
     "s03": {
       "title": "Parole magiche",
-      "storyShort": "Una parola nel chat è un evento. Ogni parola magica avvia il suo programma. Puoi avere più parole magiche.",
+      "storyShort": "Una parola nella chat è un evento. Ogni parola magica avvia il suo programma. Puoi avere più parole magiche.",
       "bridge": {
-        "game": "Tu scrivi weg oppure turm nel chat. L'Agente costruisce la strada o la torre.",
+        "game": "Tu scrivi weg oppure turm nella chat. L'Agente costruisce la strada o la torre.",
         "code": "Ogni parola magica ha il suo blocco a cappello. Sotto c'è il suo programma."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "Due parole",
-          "text": "Scrivi weg nel chat. Poi scrivi turm. Qui la strada è più corta che nella stazione 2. Guarda bene tutte e due le cose."
+          "text": "Scrivi weg nella chat. Poi scrivi turm. Qui la strada è più corta che nella stazione 2. Guarda bene tutte e due le cose."
         },
         {
           "kind": "nochEiner",
@@ -383,7 +388,7 @@ export default {
           "q": "Che cos'è un evento?",
           "answers": [
             {
-              "text": "Qualcosa succede nel gioco, per esempio una parola nel chat",
+              "text": "Qualcosa succede nel gioco, per esempio una parola nella chat",
               "correct": true
             },
             {
@@ -470,7 +475,8 @@ export default {
         {
           "kind": "nochEiner",
           "title": "Più lungo e diverso",
-          "text": "Cambia il numero da 10 a 20. Usa un altro tipo di blocco, per esempio wood. Prova."
+          // Handkorrektur 2026-09-03 (Review T9): Blockart uebersetzen: "legno" statt des stehengebliebenen englischen "wood".
+          "text": "Cambia il numero da 10 a 20. Usa un altro tipo di blocco, per esempio legno. Prova."
         },
         {
           "kind": "remix",
@@ -666,14 +672,18 @@ export default {
       "title": "La casa",
       "storyShort": "Una casa ha quattro muri. Non copi il muro quattro volte. Metti un ciclo attorno a tutto. Dopo ogni lato l'Agente gira.",
       "bridge": {
-        "game": "Scrivi casa nella chat. L'Agente costruisce un anello di quattro lati.",
+        // Handkorrektur 2026-09-03 (Review T9): Zauberwort "haus" bleibt unuebersetzt (Chat-Kommando im Spiel). Vorher: "casa".
+        // Das Hausmotiv in Titel und Story bleibt "casa".
+        "game": "Scrivi haus nella chat. L'Agente costruisce un anello di quattro lati.",
         "code": "Il ciclo esterno gira quattro volte. Dopo ogni lato l'Agente gira l'angolo."
       },
       "tasks": [
         {
           "kind": "auftrag",
           "title": "L'anello",
-          "text": "Scrivi casa nella chat. L'Agente costruisce un anello: 5 blocchi per lato."
+          // Handkorrektur 2026-09-03 (Review T9): Zauberwort "haus" bleibt unuebersetzt (Chat-Kommando im Spiel). Vorher: "casa".
+          // Das Hausmotiv in Titel und Story bleibt "casa".
+          "text": "Scrivi haus nella chat. L'Agente costruisce un anello: 5 blocchi per lato."
         },
         {
           "kind": "nochEiner",
@@ -766,7 +776,8 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "Boss-Check stone",
+        // Handkorrektur 2026-09-03 (Review T9): Etappenname uebersetzt und gross. Vorher: "Boss-Check stone".
+        "title": "Boss-Check Pietra",
         "subtitle": "La staccionata",
         "task": "Costruisci una staccionata attorno a te. L'anello ha 8 blocchi per lato. Cosa fa risparmiare il ciclo? Quanti comandi sarebbero senza ciclo?"
       }
