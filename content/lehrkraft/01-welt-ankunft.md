@@ -79,13 +79,20 @@ und zwei Klippen für die Stationen DS 7–9. Baut der Chat-Befehl `erkunden` im
 einer bereits gebauten Welt aufrufbar. Er verändert nichts an Startzone, Schildern DS 1–6 oder den
 Beispielbauten.
 
-| Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild (von Hand) |
-|---|---|---|---|---|
-| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A · bruecke · Blick nach Norden" |
-| Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B · 8 breit" |
-| Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8 · plattform · Stell dich auf das Gold" |
-| Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9 · treppe · 6 hoch" |
-| Klippe 2 (4 hoch, Boss) | (3, 5, 40) → (12, 8, 49) | STONE | (-1, 4, 43) | kein Schild; Leiter an der Westseite bei (2, 5–8, 47) |
+| Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild-Text (von Hand, vier Zeilen) | Schild-Position |
+|---|---|---|---|---|---|
+| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A<br>5 Blöcke breit<br>bruecke<br>Blick nach Norden" | (-7, 5, 11) |
+| Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B<br>8 Blöcke breit<br>bruecke<br>Blick nach Norden" | (5, 5, 11) |
+| Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8<br>plattform<br>Steh auf dem Gold<br>Blick nach Norden" | (-1, 5, 25) |
+| Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9<br>treppe<br>6 Blöcke hoch<br>Blick nach Norden" | (-19, 5, 43) |
+| Klippe 2 (4 hoch, Boss) | (3, 5, 40) → (12, 8, 49) | STONE | (-1, 4, 43) | „DS 9 · Klippe 2<br>treppe<br>Blick nach Norden" | (-2, 5, 43) |
+
+**Schilder:** Jedes Schild steht **einen Block westlich seiner Goldmarke, auf dem Boden (y=5)** —
+nie auf der Marke selbst, das würde sie ersetzen. Beispiel Stelle A: Marke (-6, 4, 11) → Schild
+(-7, 5, 11). Vier Zeilen, rund 15 Zeichen je Zeile, `<br>`-Umbrüche wie bei den Schildern DS 1–6
+oben. Klippe 2 (Boss-Check) trägt bewusst **keine Höhenangabe** — die SuS lesen die nötige Höhe
+selbst aus der Differenz zweier abgelesener y-Werte ab (siehe Boss-Check-Bewertung in `ds09.md`),
+deshalb nennt ihr Schild nur das Zauberwort und die Blickrichtung.
 
 **Zwei Abweichungen vom ursprünglichen Entwurf (Nachtrag), beide hier vermerkt:** Der Fluss ist
 **24 statt 20 Blöcke lang** gebaut — symmetrisch um x=0, Stelle A und B je 12 Blöcke breit in x.
@@ -104,13 +111,15 @@ Goldmarke (-1, 4, 43): Stufen bei x=-1…2, Oberkante y=8 = Plateau, neben x=3. 
 endet z=19, Schlucht beginnt z=26 (6 frei); Schlucht endet z=32, Klippen beginnen z=40 (7 frei).
 
 **Blickrichtung:** `pos()` zählt von den Füßen aus, aber an den Weltachsen ausgerichtet, nicht an
-der Blickrichtung. `bruecke` (DS 7) dagegen bewegt den Agent mit `agent.move(FORWARD, ...)`
-relativ zur Blickrichtung der SuS — nur mit Blick nach Norden landet die Brücke auf dem Fluss.
-Deshalb trägt nur das Schild an Stelle A den Zusatz „Blick nach Norden"; an Stelle B ist dieselbe
-Blickrichtung schon aus Stelle A bekannt. Bei `plattform` (DS 8) und `treppe` (DS 9) spielt die
-Blickrichtung dagegen keine Rolle, weil beide nur mit `pos()` arbeiten — trotzdem bleibt Blick
-nach Norden die Konvention der ganzen Welt, damit die abgelesenen Koordinaten für alle gleich
-aussehen.
+der Blickrichtung der SuS. Genau deshalb trägt **jede** Goldmarke ihr Schild mit „Blick nach
+Norden" — nicht nur dort, wo ein falsch stehendes Kind das Ergebnis sofort im Spiel sieht. Bei
+`bruecke` (DS 7) wirkt sich eine falsche Blickrichtung unmittelbar aus: Der Agent startet mit der
+Blickrichtung der SuS, eine schräg stehende Person baut die Brücke schräg in den Fluss statt
+darüber. Bei `plattform` (DS 8) und `treppe` (DS 9) baut `pos()` zwar unabhängig von der
+Blickrichtung immer an derselben Weltstelle — aber nur mit Blick nach Norden stimmt die im
+Unterricht gezeigte Eselsbrücke „ein Block vor dir" (DS 8, siehe dort) tatsächlich mit dem
+überein, was die SuS vor sich sehen. Deshalb ist „Blick nach Norden" an allen fünf Goldmarken
+derselbe, durchgängige Hinweis, nicht nur an einzelnen.
 
 **Leiter Klippe 2:** An der Westseite von Klippe 2, bei (2, 5–8, 47), von Hand gesetzt (nicht im
 Bauskript) — sie führt vom Fuß der Klippe bis zum Plateau und ist im Boss-Check der Weg nach oben,
