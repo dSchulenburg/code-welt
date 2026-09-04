@@ -24,6 +24,14 @@
 # Wand-Korrektur aus dem Task-5-Review (03.09.2026): Ohne das agent.move(FORWARD, 1) nach den
 # zwei Drehungen baut die Schleife eine versetzte Treppe statt einer geraden Wand — der Agent
 # steht nach der 180-Grad-Drehung neben der zuletzt gebauten Reihe, nicht mehr auf ihrer Linie.
+#
+# Zweiter Befehl "erkunden" (Etappe Eisen, Task 8): baut additiv dazu, unabhaengig von "bau" und
+# auch auf einer schon gebauten Welt aufrufbar — er veraendert nichts an Startzone, Schildern
+# oder Beispielbauten aus DS 1-6. Die Koordinaten stammen aus der Tabelle in
+# content/lehrkraft/01-welt-ankunft.md, Abschnitt "Erkundungsgebiet" — wer eine Zahl hier
+# aendert, aendert sie auch dort. Ab hier nutzt world(x, y, z) statt agent.teleport/move: die
+# Bauten (Fluss, Schlucht, Klippen) sind reine Quader, die Stationsprogramme (bruecke, plattform,
+# treppe) laufen erst spaeter im Editor der Lernenden.
 
 def bau_plattform():
     # Startplattform 20x20 aus Stein, sie fuellt y=4 (Startzone bei 0/4/0 laut Bauplan).
@@ -106,3 +114,29 @@ def on_bau():
     bau_wand()
     bau_ring()
 player.on_chat("bau", on_bau)
+
+def bau_fluss():
+    # Stelle A 5 breit (z 12..16), Stelle B 8 breit (z 12..19), je 2 tief (y 3..4), zusammen x -12..11.
+    blocks.fill(WATER, world(-12, 3, 12), world(-1, 4, 16), FillOperation.REPLACE)
+    blocks.fill(WATER, world(0, 3, 12), world(11, 4, 19), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(-6, 4, 11))
+    blocks.place(GOLD_BLOCK, world(6, 4, 11))
+
+def bau_schlucht():
+    # 7 breit (z 26..32), 6 tief (y -1..4), x -12..11. Die Plattform (s08) fuellt y=4, z 26..32.
+    blocks.fill(AIR, world(-12, -1, 26), world(11, 4, 32), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(0, 4, 25))
+
+def bau_klippen():
+    # Klippe 1: 10x10, 6 hoch (y 5..10). Treppe (s09) von (-18, 4, 43) endet auf y=10 neben x=-12.
+    blocks.fill(STONE, world(-12, 5, 40), world(-3, 10, 49), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(-18, 4, 43))
+    # Klippe 2 (Boss-Check): 10x10, 4 hoch (y 5..8), ohne Schild. Leiter an der Westseite von Hand.
+    blocks.fill(STONE, world(3, 5, 40), world(12, 8, 49), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(-1, 4, 43))
+
+def on_erkunden():
+    bau_fluss()
+    bau_schlucht()
+    bau_klippen()
+player.on_chat("erkunden", on_erkunden)

@@ -43,7 +43,7 @@ function iframeLabel(appBase, sid, iframeHeight = 1400) {
 
 // Liest die Lehrkraft-Markdown-Dateien (alle *.md ausser README.md, alphabetisch nach Dateiname)
 // und wandelt sie in Seiten-Rohdaten um. README.md ist die Erklaerung des Ordners, keine Seite.
-function pagesFromMarkdown(dir) {
+export function pagesFromMarkdown(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir)
     .filter((f) => f.endsWith('.md') && f !== 'README.md')

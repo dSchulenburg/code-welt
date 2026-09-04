@@ -36,6 +36,16 @@ nie mit Minecraft gespielt hast.
 - Genauer Menüpfad im Editor: **im Spiel prüfen** (vermutlich eine Spracheinstellung im
   Code-Builder-Fenster selbst, nicht die Minecraft-Systemsprache).
 
+## Koordinaten anzeigen
+
+- Ab der Etappe Eisen (DS 8) lesen die SuS Weltkoordinaten (x, y, z) direkt in der Spielanzeige
+  ab. Die Einstellung liegt in den Welteinstellungen: **Koordinaten anzeigen**. Genauer Menüpfad
+  und exakter Beschriftungstext: **im Spiel prüfen** (Nachtrag, Abschnitt 5).
+- Am besten schon **beim Export der Weltdatei** einschalten, dann steht sie für alle SuS beim
+  Import gleich mit an. Sonst spätestens vor DS 8 nachholen — ohne die Anzeige lässt sich der
+  Unterschied zwischen Weltkoordinaten und `pos()` (DS 8, „Anzeige = Welt, pos = von dir aus")
+  nicht am eigenen Bildschirm nachvollziehen.
+
 ## Kein Auto-Run
 
 - Seit den Updates 2026 startet ein Programm **nicht mehr von selbst**. Der Code läuft erst,

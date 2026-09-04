@@ -129,18 +129,19 @@ test('Lehrkraft-Abschnitt: Ordner zuerst, dann Seiten in Dateireihenfolge, READM
   expect(pages.some((p) => p.name === 'Anleitung')).toBe(false);
 });
 
-test('Lehrkraft-Abschnitt mit echten Daten: Ordner, dann acht Seiten in Dateireihenfolge', () => {
+test('Lehrkraft-Abschnitt mit echten Daten: Ordner, dann elf Seiten in Dateireihenfolge', () => {
   // Seit Task 7 (Plan 2) liegen echte Lehrkraft-Seiten unter content/lehrkraft: Setup,
   // Weltbauplan und die sechs Stundenverlaeufe DS 1-6. Der fruehere Test ging noch von einem
-  // leeren Ordner (nur README) aus.
+  // leeren Ordner (nur README) aus. Seit Task 8 (Plan 3) kommen DS 7-9 (Etappe Eisen) dazu.
   const teacher = def.sections[1];
-  expect(teacher.items).toHaveLength(9);
+  expect(teacher.items).toHaveLength(12);
   expect(teacher.items[0]).toMatchObject({ key: 'weltdateien', type: 'folder', name: 'Weltdateien' });
   const pages = teacher.items.slice(1);
   expect(pages.every((p) => p.type === 'page')).toBe(true);
   expect(pages.map((p) => p.key)).toEqual([
     'page-00-setup', 'page-01-welt-ankunft',
     'page-ds01', 'page-ds02', 'page-ds03', 'page-ds04', 'page-ds05', 'page-ds06',
+    'page-ds07', 'page-ds08', 'page-ds09',
   ]);
   expect(pages.map((p) => p.name)).toEqual([
     'Setup: Minecraft Education einrichten',
@@ -151,6 +152,9 @@ test('Lehrkraft-Abschnitt mit echten Daten: Ordner, dann acht Seiten in Dateirei
     'DS 4 – Wiederholen',
     'DS 5 – Schleife in der Schleife',
     'DS 6 – Das Haus',
+    'DS 7 – Zahlen mit Namen',
+    'DS 8 – Wo bin ich?',
+    'DS 9 – Zählen',
   ]);
 });
 

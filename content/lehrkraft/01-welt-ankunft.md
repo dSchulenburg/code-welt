@@ -71,6 +71,56 @@ geraden Wand. Das Bauskript hat den Schritt schon drin.
   Erkundungsgebiet mit Fluss und Schlucht (Hauptspec, Abschnitt 6.2). Beim Bauen der Etappen Holz
   und Stein hier nichts platzieren — auch keine Wegmarke.
 
+## Erkundungsgebiet (Etappe Eisen, ab z=10)
+
+Der Bereich „Erkunden" aus dem Abschnitt „Freie Flächen" oben wird hier konkret: Fluss, Schlucht
+und zwei Klippen für die Stationen DS 7–9. Baut der Chat-Befehl `erkunden` im Bauskript
+(`scripts/minecraft/welt-ankunft-bau.py`) — additiv, unabhängig vom Befehl `bau` und auch auf
+einer bereits gebauten Welt aufrufbar. Er verändert nichts an Startzone, Schildern DS 1–6 oder den
+Beispielbauten.
+
+| Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild (von Hand) |
+|---|---|---|---|---|
+| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A · bruecke · Blick nach Norden" |
+| Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B · 8 breit" |
+| Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8 · plattform · Stell dich auf das Gold" |
+| Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9 · treppe · 6 hoch" |
+| Klippe 2 (4 hoch, Boss) | (3, 5, 40) → (12, 8, 49) | STONE | (-1, 4, 43) | kein Schild; Leiter an der Westseite bei (2, 5–8, 47) |
+
+**Zwei Abweichungen vom ursprünglichen Entwurf (Nachtrag), beide hier vermerkt:** Der Fluss ist
+**24 statt 20 Blöcke lang** gebaut — symmetrisch um x=0, Stelle A und B je 12 Blöcke breit in x.
+Und die Plattform (Station s08) läuft von `pos(0, -1, 1)` bis `pos(4, -1, 7)` statt der
+ursprünglich geplanten `(0, -1, 0)` bis `(4, -1, 8)` — so bleibt die Goldmarke unter den Füßen
+stehen, und die Plattform füllt genau die Schluchtbreite (z 26…32). Der Python-Entwurf in Task 5
+(Station s08) trägt diese Werte bereits.
+
+**Rechenprobe:** Brücke Stelle A — der Agent startet auf der Goldmarke (z=11), fünfmal
+`agent.move(FORWARD, 1)` + `agent.place(DOWN)` legt z=12…16 auf y=4, genau die fünf Wasserblöcke.
+Stelle B: acht Paare, z=12…19. Plattform — `pos(0, -1, 1)` bis `pos(4, -1, 7)` von der Goldmarke
+(0, 4, 25) aus: y=4, z=26…32 (genau die Schlucht), x=0…4. Treppe Klippe 1 — von der Goldmarke
+(-18, 4, 43): Stufe `index` liegt bei x=-18+index, y=5…5+index, z=44…46; Stufe 5 endet auf y=10 =
+Plateau-Oberkante, bei x=-13 direkt neben der Klippe (x=-12). Klippe 2 — `stufen = 4` von der
+Goldmarke (-1, 4, 43): Stufen bei x=-1…2, Oberkante y=8 = Plateau, neben x=3. Abstände: Fluss
+endet z=19, Schlucht beginnt z=26 (6 frei); Schlucht endet z=32, Klippen beginnen z=40 (7 frei).
+
+**Blickrichtung:** `pos()` zählt von den Füßen aus, aber an den Weltachsen ausgerichtet, nicht an
+der Blickrichtung. `bruecke` (DS 7) dagegen bewegt den Agent mit `agent.move(FORWARD, ...)`
+relativ zur Blickrichtung der SuS — nur mit Blick nach Norden landet die Brücke auf dem Fluss.
+Deshalb trägt nur das Schild an Stelle A den Zusatz „Blick nach Norden"; an Stelle B ist dieselbe
+Blickrichtung schon aus Stelle A bekannt. Bei `plattform` (DS 8) und `treppe` (DS 9) spielt die
+Blickrichtung dagegen keine Rolle, weil beide nur mit `pos()` arbeiten — trotzdem bleibt Blick
+nach Norden die Konvention der ganzen Welt, damit die abgelesenen Koordinaten für alle gleich
+aussehen.
+
+**Leiter Klippe 2:** An der Westseite von Klippe 2, bei (2, 5–8, 47), von Hand gesetzt (nicht im
+Bauskript) — sie führt vom Fuß der Klippe bis zum Plateau und ist im Boss-Check der Weg nach oben,
+solange die eigene Treppe noch nicht steht.
+
+- Befehl `erkunden` im Bauskript baut Fluss, Schlucht und beide Klippen in einem Aufruf; additiv,
+  auch auf einer schon gebauten Welt.
+- Koordinatenanzeige der Welt einschalten (siehe Setup, Abschnitt „Koordinaten anzeigen") — ohne
+  sie können die SuS in DS 8 die abgelesenen x/y/z nicht mit der Tabelle oben vergleichen.
+
 ## Export und Upload
 
 1. Welt im Spiel speichern.
