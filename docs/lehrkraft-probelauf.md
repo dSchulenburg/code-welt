@@ -96,7 +96,8 @@ sehen (kein Klicken, echter Lernpfad als `schueler1`, inkl. Badge-Kontrolle per 
 ## 10. Lehrkraft-Abschnitt sichten
 
 Für Schüler:innen unsichtbarer Abschnitt (Auge durchgestrichen) — als `admin` trotzdem sichtbar.
-Enthält: Ordner „Weltdateien" (noch leer, siehe Punkt 3 unten), Setup-Anleitung, Weltbauplan
+Enthält: Ordner „Weltdateien" (noch leer — Bauplan und Bauskript stehen unten unter „Offene Punkte,
+die nur im Spiel zu klären sind"), Setup-Anleitung, Weltbauplan
 „codewelt-ankunft" und sechs Stundenverläufe DS 1–6 mit Musterlösungen und typischen Fehlern —
 ein Punkteraster gibt es nur bei DS 3 und DS 6 (den beiden Boss-Checks; die übrigen vier
 Stundenverläufe bewerten nicht, nur die Quizze tun das automatisch).
