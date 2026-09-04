@@ -63,9 +63,9 @@ test('Willkommen: Sprachwahl-Label ohne mlang, alle Sprachen untereinander', () 
 test('iframe-Hoehe kommt aus iframeHeight der Station, gleiche Hoehe fuer jede Sprache', () => {
   const holz = def.sections[2];
   const label = holz.items.find((i) => i.key === 's02-station');
-  expect(STATIONS.s02.iframeHeight).toBe(5100);
-  expect(label.html).toContain('height="5100"');
-  expect(label.html).not.toContain('height="5610"');
+  expect(STATIONS.s02.iframeHeight).toBe(5150);
+  expect(label.html).toContain('height="5150"');
+  expect(label.html).not.toContain('height="5665"');
   // Final-Review-Fix C, 2026-09-04: "toContain" belegt nur, dass die Hoehe irgendwo auftaucht —
   // nicht, dass sie fuer jede der sechs LANGS-Sprachen gesetzt ist. Zaehlen statt nur enthalten.
   // Ein rohes `height="X"`-Zaehlen laeuft auf 7 hinaus: mlang() haengt hinter den sechs

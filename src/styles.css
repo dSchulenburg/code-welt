@@ -47,6 +47,7 @@ p, li, h1, h2, h3, h4, strong {
 .crumb { color: #555; margin: 0; }
 .title-support { font-weight: normal; color: #555; }
 .bubble { display: flex; gap: 12px; align-items: flex-start; margin: 8px 0; }
+.bubble img { flex: none; border-radius: 8px; border: 1px solid var(--line); background: #fff; }
 .bubble p { margin: 2px 0 0; }
 .bubble-nour strong { color: var(--accent); }
 .bubble-dani strong { color: #b07d00; }

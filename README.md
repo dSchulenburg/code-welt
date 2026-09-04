@@ -82,7 +82,7 @@ Final-Review-Fix A):
 **Plan 2 (Holz und Stein) fertig:** sechs Stationen (DS 1–6) in sechs Sprachen, Block-Ansicht
 (SVG, live aus den Stationsdaten gezeichnet — kein manueller Screenshot mehr), zwei Boss-Checks
 (Aufgaben mit Online-Text), zwei Badges (Holz, Stein), Forum „Fragen an Nour", Lehrkraft-Abschnitt
-(Setup, Weltbauplan, Stundenverläufe DS 1–6), Referenzbilder für Nour und Dani. Box-Kurs 10 gebaut, Gesamtlauf
+(Setup, Weltbauplan, Stundenverläufe DS 1–6), Comic-Portraits für Nour und Dani in fünf Stimmungen. Box-Kurs 10 gebaut, Gesamtlauf
 (`moodle:build` ×2, `apply-completion.sh`, `reset-badges.php`, `moodle:postbuild` ×2) durch, Badges
 Holz und Stein je über den echten Lernpfad nachgewiesen (`npm run moodle:smoke:learner`, als
 `schueler1`: drei Quizze mit 100 %, echte Boss-Check-Abgabe, Badge sofort verliehen — ohne
@@ -91,8 +91,11 @@ als Prozentzahl (100/0) statt als Anteil (1.0/0.0) durch, Moodle wertete dadurch
 statt 100 % — behoben (Final-Review-Fix B), alle sechs Quizze mit korrigierten Fraktionen neu
 angelegt. App-Smoke (36 Checks) und Box-Smoke (13 Checks) je dreimal hintereinander grün.
 
-Charaktere: Referenzbilder für Nour und Dani liegen vor (0,08 USD), die zehn Posen (fünf je
-Figur) folgen nach Dirks Freigabe. Übersetzung der sechs Stationen in fünf Sprachen: 2,81 USD.
+Charaktere: je Figur ein Referenzbild und fünf Posen (erklärend, fragend, begeistert,
+nachdenklich, überrascht) per `scripts/characters.mjs` (Nano Banana, 0,48 USD gesamt); das
+Story-Panel wählt das Portrait nach `mood` und fällt auf die SVG-Silhouette zurück, wenn eine Datei
+fehlt. Die PNGs sind palettenreduziert (512×512, ~50–80 KB statt ~220 KB). Übersetzung der sechs
+Stationen in fünf Sprachen: 2,81 USD.
 
 Nicht in Plan 2: Audio, Cheat-Sheets, Glossar-Vollausbau (Phase 5), Deploy (Phase 6), Etappen ab
 Eisen.
@@ -104,6 +107,5 @@ Eisen.
 - Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit), als `.mcworld`
   exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
 - uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen.
-- Referenzbilder Nour/Dani freigeben, damit Phase B (Posen) starten kann.
 
-Nächster Schritt: Charaktere Phase B nach Freigabe, danach Plan 3 (Eisen) oder Phase 5/6.
+Nächster Schritt: Plan 3 (Eisen), danach Phase 5/6.

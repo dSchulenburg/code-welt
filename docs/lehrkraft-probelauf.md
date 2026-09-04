@@ -121,7 +121,7 @@ Bitte beim Durchlauf auf diese Punkte achten und zurückmelden:
 - [ ] **Reihenfolge:** Ergibt der Aufbau innerhalb einer Station Sinn (Dialog → Konzept →
       Aufgabe → Tipp-Leiter → Übungen → Quiz)? Wirkt eine Station zu lang oder zu kurz?
 - [ ] **Bilder:** Sehen die Block-Ansichten so aus, wie du sie in MakeCode erwarten würdest?
-      Sind Nour/Dani (Referenzbilder) stimmig?
+      Passen die Gesichter von Nour und Dani zur jeweiligen Dialogzeile (Stimmung)?
 - [ ] **Höhe des iframes je Station:** Muss irgendwo gescrollt werden, obwohl der Inhalt
       eigentlich hineinpassen sollte, oder bleibt unten unnötig viel Leerraum?
 
@@ -154,9 +154,15 @@ bewusste, aber ungeklärte Entscheidung: alle Imperative im Kurs sind maskulin, 
 Form gäbe es nur über einen kompletten Registerwechsel (Verbalnomen statt Imperativ). Wenn das
 störend wirkt, ist das ein eigener kleiner Task.
 
-## Charaktere: Referenzbilder freigeben
+## Charaktere: Posen nachbessern
 
-Nour und Dani stehen als Referenzbilder in `src/assets/characters/` (`nour-ref.png`,
-`dani-ref.png`, je 0,08 USD). Die zehn Posen (fünf je Figur, für Stimmungen wie „erklärt",
-„freut sich" etc.) werden erst erzeugt, wenn du diese beiden Referenzbilder angesehen und
-freigegeben hast — bitte kurz Rückmeldung, dann läuft Phase B.
+Nour und Dani liegen als Referenzbild plus fünf Posen in `src/assets/characters/` (freigegeben
+04.09.2026, 0,48 USD gesamt). Wirkt eine Pose im Panel unpassend, lässt sie sich einzeln neu
+ziehen (~0,04 USD), zum Beispiel:
+
+```
+node scripts/characters.mjs --who dani --pose ueberrascht --ref src/assets/characters/dani-ref.png
+```
+
+Danach die Datei mit `sharp` palettenreduzieren (siehe Ledger, Task 6 Phase B) und den
+App-Smoke laufen lassen.

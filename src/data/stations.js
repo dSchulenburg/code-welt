@@ -12,12 +12,13 @@ export const ETAPPEN = [
 
 // iframeHeight je Station: gemessen am 04.09.2026 mit scripts/measure-heights.mjs bei 750px
 // Breite (die iframe-Breite in der Box), Maximum ueber alle sechs Sprachen + 15%, auf 50
-// gerundet (Final-Review-Fix A, Punkt 1 — ersetzt die vorher geschaetzten Werte).
+// gerundet (Final-Review-Fix A, Punkt 1 — ersetzt die vorher geschaetzten Werte). Zuletzt
+// nachgemessen nach Task 6 Phase B (Story-Portraits 64px statt 48px: +60 bis +90px je Station).
 export const STATIONS = {
   s01: {
     etappe: 'holz',
     ds: 1,
-    iframeHeight: 4600,
+    iframeHeight: 4700,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_hi():
     agent.teleport_to_player()
@@ -48,7 +49,7 @@ player.on_chat("hi", on_hi)`,
   s02: {
     etappe: 'holz',
     ds: 2,
-    iframeHeight: 5100,
+    iframeHeight: 5150,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
     agent.teleport_to_player()
@@ -98,7 +99,7 @@ player.on_chat("weg", on_weg)`,
   s03: {
     etappe: 'holz',
     ds: 3,
-    iframeHeight: 5100,
+    iframeHeight: 5150,
     bossCheck: { key: 'boss-holz', gradeMax: 100 },
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
@@ -158,7 +159,7 @@ player.on_chat("turm", on_turm)`,
   s04: {
     etappe: 'stein',
     ds: 4,
-    iframeHeight: 4950,
+    iframeHeight: 5000,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_mauer():
     agent.teleport_to_player()
@@ -199,7 +200,7 @@ player.on_chat("mauer", on_mauer)`,
   s05: {
     etappe: 'stein',
     ds: 5,
-    iframeHeight: 5150,
+    iframeHeight: 5250,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_wand():
     agent.teleport_to_player()
@@ -257,7 +258,7 @@ player.on_chat("wand", on_wand)`,
   s06: {
     etappe: 'stein',
     ds: 6,
-    iframeHeight: 5100,
+    iframeHeight: 5200,
     bossCheck: { key: 'boss-stein', gradeMax: 100 },
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_haus():

@@ -550,11 +550,11 @@ Blocks entsprechend. Aufgaben: Auftrag Ring 5×5; Noch einer: Ring 3 hoch (dritt
 - Verfahren: (1) Skill `media-factory` laden, `generators/ai-image.md` und `cost-tracker.md` folgen; (2) je Figur ein Referenzbild (Nano Banana, ~0,04 USD) mit festem Prompt (Alter 17, Kleidung, Haarfarbe, Comic, klare Konturen, kein Text); Dirk sieht das Referenzbild (Datei) und gibt frei; (3) fünf Posen je Figur mit dem Referenzbild als Bildeingabe und dem Posen-Prompt; (4) Kosten je Aufruf protokollieren; Abbruch bei 5 USD.
 - Prompt-Kern Nour: „17-year-old student, warm confident smile, short dark curly hair, hoodie in forest green, comic illustration, flat colours, clean outlines, white background, bust portrait". Dani: „17-year-old student, curious wide eyes, straight brown hair with a fringe, yellow t-shirt, same style". Posen: erklärend (Hand erhoben), fragend (Kopf schief, Finger am Kinn), begeistert (beide Daumen hoch), nachdenklich (Hand am Kopf), überrascht (offener Mund).
 
-- [ ] **Step 1:** `scripts/characters.mjs` (liest `GOOGLE_API_KEY` aus `../docker/.env`, `--who nour --pose erklaerend --ref path`), Kostenanzeige vor jedem Aufruf, JSONL-Log, Datei schreiben.
-- [ ] **Step 2:** Referenzbilder erzeugen → **Stopp: Dirk-Freigabe** der beiden Referenzen (Dateien zeigen).
-- [ ] **Step 3:** zehn Posen erzeugen; Sichtprüfung auf Konsistenz (Haare, Kleidung); bei Ausreißern einmal neu (Budget prüfen).
-- [ ] **Step 4:** `StoryPanel` mit `mood`; `content/de.js` Dialoge bekommen `mood`; Test: Panel rendert `img[src*="nour-erklaerend"]`.
-- [ ] **Step 5:** Commit `feat(story): comic characters Nour and Dani, five poses each` + Kostenzeile im Report.
+- [x] **Step 1:** `scripts/characters.mjs` (liest `GOOGLE_API_KEY` aus `../docker/.env`, `--who nour --pose erklaerend --ref path`), Kostenanzeige vor jedem Aufruf, JSONL-Log, Datei schreiben.
+- [x] **Step 2:** Referenzbilder erzeugen → **Stopp: Dirk-Freigabe** der beiden Referenzen (Dateien zeigen).
+- [x] **Step 3:** zehn Posen erzeugen; Sichtprüfung auf Konsistenz (Haare, Kleidung); bei Ausreißern einmal neu (Budget prüfen).
+- [x] **Step 4:** `StoryPanel` mit `mood`; `content/de.js` Dialoge bekommen `mood`; Test: Panel rendert `img[src*="nour-erklaerend"]`.
+- [x] **Step 5:** Commit `feat(story): comic characters Nour and Dani, five poses each` + Kostenzeile im Report.
 
 ---
 
