@@ -52,6 +52,10 @@ export default {
     "fillPrompt": "Elige la respuesta correcta para cada hueco.",
     "fillRight": "¡Correcto! El código funciona.",
     "fillWrong": "Todavía no. Un hueco no encaja.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 4), Task 9 ersetzt sie
+    "findbugPrompt": "Una línea está mal. ¿Cuál?",
+    "findbugRight": "¡Correcto! Ese es el error.",
+    "findbugWrong": "No, esta línea está bien. Mira otra vez.",
     // Handkorrektur 2026-09-03 (Review T9): Zwischenstand, nicht Startpunkt. Vorher: "Punto de partida".
     "spielstandHeading": "Tu progreso",
     "spielstandPrompt": "¿Qué sabes hacer ahora? Escribe tres frases cortas.",

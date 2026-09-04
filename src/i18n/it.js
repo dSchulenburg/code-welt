@@ -51,6 +51,10 @@ export default {
     "fillPrompt": "Scegli la risposta giusta per ogni spazio vuoto.",
     "fillRight": "Giusto! Il codice funziona.",
     "fillWrong": "Non ancora. Uno spazio vuoto è sbagliato.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 4), Task 9 ersetzt sie
+    "findbugPrompt": "Una riga è sbagliata. Quale?",
+    "findbugRight": "Giusto! Quello è l'errore.",
+    "findbugWrong": "No, questa riga è giusta. Guarda di nuovo.",
     "spielstandHeading": "Punto della situazione",
     "spielstandPrompt": "Che cosa sai fare adesso? Scrivi tre frasi brevi.",
     "spielstandSave": "Salva",

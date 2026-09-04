@@ -54,6 +54,10 @@ export default {
     "fillPrompt": "Вибери правильну відповідь для кожного пропуску.",
     "fillRight": "Правильно! Код працює.",
     "fillWrong": "Ще ні. Один пропуск не підходить.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 4), Task 9 ersetzt sie
+    "findbugPrompt": "Один рядок неправильний. Який?",
+    "findbugRight": "Правильно! Це і є помилка.",
+    "findbugWrong": "Ні, цей рядок правильний. Подивись ще раз.",
     "spielstandHeading": "Твій прогрес",
     "spielstandPrompt": "Що ти вже вмієш? Напиши три короткі речення.",
     "spielstandSave": "Зберегти",

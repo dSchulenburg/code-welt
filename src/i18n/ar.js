@@ -56,6 +56,10 @@ export default {
     "fillPrompt": "اختر الإجابة الصحيحة لكل فراغ.",
     "fillRight": "صحيح! الكود يعمل.",
     "fillWrong": "ليس بعد. فراغ واحد غير مناسب.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 4), Task 9 ersetzt sie
+    "findbugPrompt": "سطر واحد خاطئ. أيّ سطر؟",
+    "findbugRight": "صحيح! هذا هو الخطأ.",
+    "findbugWrong": "لا، هذا السطر صحيح. انظر مرة أخرى.",
     "spielstandHeading": "حالة اللعب",
     // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich,
     // "ماذا تعرف" war maennlich.
