@@ -105,6 +105,23 @@ export default {
     "fehler": {
       "term": "Помилка",
       "short": "Agent зрозумів тебе неправильно. Ти можеш це виправити."
+    },
+    // Handübersetzung 04.09.2026 (Plan 3 Task 6), Task 9 ersetzt sie
+    "variable": {
+      "term": "Змінна",
+      "short": "Число з іменем. Ти задаєш його один раз зверху."
+    },
+    "koordinaten": {
+      "term": "Координати",
+      "short": "Три числа x, y, z кажуть, де стоїть блок."
+    },
+    "fill": {
+      "term": "fill",
+      "short": "Заповнює все між двома кутами одним блоком."
+    },
+    "zaehler": {
+      "term": "Лічильник",
+      "short": "Цикл рахує сам: index дорівнює 0, 1, 2 …"
     }
   },
   "etappen": {

@@ -173,6 +173,16 @@ test('kein Abschnitts- oder Aktivitaetsname ueberschreitet die Moodle-Spaltenlae
   }
 });
 
+test('Abschnitt 4 Eisen: drei Stationen, drei Quizze, Boss-Check Eisen direkt nach dem Quiz von s09, Name kurz', () => {
+  const eisen = def.sections.find((s) => s.num === 4);
+  expect(eisen.items.map((i) => i.key)).toEqual(['s07-station', 's07-quiz', 's08-station', 's08-quiz', 's09-station', 's09-quiz', 'boss-eisen']);
+  const boss = eisen.items.find((i) => i.key === 'boss-eisen');
+  expect(boss.type).toBe('assignment');
+  expect(boss.name).toContain('Boss-Check Eisen');
+  expect(boss.name.length).toBeLessThanOrEqual(255);
+  expect(boss.intro).toContain('Die zweite Klippe');
+});
+
 test('assertNameLengths schlaegt bei einem 40-Zeichen-Boss-Check-Titel in allen sechs Sprachen an (Guard-Nachweis)', () => {
   const stations = { ...STATIONS, s02: { ...STATIONS.s02, bossCheck: { key: 'boss-guard-test', gradeMax: 100 } } };
   const longTitle = 'X'.repeat(40);

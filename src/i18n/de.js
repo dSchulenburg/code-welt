@@ -70,6 +70,10 @@ export default {
     python: { term: 'Python', short: 'Eine Programmiersprache. Dein Code als Text.' },
     bloecke: { term: 'Blöcke', short: 'Dein Code als Bausteine zum Ziehen.' },
     fehler: { term: 'Fehler', short: 'Der Agent hat dich falsch verstanden. Du kannst es reparieren.' },
+    variable: { term: 'Variable', short: 'Eine Zahl mit Namen. Du setzt sie einmal oben.' },
+    koordinaten: { term: 'Koordinaten', short: 'Drei Zahlen x, y, z sagen, wo ein Block ist.' },
+    fill: { term: 'fill', short: 'Füllt alles zwischen zwei Ecken mit einem Block.' },
+    zaehler: { term: 'Zähler', short: 'Die Schleife zählt mit: index ist 0, 1, 2 …' },
   },
 
   etappen: {
@@ -519,6 +523,66 @@ export default {
           ],
         },
       ],
+    },
+    s09: {
+      title: 'Zählen',
+      storyShort: 'Die Schleife zählt selbst mit: index ist 0, dann 1, dann 2. Nimm index als Höhe. So wird aus einer Zeile eine ganze Treppe.',
+      bridge: {
+        game: 'Du tippst treppe. Die Treppe wächst Stufe für Stufe bis zum Plateau.',
+        code: 'index zählt 0, 1, 2 … Die Schleife nutzt index als Höhe.',
+      },
+      tasks: [
+        { kind: 'auftrag', title: 'Die Treppe', text: 'Stell dich auf den Goldblock vor der Klippe. Schreibe treppe. Geh die Treppe hoch. Schalte auf Python: Wo steht index zweimal?' },
+        { kind: 'nochEiner', title: 'Breiter', text: 'Mach jede Stufe 5 breit. Welche Zahl änderst du?' },
+        { kind: 'remix', title: 'Deine Treppe', text: 'Bau die Treppe aus Eichenholz. Oder bau sie nach unten in die Schlucht. Zeig es deinem Partner oder deiner Partnerin.' },
+      ],
+      tipSolution: 'Stufe index geht von pos(index, 0, 1) bis pos(index, index, 3). stufen = 6 gibt sechs Stufen.',
+      exercises: [
+        { prompt: 'Die Klippe ist 6 hoch. Jede Stufe ist so hoch wie ihr Zähler plus 1.' },
+        { prompt: 'Die Treppe ist eine Wand geworden. Welche Zeile ist falsch?', explain: 'In pos steht stufen statt index. Dann ist jede Stufe 7 hoch. Es wird eine Wand, keine Treppe.' },
+      ],
+      quiz: [
+        {
+          q: 'Was ist index?',
+          answers: [
+            { text: 'Der Zähler der Schleife', correct: true },
+            { text: 'Die Höhe der Klippe', correct: false },
+            { text: 'Ein Zauberwort', correct: false },
+          ],
+        },
+        {
+          q: 'range(6): welche Werte bekommt index?',
+          answers: [
+            { text: '0 bis 5', correct: true },
+            { text: '1 bis 6', correct: false },
+            { text: '0 bis 6', correct: false },
+          ],
+        },
+        {
+          q: 'Warum wird jede Stufe höher?',
+          answers: [
+            { text: 'index wird bei jedem Durchlauf größer', correct: true },
+            { text: 'fill zählt selbst', correct: false },
+            { text: 'stufen wird größer', correct: false },
+          ],
+        },
+        {
+          q: 'Die Klippe ist 9 hoch. Was setzt du?',
+          answers: [
+            { text: 'stufen = 9', correct: true },
+            { text: 'index = 9', correct: false },
+            { text: 'range(8)', correct: false },
+          ],
+        },
+      ],
+      bossCheck: {
+        // Kurzer Titel wegen der Moodle-Spaltenlaenge (siehe s03/s06 oben und Fix-Report Task 3b).
+        title: 'Boss-Check Eisen',
+        subtitle: 'Die zweite Klippe',
+        // Ohne Tipp-Leiter, Share-Link und die drei Saetze stehen schon in ui.bossCheckHint;
+        // course-def.mjs haengt den Hinweis hinter diese Aufgabe (sonst stuende alles doppelt da).
+        task: 'Stell dich auf den Goldblock vor der zweiten Klippe. Lies y unten ab. Geh die Leiter hoch und lies y oben ab. Setze stufen. Bau die Treppe. Schreib drei Sätze: Woher kommt deine Zahl? Was macht index? Was änderst du bei einer höheren Klippe?',
+      },
     },
   },
 };

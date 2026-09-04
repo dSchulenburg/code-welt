@@ -3,7 +3,7 @@
 export const ETAPPEN = [
   { id: 'holz', emoji: '🪵', stations: ['s01', 's02', 's03'], badge: { key: 'badge-holz', icon: 'holz.png' } },
   { id: 'stein', emoji: '🪨', stations: ['s04', 's05', 's06'], badge: { key: 'badge-stein', icon: 'stein.png' } },
-  { id: 'eisen', emoji: '⛏️', stations: ['s07', 's08'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
+  { id: 'eisen', emoji: '⛏️', stations: ['s07', 's08', 's09'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
   { id: 'gold', emoji: '🟡', stations: [], badge: { key: 'badge-gold', icon: 'gold.png' } },
   { id: 'diamant', emoji: '💎', stations: [], badge: { key: 'badge-diamant', icon: 'diamant.png' } },
   { id: 'netherite', emoji: '🏙️', stations: [], badge: { key: 'badge-netherite', icon: 'netherite.png' } },
@@ -358,6 +358,33 @@ player.on_chat("plattform", on_plattform)`,
         '    blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, 1, 7), FillOperation.REPLACE)',
         'player.on_chat("plattform", on_plattform)',
       ], wrong: 1 },
+    ],
+  },
+  s09: {
+    etappe: 'eisen',
+    ds: 9,
+    iframeHeight: 5200, // vorlaeufig, Task 11 misst nach
+    bossCheck: { key: 'boss-eisen', gradeMax: 100 },
+    // Entwurf; Gegenpruefung im Editor: zeigt der Block-Editor "for index from 0 to stufen - 1"?
+    python: `def on_treppe():
+    stufen = 6
+    for index in range(stufen):
+        blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, index, 3), FillOperation.REPLACE)
+player.on_chat("treppe", on_treppe)`,
+    blocks: [{ kind: 'onChat', word: 'treppe', body: [
+      { kind: 'setVar', varName: 'stufen', value: 6 },
+      { kind: 'for', varName: 'index', to: { minus: ['stufen', 1] }, body: [
+        { kind: 'fill', block: 'cobblestone', from: { pos: ['index', 0, 1] }, to: { pos: ['index', 'index', 3] }, op: 'replace' },
+      ] },
+    ] }],
+    exercises: [
+      { type: 'fill', code: 'stufen = ___\nfor index in range(stufen):\n    blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, ___, 3), FillOperation.REPLACE)',
+        gaps: [{ options: ['4', '6', 'index'], correct: '6' }, { options: ['0', 'index', 'stufen'], correct: 'index' }] },
+      { type: 'findbug', lines: [
+        'stufen = 6',
+        'for index in range(stufen):',
+        '    blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, stufen, 3), FillOperation.REPLACE)',
+      ], wrong: 2 },
     ],
   },
 };

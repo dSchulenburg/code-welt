@@ -101,6 +101,23 @@ export default {
     "fehler": {
       "term": "Errore",
       "short": "L'Agente ti ha capito male. Puoi sistemarlo."
+    },
+    // Handübersetzung 04.09.2026 (Plan 3 Task 6), Task 9 ersetzt sie
+    "variable": {
+      "term": "Variabile",
+      "short": "Un numero con un nome. Lo imposti una volta in alto."
+    },
+    "koordinaten": {
+      "term": "Coordinate",
+      "short": "Tre numeri x, y, z dicono dove si trova un blocco."
+    },
+    "fill": {
+      "term": "fill",
+      "short": "Riempie tutto tra due angoli con un blocco."
+    },
+    "zaehler": {
+      "term": "Contatore",
+      "short": "Il ciclo conta da solo: index vale 0, 1, 2 …"
     }
   },
   "etappen": {

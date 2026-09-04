@@ -109,6 +109,23 @@ export default {
     "fehler": {
       "term": "خطأ",
       "short": "Agent فهمك بشكل خطأ. يمكنك إصلاح ذلك."
+    },
+    // Handübersetzung 04.09.2026 (Plan 3 Task 6), Task 9 ersetzt sie
+    "variable": {
+      "term": "متغيّر",
+      "short": "رقم له اسم. تحدّده مرة واحدة في الأعلى."
+    },
+    "koordinaten": {
+      "term": "إحداثيات",
+      "short": "ثلاثة أرقام x, y, z تقول أين يقع البلوك."
+    },
+    "fill": {
+      "term": "fill",
+      "short": "يملأ كل ما بين زاويتين بكتلة واحدة."
+    },
+    "zaehler": {
+      "term": "عدّاد",
+      "short": "الحلقة تعد بنفسها: index يكون 0, 1, 2 …"
     }
   },
   "etappen": {

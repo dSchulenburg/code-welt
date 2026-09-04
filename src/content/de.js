@@ -174,5 +174,27 @@ export default {
         'Gerüst: blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(___, -1, ___), FillOperation.REPLACE). Setze die zwei fehlenden Zahlen ein.',
       ],
     },
+    s09: {
+      story: [
+        { who: 'dani', mood: 'ueberrascht', text: 'Die Klippe ist sechs Blöcke hoch!' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Sechs Plattformen, jede eins höher? Sechs Zeilen?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Nein. Die Schleife zählt mit. index ist 0, dann 1, dann 2.' },
+        { who: 'dani', mood: 'fragend', text: 'Und was bringt mir index?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Nimm index als Höhe. Stufe 0 ist 1 hoch, Stufe 5 ist 6 hoch.' },
+        { who: 'nour', mood: 'begeistert', text: 'Eine Zeile, sechs Stufen.' },
+        { who: 'dani', mood: 'begeistert', text: 'Und mit stufen = 9 wird die Treppe höher!' },
+      ],
+      concept: [
+        'Der Zähler index ist eine Variable, die die Schleife selbst ändert.',
+        'range(stufen) gibt index die Werte 0 bis stufen - 1.',
+        'index steht in pos zweimal: x wandert, y wächst.',
+        'stufen oben bestimmt, wie viele Stufen die Treppe hat.',
+      ],
+      tips: [
+        'Frage: Welche Werte hat index bei range(6)?',
+        'Richtung: Stufe index steht bei x = index. Sie ist index + 1 hoch. Deshalb steht index in pos zweimal.',
+        'Gerüst: blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, ___, 3), FillOperation.REPLACE).',
+      ],
+    },
   },
 };

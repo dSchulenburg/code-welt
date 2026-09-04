@@ -94,6 +94,23 @@ export default {
     "fehler": {
       "term": "Error",
       "short": "The Agent understood you wrong. You can fix it."
+    },
+    // Handübersetzung 04.09.2026 (Plan 3 Task 6), Task 9 ersetzt sie
+    "variable": {
+      "term": "Variable",
+      "short": "A number with a name. You set it once at the top."
+    },
+    "koordinaten": {
+      "term": "Coordinates",
+      "short": "Three numbers x, y, z say where a block is."
+    },
+    "fill": {
+      "term": "fill",
+      "short": "Fills everything between two corners with one block."
+    },
+    "zaehler": {
+      "term": "Counter",
+      "short": "The loop counts along: index is 0, 1, 2 …"
     }
   },
   "etappen": {
