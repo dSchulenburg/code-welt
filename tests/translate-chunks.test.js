@@ -11,6 +11,8 @@ import {
   isInsideChunk,
   schemaFrom,
   shapePaths,
+  nextChunkHashes,
+  bundleAktuell,
 } from '../scripts/lib/translate-chunks.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -36,6 +38,50 @@ test('hashChunk ist stabil, kurz und reagiert auf jede Aenderung', () => {
   // Reihenfolge der Schluessel zaehlt (JSON.stringify), damit eine Umsortierung in de.js
   // ebenfalls eine Neuuebersetzung ausloest — die Reihenfolge steht auch im Bundle.
   expect(hashChunk({ a: 1, b: 2 })).not.toBe(hashChunk({ b: 2, a: 1 }));
+});
+
+// Der Cache darf nur Haken setzen, die er verdient hat. `--chunk` uebernimmt auch Chunks, deren
+// deutsche Quelle sich geaendert hat — stuende danach der AKTUELLE Hash in der Zeile, waere der
+// Chunk fuer immer "aktuell" und wuerde nie wieder uebersetzt (Review-Befund 1 zu Task 9).
+test('nextChunkHashes schreibt aktuelle Hashes nur fuer uebersetzte und geprueft gleiche Chunks', () => {
+  const aktuell = { ui: 'aaaaaaaaaaaa', 'stations.s01': 'bbbbbbbbbbbb', 'stations.s02': 'cccccccccccc', 'stations.s09': 'dddddddddddd' };
+  const gespeichert = { ui: 'aaaaaaaaaaaa', 'stations.s01': 'ALTALTALTALT', 'stations.s02': 'cccccccccccc' };
+  const neu = nextChunkHashes(gespeichert, aktuell, ['stations.s09']);
+  expect(neu).toEqual({
+    ui: 'aaaaaaaaaaaa', //            uebernommen, Hash stimmte -> aktuell
+    'stations.s01': 'ALTALTALTALT', // uebernommen trotz Aenderung -> alter Hash bleibt stehen
+    'stations.s02': 'cccccccccccc', // uebernommen, Hash stimmte
+    'stations.s09': 'dddddddddddd', // in diesem Lauf uebersetzt
+  });
+  // Ohne gespeicherten Hash und ohne Uebersetzung gibt es gar keinen Eintrag.
+  expect(nextChunkHashes({}, { ui: 'aaaaaaaaaaaa' }, [])).toEqual({});
+  expect(nextChunkHashes(null, { ui: 'aaaaaaaaaaaa' }, ['ui'])).toEqual({ ui: 'aaaaaaaaaaaa' });
+});
+
+test('ein mitgeschleppter Chunk ist beim naechsten Lauf wieder faellig', () => {
+  const chunks = [
+    { path: ['ui'], data: { a: 1 } },
+    { path: ['stations', 's01'], data: { t: 'geaendert' } },
+    { path: ['stations', 's09'], data: { t: 'neu' } },
+  ];
+  const aktuell = chunkHashesOf(chunks);
+  // Stand vor dem Lauf: s01 hat sich geaendert, s09 ist neu.
+  const gespeichert = { ui: aktuell.ui, 'stations.s01': hashChunk({ t: 'alt' }) };
+  // `--chunk stations.s09`: nur s09 wird uebersetzt, s01 wird mitgeschleppt.
+  const geschrieben = nextChunkHashes(gespeichert, aktuell, ['stations.s09']);
+  const danach = selectChunks(chunks, geschrieben, false);
+  expect(danach.todo.map((c) => c.path.join('.'))).toEqual(['stations.s01']);
+  expect(bundleAktuell(geschrieben, aktuell)).toBe(false);
+  // Waere der aktuelle Hash gestempelt worden, saehe der naechste Lauf nichts mehr:
+  expect(selectChunks(chunks, aktuell, false).todo).toHaveLength(0);
+});
+
+test('bundleAktuell erkennt vollstaendige und unvollstaendige Buendel', () => {
+  const aktuell = { ui: 'aaaaaaaaaaaa', 'stations.s01': 'bbbbbbbbbbbb' };
+  expect(bundleAktuell(aktuell, aktuell)).toBe(true);
+  expect(bundleAktuell({ ui: 'aaaaaaaaaaaa' }, aktuell)).toBe(false); // Chunk fehlt ganz
+  expect(bundleAktuell({ ui: 'aaaaaaaaaaaa', 'stations.s01': 'ALT' }, aktuell)).toBe(false);
+  expect(bundleAktuell(null, aktuell)).toBeNull(); // altes Format: sourceHash entscheidet allein
 });
 
 test('chunkHashesOf liefert die Hashes unter dem punktierten Pfad', () => {

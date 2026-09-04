@@ -43,6 +43,39 @@ export function chunkHashesOf(chunks) {
   return Object.fromEntries(chunks.map((c) => [c.path.join('.'), hashChunk(c.data)]));
 }
 
+/**
+ * Die `chunkHashes`-Zeile fuer das neu geschriebene Buendel.
+ *
+ * Ein Hash darf nur dort stehen, wo er verdient ist — sonst behauptet die Zeile einen Stand, den
+ * die Datei nicht hat, und jeder weitere Lauf haelt den Chunk fuer aktuell:
+ *
+ * | Fall | was geschrieben wird |
+ * |---|---|
+ * | in diesem Lauf uebersetzt | aktueller Hash |
+ * | uebernommen, gespeicherter Hash == aktueller | aktueller Hash (dasselbe) |
+ * | uebernommen, gespeicherter Hash weicht ab (`--chunk`) | **der gespeicherte, alte** Hash |
+ * | uebernommen, kein gespeicherter Hash | **kein Eintrag** — naechster Lauf uebersetzt ihn |
+ *
+ * `prevHashes` ist die Tabelle, die die keep-Entscheidung getragen hat: die gespeicherte Zeile
+ * des Buendels, sonst die aus `--prev-source` abgeleitete.
+ */
+export function nextChunkHashes(prevHashes, currentHashes, translatedPaths) {
+  const prev = prevHashes || {};
+  const uebersetzt = new Set(translatedPaths || []);
+  const out = {};
+  for (const [key, aktuell] of Object.entries(currentHashes)) {
+    if (uebersetzt.has(key) || prev[key] === aktuell) out[key] = aktuell;
+    else if (prev[key] !== undefined) out[key] = prev[key];
+  }
+  return out;
+}
+
+/** Ist jeder aktuelle Chunk in der gespeicherten Tabelle mit demselben Hash vermerkt? */
+export function bundleAktuell(prevHashes, currentHashes) {
+  if (!prevHashes) return null; // altes Format ohne chunkHashes-Zeile: keine Aussage moeglich
+  return Object.entries(currentHashes).every(([key, h]) => prevHashes[key] === h);
+}
+
 /** Wert an einem Pfad-Array (['stations','s01']) im Buendel. */
 export function valueAt(obj, path) {
   return path.reduce((cur, key) => (cur == null ? cur : cur[key]), obj);

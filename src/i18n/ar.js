@@ -59,10 +59,10 @@ export default {
     "findbugRight": "صحيح! هذا هو الخطأ.",
     "findbugWrong": "لا، هذا السطر صحيح. انظر مرة أخرى.",
     "spielstandHeading": "حالة التقدّم",
-    // Handkorrektur 2026-09-04 (Plan 3 Task 9): geschlechtsneutral. "تستطيع" und der Imperativ "اكتب"
-    // sind maennlich; "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich, und "المطلوب: …"
-    // kommt ohne angeredetes Verb aus. Beide deutschen Saetze bleiben erhalten.
-    "spielstandPrompt": "ماذا تعلّمت الآن؟ المطلوب: ثلاث جمل قصيرة.",
+    // Vermerk 2026-09-04 (Plan 3 Task 9, Fix-Runde 1): ar: Imperative bleiben maskulin
+    // (Plan-2-Entscheidung, Registerwechsel ist Dirks offener Entscheid). Der Wortlaut kommt
+    // unveraendert aus dem Lauf und passt zu ui.bossCheckHint und den Stationen s07-s09.
+    "spielstandPrompt": "ماذا تستطيع الآن؟ اكتب ثلاث جمل قصيرة.",
     "spielstandSave": "حفظ",
     "spielstandSaved": "تم الحفظ. على هذا الجهاز فقط.",
     "progress": "لقد زرت {done} من {total} محطات.",
@@ -1134,7 +1134,10 @@ export default {
         }
       ],
       "bossCheck": {
-        "title": "اختبار الزعيم حديد",
+        // Handkorrektur 2026-09-04 (Plan 3 Task 9, Fix-Runde 1): Doppelpunkt wie in den Boss-Check-Titeln
+        // von s03 und s06 derselben Datei. Der Lauf hatte ihn hier weggelassen, damit hiessen die drei
+        // Titel im selben Kurs verschieden (Kanon BOSSCHECK_CANON, Test tests/bosscheck-titles.test.js).
+        "title": "اختبار الزعيم: حديد",
         "subtitle": "الجرف الثاني",
         "task": "قف على مكعب الذهب أمام الجرف الثاني. اقرأ قيمة y في الأسفل. اصعد السلّم واقرأ قيمة y في الأعلى. اضبط stufen. ابنِ الدرج. اكتب ثلاث جمل: من أين جاء رقمك؟ ماذا يفعل index؟ ماذا تغيّر عند جرف أعلى؟"
       }

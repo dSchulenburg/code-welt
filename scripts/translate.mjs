@@ -38,8 +38,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import Anthropic from '@anthropic-ai/sdk';
 import {
-  selectChunks, chunkHashesOf, valueAt, setPath, schemaFrom, shapePaths,
-  extractComments, renderBundle, commentsWithoutChunks,
+  selectChunks, chunkHashesOf, nextChunkHashes, bundleAktuell, valueAt, setPath, schemaFrom,
+  shapePaths, extractComments, renderBundle, commentsWithoutChunks,
 } from './lib/translate-chunks.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -413,9 +413,13 @@ async function main() {
   for (const lang of langs) {
     const out = path.join(ROOT, 'src', 'i18n', `${lang}.js`);
     const da = fs.existsSync(out);
-    if (!args.force && !nurChunks && da && readSourceHash(out) === sourceHash) { plaene.push({ lang, out, skip: true }); continue; }
-    const vorhanden = da ? (await import(pathToFileURL(out).href)).default : null;
     const gespeichert = readChunkHashes(out);
+    // Der sourceHash allein reicht als Abkuerzung nicht mehr: nach einem --chunk-Lauf kann er
+    // aktuell sein, waehrend ein mitgeschleppter Chunk noch auf altem Stand steht. Gibt es eine
+    // chunkHashes-Zeile, muss auch sie vollstaendig passen (bundleAktuell liefert dann true).
+    if (!args.force && !nurChunks && da && readSourceHash(out) === sourceHash
+        && bundleAktuell(gespeichert, neueHashes) !== false) { plaene.push({ lang, out, skip: true }); continue; }
+    const vorhanden = da ? (await import(pathToFileURL(out).href)).default : null;
     let basis = {};
     if (args.force) basis = {};
     else if (gespeichert) basis = gespeichert;
@@ -436,7 +440,7 @@ async function main() {
     const echt = [], nachtrag = [];
     for (const c of keep) (valueAt(vorhanden, c.path) === undefined ? nachtrag : echt).push(c);
     if (nachtrag.length) console.log(`  ! ${lang}: ${nachtrag.map((c) => c.path.join('.')).join(', ')} fehlt im Buendel — wird uebersetzt`);
-    plaene.push({ lang, out, vorhanden, todo: [...todo, ...nachtrag], keep: echt, skip: false });
+    plaene.push({ lang, out, vorhanden, basis, todo: [...todo, ...nachtrag], keep: echt, skip: false });
   }
 
   const namen = (cs) => (cs.length ? cs.map((c) => c.path.join('.')).join(', ') : '—');
@@ -490,10 +494,15 @@ async function main() {
           if (!gelesen) console.log(`  ! Kommentare in ${p.lang}.js nicht zuzuordnen — sie gehen verloren`);
           else { extraHeader = gelesen.extraHeader; comments = commentsWithoutChunks(gelesen.comments, [...todoKeys]); }
         }
+        // Nur verdiente Hashes stempeln: was `--chunk` mitgeschleppt hat, behaelt seinen alten
+        // Hash (oder gar keinen) und ist beim naechsten Lauf wieder faellig.
+        const geschriebeneHashes = nextChunkHashes(p.basis, neueHashes, [...todoKeys]);
         fs.writeFileSync(p.out, serialize(translated, {
-          sourceHash, chunkHashes: neueHashes, lang: p.lang, model: MODEL,
+          sourceHash, chunkHashes: geschriebeneHashes, lang: p.lang, model: MODEL,
           generatedAt: new Date().toISOString(), extraHeader, comments,
         }), 'utf8');
+        const luecken = Object.keys(neueHashes).filter((k) => geschriebeneHashes[k] !== neueHashes[k]);
+        if (luecken.length) console.log(`  ! ${p.lang}: ${luecken.join(', ')} steht weiter auf altem Stand und ist beim naechsten Lauf faellig`);
         tin += lin; tout += lout;
         console.log(`${p.lang} ok (${((Date.now() - t0) / 1000).toFixed(1)}s, in=${lin} out=${lout})`);
         last = null; break;
