@@ -1,4 +1,4 @@
-import { BLOCK_SPECS, CATEGORY_COLORS, slotText, assertKnown } from '../lib/blocks.js';
+import { BLOCK_SPECS, CATEGORY_COLORS, slotText, slotKind, assertKnown } from '../lib/blocks.js';
 
 // Zeichnet eine Blockbeschreibung als SVG im Look des MakeCode-Editors:
 // Hutbloecke (on …), C-Bloecke (repeat/for/if) mit eingerueckter Rumpfspalte,
@@ -62,12 +62,16 @@ export default function BlockView({ blocks }) {
               }
               const text = slotText(row.b, part);
               const w = text.length * CH + 12;
-              const dark = part.kind === 'dropdown';
-              const varSlot = part.kind === 'var';
+              const kind = slotKind(row.b, part);
+              const dark = kind === 'dropdown';
+              const varSlot = kind === 'var';
+              const mathSlot = kind === 'math';
+              const fill = dark ? col.slot : varSlot ? CATEGORY_COLORS.variables.fill : mathSlot ? CATEGORY_COLORS.math.fill : '#fff';
+              const ink = dark || varSlot || mathSlot ? '#fff' : '#111';
               const el = (
                 <g key={j} data-slot={part.slot}>
-                  <rect x={cx} y={5} width={w} height={ROW - 14} rx={(ROW - 14) / 2} fill={dark ? col.slot : varSlot ? CATEGORY_COLORS.variables.fill : '#fff'} />
-                  <text x={cx + 6} y={ROW / 2 + 4} fill={dark || varSlot ? '#fff' : '#111'}>{text}</text>
+                  <rect x={cx} y={5} width={w} height={ROW - 14} rx={(ROW - 14) / 2} fill={fill} />
+                  <text x={cx + 6} y={ROW / 2 + 4} fill={ink}>{text}</text>
                 </g>
               );
               cx += w + 8;

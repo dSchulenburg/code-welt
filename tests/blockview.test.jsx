@@ -71,3 +71,31 @@ test('BlockView wirft bei unbekannter Blockart einen sprechenden Fehler statt ei
   expect(() => render(<BlockView blocks={[{ kind: 'nope' }]} />)).toThrow(/Unbekannte Blockart: nope/);
   errorSpy.mockRestore();
 });
+
+// Plan 3 Task 1: Variable, Minus-Ausdruck, Position im Zahlen-/Pos-Slot; fill mit Operator-Slot.
+test('Variable im Zahlen-Slot ist eine rote Pille, Minus-Ausdruck eine math-Pille, pos eine weisse Pille mit Tilden', () => {
+  const tree = [{ kind: 'onChat', word: 'treppe', body: [
+    { kind: 'setVar', varName: 'stufen', value: 6 },
+    { kind: 'for', varName: 'index', to: { minus: ['stufen', 1] }, body: [
+      { kind: 'fill', block: 'cobblestone', from: { pos: ['index', 0, 1] }, to: { pos: ['index', 'index', 3] }, op: 'replace' },
+    ] },
+  ] }];
+  const { container } = render(<BlockView blocks={tree} />);
+  const forRow = container.querySelector('[data-kind="for"]');
+  expect(forRow.querySelector('[data-slot="to"] rect').getAttribute('fill')).toBe('#712672');
+  expect(forRow.querySelector('[data-slot="to"] text').textContent).toBe('stufen - 1');
+  const fillRow = container.querySelector('[data-kind="fill"]');
+  expect(fillRow.querySelector('[data-slot="from"] rect').getAttribute('fill')).toBe('#fff');
+  expect(fillRow.querySelector('[data-slot="from"] text').textContent).toBe('~index ~0 ~1');
+  expect(fillRow.querySelector('[data-slot="op"] text').textContent).toBe('replace');
+  const moveVar = render(<BlockView blocks={[{ kind: 'agent.move', dir: 'forward', n: 'laenge' }]} />).container;
+  expect(moveVar.querySelector('[data-slot="n"] rect').getAttribute('fill')).toBe('#ea2b1f');
+  expect(moveVar.querySelector('[data-slot="n"] text').textContent).toBe('laenge');
+});
+
+test('ein einzelner Statement-Block ohne Hut wird gezeichnet (Zuordnungs-Uebung)', () => {
+  const { container } = render(<BlockView blocks={[{ kind: 'setVar', varName: 'laenge', value: 5 }]} />);
+  expect(container.querySelectorAll('[data-kind]')).toHaveLength(1);
+  expect(container.querySelector('[data-kind="setVar"] path')).not.toBeNull();
+  expect(container.textContent).toMatch(/set/);
+});

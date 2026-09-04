@@ -8,6 +8,7 @@ export const CATEGORY_COLORS = {
   variables: { fill: '#ea2b1f', stroke: '#b02017', slot: '#b02017' },
   blocks:    { fill: '#7abb55', stroke: '#5c8c40', slot: '#689f48' },
   functions: { fill: '#235789', stroke: '#1a4266', slot: '#1a4266' },
+  math:      { fill: '#712672', stroke: '#4f1a4f', slot: '#4f1a4f' },
 };
 
 // label: Strings und Slots. Slot-Arten: dropdown (dunkle Pille), number/text (weisse Pille), var (rote Pille).
@@ -26,7 +27,7 @@ export const BLOCK_SPECS = {
   if:                      { cat: 'logic', c: true, label: ['if', { slot: 'cond', kind: 'text' }, 'then'] },
   setVar:                  { cat: 'variables', label: ['set', { slot: 'varName', kind: 'var' }, 'to', { slot: 'value', kind: 'number' }] },
   changeVar:               { cat: 'variables', label: ['change', { slot: 'varName', kind: 'var' }, 'by', { slot: 'value', kind: 'number' }] },
-  fill:                    { cat: 'blocks', label: ['fill with', { slot: 'block', kind: 'dropdown' }, 'from', { slot: 'from', kind: 'text' }, 'to', { slot: 'to', kind: 'text' }] },
+  fill:                    { cat: 'blocks', label: ['fill with', { slot: 'block', kind: 'dropdown' }, 'from', { slot: 'from', kind: 'pos' }, 'to', { slot: 'to', kind: 'pos' }, { slot: 'op', kind: 'dropdown' }] },
   function:                { cat: 'functions', hat: true, label: ['function', { slot: 'name', kind: 'text' }] },
   call:                    { cat: 'functions', label: ['call', { slot: 'name', kind: 'text' }] },
 };
@@ -44,20 +45,37 @@ export function flattenBlocks(tree, depth = 0, out = []) {
   return out;
 }
 
+// Zaehler eines Schleifenblocks: Zahl, Variablenname oder { minus: [name, k] }.
+function resolveCount(v, vars) {
+  if (typeof v === 'number') return v;
+  if (typeof v === 'string') {
+    if (!(v in vars)) throw new Error(`Unbekannte Variable: ${v}`);
+    return vars[v];
+  }
+  if (v && Array.isArray(v.minus)) return resolveCount(v.minus[0], vars) - v.minus[1];
+  throw new Error(`Unbekannter Zaehler: ${JSON.stringify(v)}`);
+}
+
 // Bewegungsbefehle fuer agentSim.simulate: Schleifen werden entrollt, anderes uebersprungen.
-export function blocksToProgram(tree, out = []) {
+// vars sammelt die Werte aus setVar, damit repeat/for ihren Zaehler ueber Variablennamen
+// oder Minus-Ausdruecke ({ minus: [name, k] }) aufloesen koennen (Plan 3 Task 1).
+export function blocksToProgram(tree, out = [], vars = {}) {
   for (const b of tree) {
     assertKnown(b);
-    if (b.kind === 'agent.move' && (b.dir === 'forward' || b.dir === 'back')) {
+    if (b.kind === 'setVar') {
+      vars[b.varName] = b.value;
+    } else if (b.kind === 'agent.move' && (b.dir === 'forward' || b.dir === 'back')) {
       out.push(`${b.dir === 'forward' ? 'forward' : 'back'} ${b.n ?? 1}`);
     } else if (b.kind === 'agent.turn') {
       out.push(b.dir === 'left' ? 'left' : 'right');
     } else if (b.kind === 'repeat') {
-      for (let i = 0; i < b.n; i++) blocksToProgram(b.body || [], out);
+      const n = resolveCount(b.n, vars);
+      for (let i = 0; i < n; i++) blocksToProgram(b.body || [], out, vars);
     } else if (b.kind === 'for') {
-      for (let i = 0; i <= b.to; i++) blocksToProgram(b.body || [], out);
+      const to = resolveCount(b.to, vars);
+      for (let i = 0; i <= to; i++) blocksToProgram(b.body || [], out, vars);
     } else if (b.body) {
-      blocksToProgram(b.body, out);
+      blocksToProgram(b.body, out, vars);
     }
   }
   return out;
@@ -67,5 +85,19 @@ export function blocksToProgram(tree, out = []) {
 export function slotText(b, slot) {
   const v = b[slot.slot];
   if (slot.slot === 'word' || slot.slot === 'name') return `"${v}"`;
+  if (slot.slot === 'op') return String(v ?? 'replace');
+  if (v && typeof v === 'object' && Array.isArray(v.minus)) return `${v.minus[0]} - ${v.minus[1]}`;
+  if (v && typeof v === 'object' && Array.isArray(v.pos)) return v.pos.map((c) => `~${c}`).join(' ');
   return String(v ?? '');
+}
+
+// Art der Pille, aus dem Wert abgeleitet (BlockView faerbt danach):
+//   'var'  Variablenname in einem Zahlen-Slot, 'math' Minus-Ausdruck, 'pos' Position,
+//   'dropdown'/'number'/'text'/'var' sonst wie im Spec.
+export function slotKind(b, slot) {
+  const v = b[slot.slot];
+  if (slot.kind === 'pos') return 'pos';
+  if (v && typeof v === 'object' && Array.isArray(v.minus)) return 'math';
+  if (slot.kind === 'number' && typeof v === 'string') return 'var';
+  return slot.kind;
 }
