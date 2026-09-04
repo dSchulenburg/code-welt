@@ -177,7 +177,7 @@ export default {
     s09: {
       story: [
         { who: 'dani', mood: 'ueberrascht', text: 'Die Klippe ist sechs Blöcke hoch!' },
-        { who: 'dani', mood: 'nachdenklich', text: 'Sechs Plattformen, jede eins höher? Sechs Zeilen?' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Ich brauche sechs Plattformen. Jede ist eins höher. Sind das sechs Zeilen?' },
         { who: 'nour', mood: 'erklaerend', text: 'Nein. Die Schleife zählt mit. index ist 0, dann 1, dann 2.' },
         { who: 'dani', mood: 'fragend', text: 'Und was bringt mir index?' },
         { who: 'nour', mood: 'erklaerend', text: 'Nimm index als Höhe. Stufe 0 ist 1 hoch, Stufe 5 ist 6 hoch.' },

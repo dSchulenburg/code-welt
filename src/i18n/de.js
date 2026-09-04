@@ -533,7 +533,7 @@ export default {
       },
       tasks: [
         { kind: 'auftrag', title: 'Die Treppe', text: 'Stell dich auf den Goldblock vor der Klippe. Schreibe treppe. Geh die Treppe hoch. Schalte auf Python: Wo steht index zweimal?' },
-        { kind: 'nochEiner', title: 'Breiter', text: 'Mach jede Stufe 5 breit. Welche Zahl änderst du?' },
+        { kind: 'nochEiner', title: 'Breiter', text: 'Mach jede Stufe 5 breit. Ändere die letzte Zahl in pos, die z-Zahl.' },
         { kind: 'remix', title: 'Deine Treppe', text: 'Bau die Treppe aus Eichenholz. Oder bau sie nach unten in die Schlucht. Zeig es deinem Partner oder deiner Partnerin.' },
       ],
       tipSolution: 'Stufe index geht von pos(index, 0, 1) bis pos(index, index, 3). stufen = 6 gibt sechs Stufen.',
