@@ -1,14 +1,23 @@
 <?php
-// Legt ein "Fragen an Nour"-Forum in Abschnitt 0 des Kurses an, oder gibt die cmid des bestehenden
-// aus. Aufruf im Container:  php /tmp/create-forum.php <courseid> <name> <intro-html>
+// Legt ein "Fragen an Nour"-Forum in Abschnitt 0 des Kurses an, aktualisiert es, oder gibt die
+// cmid des bestehenden aus. Aufruf im Container:
+//   php /tmp/create-forum.php <courseid> <name> <intro-html> [known-cmid]
 //
 // name und intro-html kommen aus postbuild.mjs bereits fertig mit {mlang}-Bloecken (Modul-Name
 // als Klartext mit echten Umlauten, Intro als HTML-Feld mit Entities -- siehe moodle/lib/mlang.mjs
-// und moodle/course-def.mjs fuer das gleiche Muster bei anderen Aktivitaeten).
+// und moodle/course-def.mjs fuer das gleiche Muster bei anderen Aktivitaeten). known-cmid ist
+// optional: die aus registry.json bekannte cmid (items['forum-nour'].cmid), falls schon mal
+// angelegt.
 //
-// Idempotent: existiert bereits ein Forum mit exakt diesem Namen im Kurs (Name inkl. {mlang}-Text
-// ist deterministisch, gleicher Aufruf erzeugt immer denselben String), wird nichts neu angelegt --
-// dessen cmid wird ausgegeben.
+// Idempotenz (Fix-Runde 1): urspruenglich wurde nur per exaktem Namensvergleich gesucht -- aendert
+// sich eine {mlang}-Uebersetzung (z.B. wurde eine Sprachfassung praezisiert), traf der Vergleich
+// nicht mehr und ein zweites Forum waere entstanden (am Badge-Namensabgleich beim selben Problem
+// beobachtet, siehe create-badges.php). Deshalb jetzt: erst per bekannter cmid suchen (robust
+// gegen Textaenderungen), erst wenn die fehlt/nicht mehr passt per Name (Fallback fuer Alt-Register
+// ohne cmid-Argument), sonst neu anlegen. Bei Treffer werden Name/Intro aktualisiert, falls sie vom
+// aktuellen Text abweichen -- direktes $DB->update_record('forum', ...) + rebuild_course_cache()
+// statt forum_update_instance() (die ein $mform erwartet und fuer den Formular-Editier-Pfad gebaut
+// ist), analog zum bestehenden CLI-Direktzugriff in set-quiz-completion.php.
 define('CLI_SCRIPT', true);
 require('/var/www/html/config.php');
 require_once($CFG->dirroot . '/course/lib.php');
@@ -23,15 +32,45 @@ require_once($CFG->dirroot . '/mod/forum/lib.php');
 $courseid = (int)($argv[1] ?? 0);
 $name = $argv[2] ?? '';
 $intro = $argv[3] ?? '';
+$knownCmid = (isset($argv[4]) && $argv[4] !== '') ? (int)$argv[4] : null;
 if (!$courseid || $name === '') {
-    fwrite(STDERR, "usage: create-forum.php <courseid> <name-mlang> <intro-html>\n");
+    fwrite(STDERR, "usage: create-forum.php <courseid> <name-mlang> <intro-html> [known-cmid]\n");
     exit(1);
 }
 
-$existing = $DB->get_record('forum', ['course' => $courseid, 'name' => $name]);
-if ($existing) {
-    $cm = get_coursemodule_from_instance('forum', $existing->id, $courseid, false, MUST_EXIST);
-    echo "cmid={$cm->id}\n";
+$forum = null;
+$cmid = null;
+if ($knownCmid) {
+    $cm = get_coursemodule_from_id('forum', $knownCmid, $courseid);
+    if ($cm) {
+        $forum = $DB->get_record('forum', ['id' => $cm->instance, 'course' => $courseid]);
+        if ($forum) {
+            $cmid = $cm->id;
+        }
+    }
+}
+if (!$forum) {
+    $existing = $DB->get_record('forum', ['course' => $courseid, 'name' => $name]);
+    if ($existing) {
+        $forum = $existing;
+        $cm = get_coursemodule_from_instance('forum', $forum->id, $courseid, false, MUST_EXIST);
+        $cmid = $cm->id;
+    }
+}
+
+if ($forum) {
+    if ($forum->name !== $name || $forum->intro !== $intro) {
+        $DB->update_record('forum', (object)[
+            'id' => $forum->id,
+            'name' => $name,
+            'intro' => $intro,
+            'introformat' => FORMAT_HTML,
+            'timemodified' => time(),
+        ]);
+        rebuild_course_cache($courseid, true);
+        echo "forum: Name/Intro aktualisiert\n";
+    }
+    echo "cmid={$cmid}\n";
     exit(0);
 }
 

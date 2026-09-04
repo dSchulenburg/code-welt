@@ -19,8 +19,16 @@ if (!$courseid) {
 
 $user = $DB->get_record('user', ['username' => 'schueler1', 'deleted' => 0]);
 if ($user) {
-    echo "schueler1: existiert bereits\n";
+    // Testkonto -- bei jedem Lauf das Passwort neu setzen ist unproblematisch und faengt den Fall
+    // ab, dass ein frueherer Lauf (vor dem Fix unten) es im Klartext abgelegt hatte.
+    update_internal_user_password($user, 'Test-2026!');
+    echo "schueler1: existiert bereits (Passwort erneut gesetzt)\n";
 } else {
+    // updatepassword=true (dritter Fall unten war frueher false): user_create_user() unsetzt das
+    // Passwort-Feld dann VOR dem insert_record() und ruft stattdessen nach dem Insert
+    // $authplugin->user_update_password() auf, die es ueber update_internal_user_password()
+    // gehasht ablegt. Mit updatepassword=false landete "Test-2026!" unveraendert -- also im
+    // Klartext -- in mdl_user.password (Befund des Controllers, gemessen an schueler1).
     $userid = user_create_user((object)[
         'username' => 'schueler1',
         'password' => 'Test-2026!',
@@ -30,7 +38,7 @@ if ($user) {
         'confirmed' => 1,
         'mnethostid' => $CFG->mnet_localhost_id,
         'auth' => 'manual',
-    ], false, false);
+    ], true, false);
     $user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
     echo "schueler1: neu angelegt (userid {$user->id})\n";
 }

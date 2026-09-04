@@ -1,12 +1,22 @@
 <?php
-// Legt Kurs-Badges an oder aktualisiert ihre Kriterien/Bild, idempotent ueber den Badge-Namen.
+// Legt Kurs-Badges an oder aktualisiert ihre Kriterien/Bild/Text, idempotent ueber die
+// Register-ID (Fallback: Name).
 // Aufruf im Container:  php /tmp/create-badges.php <courseid> <json-oder-pfad>
 //
 // <json-oder-pfad>: entweder das JSON direkt als Argument, oder (wegen Shell-Quoting bei
 // mehrsprachigen {mlang}-Namen/-Beschreibungen, siehe postbuild.mjs) ein Dateipfad im Container,
-// dessen Inhalt das JSON ist. JSON-Form: [{ key, name, description, icon, cmids: [...] }, ...]
+// dessen Inhalt das JSON ist. JSON-Form: [{ key, id, name, description, icon, cmids: [...] }, ...]
 // -- name (Klartext, {mlang} mit echten Umlauten) und description (HTML-Feld, {mlang} mit
 // Umlaut-Entities) kommen bereits fertig aus postbuild.mjs. icon ist ein Dateipfad im Container.
+// id ist optional: die aus registry.json bekannte Badge-ID (box.badges['<key>']), falls schon
+// mal angelegt.
+//
+// Idempotenz (Fix-Runde 1): eine {mlang}-Uebersetzung kann sich aendern (z.B. wurde das arabische
+// "الخشب" spaeter zu "خشب" praezisiert), dann traf der Name-Abgleich aus der ersten Fassung nicht
+// mehr und haette ein zweites Badge mit demselben key angelegt. Deshalb jetzt: erst per Register-ID
+// suchen (robust gegen Textaenderungen), erst wenn die fehlt oder nicht mehr existiert per Name
+// (Fallback fuer Alt-Register ohne id), sonst neu anlegen. Bei Treffer werden Name/Beschreibung
+// aktualisiert, falls sie vom aktuellen Text abweichen.
 //
 // API-Fund (verifiziert gegen /var/www/html/badges/classes/badge.php,
 // /var/www/html/badges/criteria/award_criteria*.php, /var/www/html/lib/badgeslib.php):
@@ -24,6 +34,11 @@
 // - badges_process_badge_image() loescht die Icon-Datei nach dem Verarbeiten (unlink) -- bei
 //   jedem Lauf wird ueber apply-php.sh --copy eine frische Kopie ins Image kopiert, das ist also
 //   unproblematisch.
+// - badge::save() (Fix-Runde 1, fuer den Name/Beschreibung-Abgleich) hat KEINE Sperrpruefung --
+//   $DB->update_record_raw('badge', ...) laeuft unabhaengig vom status-Feld durch. Verifiziert:
+//   badges/classes/badge.php, Methode save(). Nur die Kriterien-Aenderung ist an is_locked()
+//   gebunden (Moodle-eigene Regel, s.u.), nicht das Aktualisieren von Textfeldern. Ein
+//   $DB->update_record()-Umweg ist deshalb nicht noetig, badge::save() reicht in jedem Status.
 define('CLI_SCRIPT', true);
 require('/var/www/html/config.php');
 require_once($CFG->libdir . '/badgeslib.php');
@@ -51,15 +66,35 @@ if (!is_array($specs)) {
 foreach ($specs as $spec) {
     $key = $spec['key'];
     $name = $spec['name'];
+    $description = $spec['description'];
+    $knownId = $spec['id'] ?? null;
 
-    $existing = $DB->get_record('badge', ['courseid' => $courseid, 'name' => $name]);
-    if ($existing) {
-        $badge = new badge($existing->id);
+    $badge = null;
+    if ($knownId) {
+        $existing = $DB->get_record('badge', ['id' => (int)$knownId, 'courseid' => $courseid]);
+        if ($existing) {
+            $badge = new badge($existing->id);
+        }
+    }
+    if (!$badge) {
+        $existing = $DB->get_record('badge', ['courseid' => $courseid, 'name' => $name]);
+        if ($existing) {
+            $badge = new badge($existing->id);
+        }
+    }
+
+    if ($badge) {
         echo "badge {$key}: existiert bereits (id {$badge->id})\n";
+        if ($badge->name !== $name || $badge->description !== $description) {
+            $badge->name = $name;
+            $badge->description = $description;
+            $badge->save();
+            echo "badge {$key}: Name/Beschreibung aktualisiert\n";
+        }
     } else {
         $data = (object)[
             'name' => $name,
-            'description' => $spec['description'],
+            'description' => $description,
             'version' => '1.0',
             'language' => 'de',
             'imagecaption' => '',

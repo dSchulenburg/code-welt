@@ -95,19 +95,28 @@ function main() {
 
   const bundles = { de, en, uk, ar, es, it };
 
-  // 1. Forum
+  // 1. Forum -- die bekannte cmid (falls schon mal angelegt) wird mitgegeben, damit
+  // create-forum.php per ID statt per (aenderlichem) {mlang}-Namenstext wiederfindet (Fix-Runde 1:
+  // eine geschaerfte Uebersetzung liess den reinen Namensvergleich sonst ins Leere laufen und haette
+  // ein zweites Forum angelegt).
   const forumName = mlang(FORUM_NAME);
   const forumIntro = toEntities(mlang(FORUM_INTRO));
-  const forumOut = run(['php/create-forum.php', String(courseId), forumName, forumIntro]);
+  const knownForumCmid = reg.items['forum-nour']?.cmid;
+  const forumArgs = ['php/create-forum.php', String(courseId), forumName, forumIntro];
+  if (typeof knownForumCmid === 'number') forumArgs.push(String(knownForumCmid));
+  const forumOut = run(forumArgs);
   console.log(forumOut.trimEnd());
   applyForumResult(reg, parseCmidLine(forumOut));
   save();
 
   // 2. Badges (JSON als Datei nach /tmp/ kopiert statt als Argument -- Shell-Quoting bei
-  // mehrsprachigem {mlang}-Text mit Anfuehrungszeichen/Sonderzeichen waere sonst nicht robust)
+  // mehrsprachigem {mlang}-Text mit Anfuehrungszeichen/Sonderzeichen waere sonst nicht robust).
+  // id: die bekannte Badge-ID aus dem Register (falls schon mal angelegt) -- selber Grund wie beim
+  // Forum oben: robust gegen geaenderte {mlang}-Uebersetzungen, siehe create-badges.php.
   const badgeSpecs = [
     {
       key: 'badge-holz',
+      id: reg.badges?.['badge-holz'] ?? null,
       name: mlang(pick(bundles, 'etappen.holz.badge.name')),
       description: toEntities(mlang(pick(bundles, 'etappen.holz.badge.description'))),
       icon: '/tmp/holz.png',
@@ -115,6 +124,7 @@ function main() {
     },
     {
       key: 'badge-stein',
+      id: reg.badges?.['badge-stein'] ?? null,
       name: mlang(pick(bundles, 'etappen.stein.badge.name')),
       description: toEntities(mlang(pick(bundles, 'etappen.stein.badge.description'))),
       icon: '/tmp/stein.png',
