@@ -62,7 +62,7 @@ try {
   // bei Luecken laut FAILen statt einen verkuerzten (und damit trivial erfuellten) Vergleich zu
   // fahren.
   const contentsText = await callTool('moodle_get_course_contents', { courseId: reg.courseId });
-  for (const [label, num] of [['Holz', 2], ['Stein', 3]]) {
+  for (const [label, num] of [['Holz', 2], ['Stein', 3], ['Eisen', 4]]) {
     const section = def.sections.find((s) => s.num === num);
     const missing = section.items.filter((item) => typeof reg.items[item.key]?.cmid !== 'number').map((item) => item.key);
     if (missing.length > 0) {
@@ -104,6 +104,17 @@ try {
     check('Boss-Check-Aufgabe auf uk', bossBody.includes(uk.stations.s03.bossCheck.title), `erwartet "${uk.stations.s03.bossCheck.title}"`);
   }
 
+  // Boss-Check-Aufgabe Eisen (Abschnitt 4, Station s09) auf Ukrainisch -- gleicher Aufbau wie
+  // boss-holz oben.
+  const bossEisenCmid = reg.items['boss-eisen']?.cmid;
+  if (typeof bossEisenCmid !== 'number') {
+    check('Boss-Check-Aufgabe Eisen auf uk', false, 'boss-eisen fehlt im Register');
+  } else {
+    await page.goto(`${M}/mod/assign/view.php?id=${bossEisenCmid}&lang=uk`, { waitUntil: 'networkidle' });
+    const bossEisenBody = await page.locator('body').innerText();
+    check('Boss-Check-Aufgabe Eisen auf uk', bossEisenBody.includes(uk.stations.s09.bossCheck.title), `erwartet "${uk.stations.s09.bossCheck.title}"`);
+  }
+
   // Quiz: Versuch starten, Frage lesen
   const quiz = reg.items['s02-quiz'];
   await page.goto(`${M}/mod/quiz/view.php?id=${quiz.cmid}&lang=uk`, { waitUntil: 'networkidle' });
@@ -121,23 +132,24 @@ try {
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=ar`, { waitUntil: 'networkidle' });
   check('ar setzt dir=rtl', (await page.evaluate(() => document.documentElement.getAttribute('dir'))) === 'rtl');
 
-  // Badge-Seite: beide Etappen-Badges (Holz, Stein) gelistet. badges/view.php ist seit Moodle 4.5
-  // deprecated (nur noch ein redirect() auf badges/index.php, verifiziert gegen
+  // Badge-Seite: alle drei Etappen-Badges (Holz, Stein, Eisen) gelistet. badges/view.php ist seit
+  // Moodle 4.5 deprecated (nur noch ein redirect() auf badges/index.php, verifiziert gegen
   // /var/www/html/badges/view.php in der Box) und soll laut MDL-82383 in Moodle 6.0 verschwinden
   // -- direkt index.php ansteuern (Final-Review-Fix B). Nicht auf den ganzen Seitentext pruefen
   // (der urspruengliche Check war vakuos -- "Holz"/"Stein" stehen als Abschnittsnamen z. B. auch
   // im Kursindex, wenn der irgendwo mitgerendert wird), sondern gezielt auf die Badge-Namenslinks
   // der Liste ("#region-main a[href*=overview.php]", je Badge genau einer, per Snapshot der echten
   // Seite verifiziert -- der reportbuilder-Renderer von index.php erzeugt denselben Link) -- und
-  // zusaetzlich die Anzahl dieser Links gegen 2 pruefen, damit weder "Badge fehlt" noch "es sind
-  // auf einmal drei" unbemerkt bliebe.
+  // zusaetzlich die Anzahl dieser Links gegen 3 pruefen (Task 10: Eisen kommt dazu), damit weder
+  // "Badge fehlt" noch "es sind auf einmal vier" unbemerkt bliebe.
   await page.goto(`${M}/badges/index.php?type=2&id=${reg.courseId}&lang=de`, { waitUntil: 'networkidle' });
   const badgeLinks = page.locator('#region-main a[href*="overview.php"]');
   const badgeCount = await badgeLinks.count();
   const badgeText = (await badgeLinks.allTextContents()).join(' | ');
-  const badgeExtra = `Badge-Eintraege: ${badgeCount} (erwartet 2), Namen: [${badgeText}]`;
-  check('Badge Holz auf Badge-Seite', badgeCount === 2 && badgeText.includes(de.etappen.holz.badge.name), badgeExtra);
-  check('Badge Stein auf Badge-Seite', badgeCount === 2 && badgeText.includes(de.etappen.stein.badge.name), badgeExtra);
+  const badgeExtra = `Badge-Eintraege: ${badgeCount} (erwartet 3), Namen: [${badgeText}]`;
+  check('Badge Holz auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.holz.badge.name), badgeExtra);
+  check('Badge Stein auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.stein.badge.name), badgeExtra);
+  check('Badge Eisen auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.eisen.badge.name), badgeExtra);
 
   // Zurueck auf Deutsch, damit die Session sauber bleibt
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=de`);

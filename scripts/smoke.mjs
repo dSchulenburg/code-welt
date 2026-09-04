@@ -5,6 +5,12 @@ import { chromium } from 'playwright-core';
 import { resolveBrowser } from './resolveBrowser.mjs';
 import { STATIONS } from '../src/data/stations.js';
 import { LANGS, RTL } from '../src/i18n/index.js';
+import de from '../src/i18n/de.js';
+
+// Uebungstypen, die als eigene Komponente im DOM landen muessen, wenn STATIONS[sid].exercises
+// einen Eintrag mit diesem type traegt (Task 10) -- 'predict' hat keine eigene .exercise-Klasse
+// (AgentGrid) und bleibt darum aussen vor.
+const EXERCISE_TYPES = ['parsons', 'match', 'fill', 'findbug'];
 
 const PORT = 4173;
 const BASE = `http://localhost:${PORT}/code-welt/`;
@@ -61,6 +67,37 @@ try {
           });
           if (bidi.direction !== 'ltr' && bidi.unicodeBidi !== 'plaintext') {
             throw new Error(`Story-Absatz nicht bidi-sicher: direction=${bidi.direction} unicode-bidi=${bidi.unicodeBidi}`);
+          }
+        }
+        // Task 10: jede in STATIONS[sid].exercises deklarierte Uebung muss tatsaechlich im DOM
+        // landen -- beweist, dass die Komponente dispatcht wurde, nicht nur, dass die Daten
+        // dafuer existieren.
+        const typesHere = [...new Set(STATIONS[sid].exercises.map((e) => e.type).filter((t) => EXERCISE_TYPES.includes(t)))];
+        for (const type of typesHere) {
+          const exCount = await page.locator('.exercise.' + type).count();
+          if (exCount === 0) throw new Error(`Übung ${type} fehlt`);
+        }
+        // s07: Klick-Durchlauf der Zuordnung -- beweist die Interaktion im echten Browser, nicht
+        // nur die statischen Daten. Block i gehoert immer zu Zeile i (Datenreihenfolge, siehe
+        // MatchBlocksPython.jsx: nur die Anzeige der Zeilen ist deterministisch gemischt, die
+        // data-testid der Zeile bleibt der Originalindex).
+        // Erwartungstext ist immer de.ui.matchRight, NICHT die Uebersetzung der Seitensprache:
+        // StationView.jsx reicht Uebungs-Komponenten nur `ui = de.ui` durch (nie `sui`), src/lib/
+        // bilingual.js dokumentiert das als Entscheidung ("Buttons bleiben deutsch, Nachtrag Plan 2,
+        // Entscheidung 2") -- matchRight/matchWrong sind Teil dieser Button-/Feedback-Ebene.
+        // Gegenprobe gemacht: mit getBundle(code) FAILten s07 en/uk/ar/es/it (deutscher Text kam
+        // an, obwohl die jeweils andere Sprache aktiv war) -- kein Uebungsdefekt, sondern exakt das
+        // dokumentierte Verhalten.
+        if (sid === 's07') {
+          const matchExercise = STATIONS.s07.exercises.find((e) => e.type === 'match');
+          for (let i = 0; i < matchExercise.pairs.length; i++) {
+            await page.locator(`[data-testid="match-block-${i}"]`).click();
+            await page.locator(`[data-testid="match-line-${i}"]`).click();
+          }
+          await page.locator('[data-testid="match-check"]').click();
+          const status = await page.locator('[role="status"]').first().textContent();
+          if (!status || !status.includes(de.ui.matchRight)) {
+            throw new Error(`role=status "${status}" enthält nicht ui.matchRight "${de.ui.matchRight}"`);
           }
         }
         if (errors.length) throw new Error(errors.join(' | '));

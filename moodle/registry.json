@@ -38,14 +38,6 @@
         "cmid": 140,
         "hash": "576081d3636d"
       },
-      "page-00-setup": {
-        "cmid": 101,
-        "hash": "6a7cb00a2e18"
-      },
-      "page-01-welt-ankunft": {
-        "cmid": 102,
-        "hash": "5404e5f5ebd9"
-      },
       "page-ds01": {
         "cmid": 103,
         "hash": "83a33424f321"
@@ -115,41 +107,61 @@
         "hash": "28829f67fb77"
       },
       "s07-station": {
-        "cmid": 141,
-        "hash": "101ceeb0d43f"
-      },
-      "s07-quiz": {
-        "cmid": 142,
-        "quizId": 25,
-        "questions": 4,
-        "hash": "ac84c1542a1f"
+        "cmid": 153,
+        "hash": "44f15fe57340"
       },
       "s08-station": {
-        "cmid": 143,
-        "hash": "8bc925238ddd"
-      },
-      "s08-quiz": {
-        "cmid": 144,
-        "quizId": 26,
-        "questions": 4,
-        "hash": "ef8a51916283"
+        "cmid": 155,
+        "hash": "5da300ebfaf1"
       },
       "s09-station": {
-        "cmid": 145,
-        "hash": "1c87bdfd0f59"
+        "cmid": 157,
+        "hash": "2feeef5e7c17"
+      },
+      "page-00-setup": {
+        "cmid": 148,
+        "hash": "c4c44c529447"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 149,
+        "hash": "ee0bc9b785bf"
+      },
+      "page-ds07": {
+        "cmid": 150,
+        "hash": "e259a30de97e"
+      },
+      "page-ds08": {
+        "cmid": 151,
+        "hash": "dda3aebb57dc"
+      },
+      "page-ds09": {
+        "cmid": 152,
+        "hash": "b99b9828fd01"
+      },
+      "s07-quiz": {
+        "cmid": 154,
+        "quizId": 28,
+        "questions": 4,
+        "hash": "2d994d3f93a3"
+      },
+      "s08-quiz": {
+        "cmid": 156,
+        "quizId": 29,
+        "questions": 4,
+        "hash": "83b386658d6d"
       },
       "s09-quiz": {
-        "cmid": 146,
-        "quizId": 27,
+        "cmid": 158,
+        "quizId": 30,
         "questions": 4,
-        "hash": "cdc6c272a6ce"
+        "hash": "da323c9b4545"
       },
       "boss-eisen": {
-        "cmid": 147,
-        "hash": "af2742b27456"
+        "cmid": 159,
+        "hash": "e37bffa6d0b1"
       }
     },
-    "criteriaCmids": "114,121,129,130,131,132,133,134,142,144,146,147",
+    "criteriaCmids": "114,121,129,130,131,132,133,134,154,156,158,159",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2,
