@@ -19,68 +19,24 @@
         "hash": "41ebdb8565a4"
       },
       "s01-station": {
-        "cmid": 85,
-        "hash": "ab8b7a17c446"
-      },
-      "s01-quiz": {
-        "cmid": 86,
-        "quizId": 7,
-        "questions": 4,
-        "hash": "7fd92e4d955b"
-      },
-      "s02-quiz": {
-        "cmid": 87,
-        "quizId": 8,
-        "questions": 4,
-        "hash": "ff47c311634d"
+        "cmid": 109,
+        "hash": "94467f0be1fa"
       },
       "s03-station": {
-        "cmid": 88,
-        "hash": "bb1996343ef1"
-      },
-      "s03-quiz": {
-        "cmid": 89,
-        "quizId": 9,
-        "questions": 4,
-        "hash": "fc3f0f4bbf18"
-      },
-      "boss-holz": {
-        "cmid": 93,
-        "hash": "297bb0308c15"
+        "cmid": 112,
+        "hash": "8d3fff4d5159"
       },
       "s04-station": {
-        "cmid": 94,
-        "hash": "b8388c148e42"
-      },
-      "s04-quiz": {
-        "cmid": 95,
-        "quizId": 10,
-        "questions": 4,
-        "hash": "99a5be837ec2"
+        "cmid": 115,
+        "hash": "6deb7631e99c"
       },
       "s05-station": {
-        "cmid": 96,
-        "hash": "f9a2bfce822b"
-      },
-      "s05-quiz": {
-        "cmid": 97,
-        "quizId": 11,
-        "questions": 4,
-        "hash": "2d568e806062"
+        "cmid": 117,
+        "hash": "3ab83e638b6c"
       },
       "s06-station": {
-        "cmid": 98,
-        "hash": "bbe3d4d12f50"
-      },
-      "s06-quiz": {
-        "cmid": 99,
-        "quizId": 12,
-        "questions": 4,
-        "hash": "d50a7dd2be9f"
-      },
-      "boss-stein": {
-        "cmid": 100,
-        "hash": "bd2fe2529a8f"
+        "cmid": 119,
+        "hash": "a6e1dbbfa4cd"
       },
       "page-00-setup": {
         "cmid": 101,
@@ -110,11 +66,55 @@
         "cmid": 107,
         "hash": "fc6f64bf6fe5"
       },
+      "s01-quiz": {
+        "cmid": 110,
+        "quizId": 13,
+        "questions": 4,
+        "hash": "ed374e79eed8"
+      },
+      "s02-quiz": {
+        "cmid": 111,
+        "quizId": 14,
+        "questions": 4,
+        "hash": "415812e2604b"
+      },
+      "s03-quiz": {
+        "cmid": 113,
+        "quizId": 15,
+        "questions": 4,
+        "hash": "9b75ba4f7238"
+      },
+      "boss-holz": {
+        "cmid": 114,
+        "hash": "98f5e8748ce6"
+      },
+      "s04-quiz": {
+        "cmid": 116,
+        "quizId": 16,
+        "questions": 4,
+        "hash": "f584b710ec3d"
+      },
+      "s05-quiz": {
+        "cmid": 118,
+        "quizId": 17,
+        "questions": 4,
+        "hash": "a5676321564e"
+      },
+      "s06-quiz": {
+        "cmid": 120,
+        "quizId": 18,
+        "questions": 4,
+        "hash": "642830c43cb5"
+      },
+      "boss-stein": {
+        "cmid": 121,
+        "hash": "5ae4a4bb712b"
+      },
       "forum-nour": {
-        "cmid": 108
+        "cmid": 122
       }
     },
-    "criteriaCmids": "86,87,89,93,95,97,99,100",
+    "criteriaCmids": "110,111,113,114,116,118,120,121",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2
