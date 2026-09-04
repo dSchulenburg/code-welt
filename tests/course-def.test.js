@@ -46,7 +46,9 @@ test('Station 2 liefert Label mit sechs iframe-Varianten und Quiz mit vier Frage
   const quiz = holz.items.find((i) => i.key === 's02-quiz');
   expect(quiz.type).toBe('quiz');
   expect(quiz.questions).toHaveLength(4);
-  expect(quiz.questions[0].answers.filter((a) => a.fraction === 100)).toHaveLength(1);
+  // fraction ist ein Punktanteil 0.0-1.0, keine Prozentzahl (Final-Review-Fix B: fraction=100
+  // liess Moodle 2500% statt 100% werten, siehe course-def.mjs).
+  expect(quiz.questions[0].answers.filter((a) => a.fraction === 1)).toHaveLength(1);
   expect(quiz.questions[0].text).toMatch(/\{mlang uk\}/);
   expect(quiz.questions[0].text).not.toMatch(/[äöüÄÖÜß]/);
 });

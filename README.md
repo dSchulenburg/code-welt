@@ -25,11 +25,19 @@ Gesamtlauf in dieser Reihenfolge:
     bash moodle/apply-completion.sh   # Quizze: Abschluss bei Bestehensnote 60 %
     bash moodle/apply-php.sh php/reset-badges.php <courseid>   # nur nach einem Quiz-Recreate nötig, s. u.
     npm run moodle:postbuild      # zweimal — Forum "Fragen an Nour" + Badges Holz/Stein
+    bash moodle/apply-php.sh php/test-student.php <courseid>   # legt schueler1 an/schreibt ihn ein (idempotent)
+    npm run moodle:smoke:learner  # echter Lernpfad als schueler1 (Holz; --etappe stein für Stein)
+    npm run moodle:smoke          # 13 Checks, admin-seitig
 
 `npm run moodle:build` legt den Kurs in der Kurs-in-a-Box an oder aktualisiert ihn
 (`moodle/registry.json` merkt sich die IDs). `npm run smoke` prüft die App (sechs Stationen ×
 sechs Sprachen), `npm run moodle:smoke` den Kurs in der Box End-to-End (Login, Reihenfolge,
-Forum, Boss-Check, Quiz, Badges, RTL). Nachlauf-Items wie das Forum „Fragen an Nour" tragen im
+Forum, Boss-Check, Quiz, Badges, RTL) — alles admin-seitig, ohne echten Abschluss. `npm run
+moodle:smoke:learner` ist der einzige Lauf, der als Lernender zählt: Login als `schueler1`, die
+drei Quizze der Etappe mit den echten richtigen Antworten aus `src/i18n/de.js`, eine echte
+Online-Text-Abgabe am Boss-Check, danach per MCP der Nachweis, dass Moodle das Etappen-Badge ohne
+Admin-Override verliehen hat. Setzt `schueler1` vorher selbst zurück (ruft `reset-test-student.php`
+auf), der Lauf beginnt also immer bei null. Nachlauf-Items wie das Forum „Fragen an Nour" tragen im
 Register ein `managedBy`-Feld (z. B. `managedBy: 'postbuild'`) und werden von der
 Verwaisungs-Bereinigung in `moodle:build` deshalb nicht angefasst — vorher hat jeder Build das
 Forum als „verwaist" gelöscht und `moodle:postbuild` es neu angelegt, dabei wären auf Produktion
@@ -43,6 +51,18 @@ außerdem die Kriterien-Änderung (`ACTIVE_LOCKED`) — dafür gibt es `moodle/p
 (**nur Box**, löscht Verleihungen). Auf Produktion vor einem Rebuild: Badges prüfen, Versuchshistorie
 sichern, nicht blind `moodle:build` laufen lassen. Das Forum „Fragen an Nour" ist von diesem
 Tradeoff nicht betroffen (s. o., `managedBy`).
+
+### Vor dem Probelauf (nur Box)
+
+    bash moodle/apply-php.sh php/reset-test-student.php <courseid> schueler1
+
+Setzt `schueler1` in einem Kurs auf den Ausgangszustand zurück: löscht Aktivitätsabschluss,
+Quizversuche (inkl. `question_usages`), die Boss-Check-Abgabe (inkl. Online-Text) und die Noten,
+und setzt beide Badges wieder auf ACTIVE (unverliehen). Nur die Box — nie gegen Produktion
+ausführen, dort wären das echte Schüler-Daten. `npm run moodle:smoke:learner` ruft dieses Skript
+selbst vor dem Lernpfad auf; für einen manuellen Probelauf (z. B. bevor Dirk sich selbst als
+`schueler1` einloggt) einmal von Hand laufen lassen, danach `npm run moodle:postbuild` (Badges
+wieder mit den aktuellen CMIDs verknüpfen, falls seitdem ein Quiz neu angelegt wurde).
 
 `scripts/blocks-js/s02.js` ist veraltet (Vorlage für ein optionales, manuell gerendertes Bild aus
 Plan 1) — die App zeichnet die Block-Ansicht aller sechs Stationen live aus `src/data/stations.js`,
@@ -63,9 +83,13 @@ Final-Review-Fix A):
 (SVG, live aus den Stationsdaten gezeichnet — kein manueller Screenshot mehr), zwei Boss-Checks
 (Aufgaben mit Online-Text), zwei Badges (Holz, Stein), Forum „Fragen an Nour", Lehrkraft-Abschnitt
 (Setup, Weltbauplan, Stundenverläufe DS 1–6), Referenzbilder für Nour und Dani. Box-Kurs 10 gebaut, Gesamtlauf
-(`moodle:build` ×2, `apply-completion.sh`, `reset-badges.php`, `moodle:postbuild` ×2) durch, Badge
-Holz für den Testschüler `schueler1` erneut nachgewiesen. App-Smoke (36 Checks) und Box-Smoke
-(13 Checks) je dreimal hintereinander grün.
+(`moodle:build` ×2, `apply-completion.sh`, `reset-badges.php`, `moodle:postbuild` ×2) durch, Badges
+Holz und Stein je über den echten Lernpfad nachgewiesen (`npm run moodle:smoke:learner`, als
+`schueler1`: drei Quizze mit 100 %, echte Boss-Check-Abgabe, Badge sofort verliehen — ohne
+Admin-Override, ohne Cron). Dabei ein Fund: `moodle/course-def.mjs` reichte die Multichoice-Fraction
+als Prozentzahl (100/0) statt als Anteil (1.0/0.0) durch, Moodle wertete dadurch bis zu 2500 %
+statt 100 % — behoben (Final-Review-Fix B), alle sechs Quizze mit korrigierten Fraktionen neu
+angelegt. App-Smoke (36 Checks) und Box-Smoke (13 Checks) je dreimal hintereinander grün.
 
 Charaktere: Referenzbilder für Nour und Dani liegen vor (0,08 USD), die zehn Posen (fünf je
 Figur) folgen nach Dirks Freigabe. Übersetzung der sechs Stationen in fünf Sprachen: 2,81 USD.

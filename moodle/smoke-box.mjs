@@ -121,13 +121,17 @@ try {
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=ar`, { waitUntil: 'networkidle' });
   check('ar setzt dir=rtl', (await page.evaluate(() => document.documentElement.getAttribute('dir'))) === 'rtl');
 
-  // Badge-Seite: beide Etappen-Badges (Holz, Stein) gelistet. Nicht auf den ganzen Seitentext
-  // pruefen (der urspruengliche Check war vakuos -- "Holz"/"Stein" stehen als Abschnittsnamen
-  // z. B. auch im Kursindex, wenn der irgendwo mitgerendert wird), sondern gezielt auf die
-  // Badge-Namenslinks der Liste ("#region-main a[href*=overview.php]", je Badge genau einer, per
-  // Snapshot der echten Seite verifiziert) -- und zusaetzlich die Anzahl dieser Links gegen 2
-  // pruefen, damit weder "Badge fehlt" noch "es sind auf einmal drei" unbemerkt bliebe.
-  await page.goto(`${M}/badges/view.php?type=2&id=${reg.courseId}&lang=de`, { waitUntil: 'networkidle' });
+  // Badge-Seite: beide Etappen-Badges (Holz, Stein) gelistet. badges/view.php ist seit Moodle 4.5
+  // deprecated (nur noch ein redirect() auf badges/index.php, verifiziert gegen
+  // /var/www/html/badges/view.php in der Box) und soll laut MDL-82383 in Moodle 6.0 verschwinden
+  // -- direkt index.php ansteuern (Final-Review-Fix B). Nicht auf den ganzen Seitentext pruefen
+  // (der urspruengliche Check war vakuos -- "Holz"/"Stein" stehen als Abschnittsnamen z. B. auch
+  // im Kursindex, wenn der irgendwo mitgerendert wird), sondern gezielt auf die Badge-Namenslinks
+  // der Liste ("#region-main a[href*=overview.php]", je Badge genau einer, per Snapshot der echten
+  // Seite verifiziert -- der reportbuilder-Renderer von index.php erzeugt denselben Link) -- und
+  // zusaetzlich die Anzahl dieser Links gegen 2 pruefen, damit weder "Badge fehlt" noch "es sind
+  // auf einmal drei" unbemerkt bliebe.
+  await page.goto(`${M}/badges/index.php?type=2&id=${reg.courseId}&lang=de`, { waitUntil: 'networkidle' });
   const badgeLinks = page.locator('#region-main a[href*="overview.php"]');
   const badgeCount = await badgeLinks.count();
   const badgeText = (await badgeLinks.allTextContents()).join(' | ');

@@ -66,45 +66,9 @@
         "cmid": 107,
         "hash": "fc6f64bf6fe5"
       },
-      "s01-quiz": {
-        "cmid": 110,
-        "quizId": 13,
-        "questions": 4,
-        "hash": "ed374e79eed8"
-      },
-      "s02-quiz": {
-        "cmid": 111,
-        "quizId": 14,
-        "questions": 4,
-        "hash": "415812e2604b"
-      },
-      "s03-quiz": {
-        "cmid": 113,
-        "quizId": 15,
-        "questions": 4,
-        "hash": "9b75ba4f7238"
-      },
       "boss-holz": {
         "cmid": 114,
         "hash": "98f5e8748ce6"
-      },
-      "s04-quiz": {
-        "cmid": 116,
-        "quizId": 16,
-        "questions": 4,
-        "hash": "f584b710ec3d"
-      },
-      "s05-quiz": {
-        "cmid": 118,
-        "quizId": 17,
-        "questions": 4,
-        "hash": "a5676321564e"
-      },
-      "s06-quiz": {
-        "cmid": 120,
-        "quizId": 18,
-        "questions": 4,
-        "hash": "642830c43cb5"
       },
       "boss-stein": {
         "cmid": 121,
@@ -113,9 +77,45 @@
       "forum-nour": {
         "cmid": 122,
         "managedBy": "postbuild"
+      },
+      "s01-quiz": {
+        "cmid": 129,
+        "quizId": 19,
+        "questions": 4,
+        "hash": "3700b0b6f4ff"
+      },
+      "s02-quiz": {
+        "cmid": 130,
+        "quizId": 20,
+        "questions": 4,
+        "hash": "423dfa27f94b"
+      },
+      "s03-quiz": {
+        "cmid": 131,
+        "quizId": 21,
+        "questions": 4,
+        "hash": "9ea0335acbf7"
+      },
+      "s04-quiz": {
+        "cmid": 132,
+        "quizId": 22,
+        "questions": 4,
+        "hash": "bc83402c0526"
+      },
+      "s05-quiz": {
+        "cmid": 133,
+        "quizId": 23,
+        "questions": 4,
+        "hash": "0b9f74a047fe"
+      },
+      "s06-quiz": {
+        "cmid": 134,
+        "quizId": 24,
+        "questions": 4,
+        "hash": "28829f67fb77"
       }
     },
-    "criteriaCmids": "110,111,113,114,116,118,120,121",
+    "criteriaCmids": "114,121,129,130,131,132,133,134",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2

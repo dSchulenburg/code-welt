@@ -18,6 +18,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { mlang, pick } from './lib/mlang.mjs';
 import { toEntities } from './lib/entities.mjs';
+import { ETAPPEN, STATIONS } from '../src/data/stations.js';
 import de from '../src/i18n/de.js';
 import en from '../src/i18n/en.js';
 import uk from '../src/i18n/uk.js';
@@ -74,6 +75,42 @@ export function applyBadgeResults(reg, badgeResults) {
   return reg;
 }
 
+// Leitet aus ETAPPEN + STATIONS + dem aktuellen Register die Badge-Grunddaten ab (Etappen-ID,
+// badge.key, badge.icon-Dateiname, cmids der Quizze + Boss-Checks) -- ohne Namen/Beschreibung
+// (die kommen erst in main() aus den Bundles) und ohne Icon-Pfad-Praefix. Reine Funktion, mit
+// Fake-ETAPPEN/Fake-Register testbar (siehe tests/postbuild.test.js), damit hier keine
+// String-Literale wie "badge-holz"/"holz.png" mehr stehen muessen.
+//
+// Eine Etappe liefert keinen Spec (landet in `skipped`, main() loggt eine Zeile je Eintrag),
+// wenn sie kein badge-Feld traegt, keine Stationen hat (Eisen, Gold, ... -- noch nicht gebaut)
+// oder wenn irgendeine ihrer Stationen (Quiz oder, falls die Station einen traegt, deren
+// Boss-Check) noch keine cmid im Register hat.
+export function badgeSpecsFromEtappen(etappen, stations, items) {
+  const specs = [];
+  const skipped = [];
+  for (const e of etappen) {
+    if (!e.badge) { skipped.push({ id: e.id, reason: 'kein badge-Feld' }); continue; }
+    if (e.stations.length === 0) { skipped.push({ id: e.id, reason: 'keine Stationen (noch nicht gebaut)' }); continue; }
+    const cmids = [];
+    let missing = null;
+    for (const sid of e.stations) {
+      const quizKey = `${sid}-quiz`;
+      const quizCmid = items[quizKey]?.cmid;
+      if (typeof quizCmid !== 'number') { missing = quizKey; break; }
+      cmids.push(quizCmid);
+      const bossKey = stations[sid]?.bossCheck?.key;
+      if (bossKey) {
+        const bossCmid = items[bossKey]?.cmid;
+        if (typeof bossCmid !== 'number') { missing = bossKey; break; }
+        cmids.push(bossCmid);
+      }
+    }
+    if (missing) { skipped.push({ id: e.id, reason: `Register: items['${missing}'].cmid fehlt` }); continue; }
+    specs.push({ etappeId: e.id, key: e.badge.key, icon: e.badge.icon, cmids });
+  }
+  return { specs, skipped };
+}
+
 // --- Lauf gegen die Box ---
 
 function run(args) {
@@ -87,14 +124,6 @@ function main() {
   if (!reg || !reg.courseId) throw new Error(`registry.json: ${ENV}.courseId fehlt -- erst npm run moodle:build laufen lassen`);
   const save = () => fs.writeFileSync(REG_PATH, JSON.stringify(registry, null, 2) + '\n');
   const courseId = reg.courseId;
-
-  const need = (key) => {
-    const cmid = reg.items[key]?.cmid;
-    if (typeof cmid !== 'number') throw new Error(`registry.json: items['${key}'].cmid fehlt -- erst npm run moodle:build laufen lassen`);
-    return cmid;
-  };
-  const holzCmids = [need('s01-quiz'), need('s02-quiz'), need('s03-quiz'), need('boss-holz')];
-  const steinCmids = [need('s04-quiz'), need('s05-quiz'), need('s06-quiz'), need('boss-stein')];
 
   const bundles = { de, en, uk, ar, es, it };
 
@@ -112,42 +141,41 @@ function main() {
   applyForumResult(reg, parseCmidLine(forumOut));
   save();
 
-  // 2. Badges (JSON als Datei nach /tmp/ kopiert statt als Argument -- Shell-Quoting bei
-  // mehrsprachigem {mlang}-Text mit Anfuehrungszeichen/Sonderzeichen waere sonst nicht robust).
-  // id: die bekannte Badge-ID aus dem Register (falls schon mal angelegt) -- selber Grund wie beim
-  // Forum oben: robust gegen geaenderte {mlang}-Uebersetzungen, siehe create-badges.php.
-  const badgeSpecs = [
-    {
-      key: 'badge-holz',
-      id: reg.badges?.['badge-holz'] ?? null,
-      name: mlang(pick(bundles, 'etappen.holz.badge.name')),
-      description: toEntities(mlang(pick(bundles, 'etappen.holz.badge.description'))),
-      icon: '/tmp/holz.png',
-      cmids: holzCmids,
-    },
-    {
-      key: 'badge-stein',
-      id: reg.badges?.['badge-stein'] ?? null,
-      name: mlang(pick(bundles, 'etappen.stein.badge.name')),
-      description: toEntities(mlang(pick(bundles, 'etappen.stein.badge.description'))),
-      icon: '/tmp/stein.png',
-      cmids: steinCmids,
-    },
-  ];
-  fs.writeFileSync(TMP_JSON, JSON.stringify(badgeSpecs, null, 2));
-  try {
-    const badgeOut = run([
-      'php/create-badges.php',
-      '--copy', 'tmp-badges.json',
-      '--copy', 'badges/holz.png',
-      '--copy', 'badges/stein.png',
-      String(courseId), '/tmp/tmp-badges.json',
-    ]);
-    console.log(badgeOut.trimEnd());
-    applyBadgeResults(reg, parseBadgeLines(badgeOut));
-    save();
-  } finally {
-    fs.rmSync(TMP_JSON, { force: true });
+  // 2. Badges -- Grunddaten (Etappe, key, icon-Datei, cmids) aus ETAPPEN/STATIONS/Register
+  // abgeleitet (badgeSpecsFromEtappen oben), nicht mehr hier hardcodiert. Etappen ohne gebaute
+  // Stationen (Eisen, Gold, ...) fallen dabei heraus -- eine Log-Zeile je uebersprungener Etappe.
+  const { specs, skipped } = badgeSpecsFromEtappen(ETAPPEN, STATIONS, reg.items);
+  for (const s of skipped) console.log(`Badge fuer Etappe "${s.id}" uebersprungen: ${s.reason}`);
+
+  if (specs.length === 0) {
+    console.log('\nKeine Etappe mit gebauten Stationen -- keine Badges angelegt.');
+  } else {
+    // JSON als Datei nach /tmp/ kopiert statt als Argument -- Shell-Quoting bei mehrsprachigem
+    // {mlang}-Text mit Anfuehrungszeichen/Sonderzeichen waere sonst nicht robust. id: die bekannte
+    // Badge-ID aus dem Register (falls schon mal angelegt) -- robust gegen geaenderte
+    // {mlang}-Uebersetzungen, siehe create-badges.php.
+    const badgeSpecs = specs.map((s) => ({
+      key: s.key,
+      id: reg.badges?.[s.key] ?? null,
+      name: mlang(pick(bundles, `etappen.${s.etappeId}.badge.name`)),
+      description: toEntities(mlang(pick(bundles, `etappen.${s.etappeId}.badge.description`))),
+      icon: '/tmp/' + s.icon,
+      cmids: s.cmids,
+    }));
+    fs.writeFileSync(TMP_JSON, JSON.stringify(badgeSpecs, null, 2));
+    try {
+      const badgeOut = run([
+        'php/create-badges.php',
+        '--copy', 'tmp-badges.json',
+        ...specs.flatMap((s) => ['--copy', 'badges/' + s.icon]),
+        String(courseId), '/tmp/tmp-badges.json',
+      ]);
+      console.log(badgeOut.trimEnd());
+      applyBadgeResults(reg, parseBadgeLines(badgeOut));
+      save();
+    } finally {
+      fs.rmSync(TMP_JSON, { force: true });
+    }
   }
 
   console.log(`\nFertig. Forum cmid ${reg.items['forum-nour'].cmid}, Badges: ${JSON.stringify(reg.badges)}`);

@@ -1,6 +1,12 @@
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { ETAPPEN, STATIONS } from '../src/data/stations.js';
 import de from '../src/i18n/de.js';
 import content from '../src/content/de.js';
+
+const HERE = path.dirname(fileURLToPath(import.meta.url));
+const BADGES_DIR = path.join(HERE, '..', 'src', 'assets', 'badges');
 
 test('Etappen in Kursreihenfolge, jede Station genau einer Etappe zugeordnet', () => {
   expect(ETAPPEN.map((e) => e.id)).toEqual(['holz', 'stein', 'eisen', 'gold', 'diamant', 'netherite', 'enderdrache']);
@@ -67,6 +73,18 @@ test('jede Etappe hat ein Badge (Daten + i18n Name/Beschreibung)', () => {
     const b = de.etappen[e.id].badge;
     expect(typeof b.name, e.id).toBe('string');
     expect(typeof b.description, e.id).toBe('string');
+  }
+});
+
+// Nur Etappen mit gebauten Stationen (Holz, Stein) muessen schon eine echte SVG haben --
+// postbuild.mjs (badgeSpecsFromEtappen) und scripts/badge-icons.mjs ueberspringen Etappen ohne
+// Stationen (Eisen, Gold, ...) ausdruecklich als "noch nicht gebaut", nicht als Fehler; dieselbe
+// Grenze gilt hier, sonst wuerde dieser Test schon jetzt an den Zukunfts-Etappen scheitern.
+test('badge.icon jeder gebauten Etappe zeigt auf eine vorhandene SVG in src/assets/badges/', () => {
+  for (const e of ETAPPEN) {
+    if (e.stations.length === 0) continue;
+    const stem = e.badge.icon.replace(/\.png$/, '');
+    expect(existsSync(path.join(BADGES_DIR, `${stem}.svg`)), `${e.id}: src/assets/badges/${stem}.svg`).toBe(true);
   }
 });
 

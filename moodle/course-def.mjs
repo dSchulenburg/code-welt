@@ -85,7 +85,13 @@ export function buildCourseDef({ bundles, appBase, etappen = ETAPPEN, stations =
       const quiz = bundles.de.stations[sid].quiz.map((q, qi) => ({
         name: `${sid} Frage ${qi + 1}`,
         text: toEntities(mlang(pick(bundles, `stations.${sid}.quiz[${qi}].q`))),
-        answers: q.answers.map((a, ai) => ({ text: toEntities(mlang(pick(bundles, `stations.${sid}.quiz[${qi}].answers[${ai}].text`))), fraction: a.correct ? 100 : 0 })),
+        // fraction ist ein Punktanteil 0.0-1.0 (1.0 = richtig), nicht Prozent -- siehe
+        // local_sync_service/externallib.php: "$answer->fraction = $answerdata['fraction'];" ohne
+        // Normalisierung. Ein fraction von 100 (Final-Review-Fix B, Fund beim ersten echten
+        // Lernenden-Pfad: mod_quiz/summary.php zeigte "2500 %" statt "100 %") landet unveraendert
+        // in mdl_question_answers.fraction und lässt Moodle weit über den Fragen-Hoechstwert
+        // hinaus werten (Feedback zeigt trotzdem "Richtig", weil fraction > 0 reicht).
+        answers: q.answers.map((a, ai) => ({ text: toEntities(mlang(pick(bundles, `stations.${sid}.quiz[${qi}].answers[${ai}].text`))), fraction: a.correct ? 1 : 0 })),
       }));
       items.push({ key: `${sid}-quiz`, type: 'quiz', name: mlang(checkName), intro: '', questions: quiz });
       // Boss-Check: Aufgabe direkt nach dem Quiz der Station, die ihn traegt (Nachtrag Plan 2,

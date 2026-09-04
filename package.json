@@ -17,7 +17,8 @@
     "smoke": "node scripts/smoke.mjs",
     "moodle:build": "node moodle/build-course.mjs",
     "moodle:postbuild": "node moodle/postbuild.mjs",
-    "moodle:smoke": "node moodle/smoke-box.mjs"
+    "moodle:smoke": "node moodle/smoke-box.mjs",
+    "moodle:smoke:learner": "node moodle/smoke-learner.mjs"
   },
   "dependencies": {
     "prismjs": "^1.29.0",

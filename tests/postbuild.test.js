@@ -1,4 +1,4 @@
-import { parseCmidLine, parseBadgeLines, applyForumResult, applyBadgeResults } from '../moodle/postbuild.mjs';
+import { parseCmidLine, parseBadgeLines, applyForumResult, applyBadgeResults, badgeSpecsFromEtappen } from '../moodle/postbuild.mjs';
 
 test('parseCmidLine liest cmid=<n> aus der create-forum.php-Ausgabe', () => {
   expect(parseCmidLine('cmid=12\n')).toBe(12);
@@ -56,4 +56,30 @@ test('applyBadgeResults ergaenzt ein bestehendes badges-Objekt, statt es zu erse
   const reg = { badges: { 'badge-holz': 3 } };
   applyBadgeResults(reg, [{ key: 'badge-stein', id: 4 }]);
   expect(reg.badges).toEqual({ 'badge-holz': 3, 'badge-stein': 4 });
+});
+
+// badgeSpecsFromEtappen: Badge-Spezifikationen kommen aus ETAPPEN, nicht aus String-Literalen im
+// Skript (Final-Review-Fix B, Important 3). Fake-ETAPPEN/Fake-STATIONS/Fake-Register statt der
+// echten Daten -- die Funktion ist reine Ableitung, braucht keinen echten Kursbau.
+const fakeStations = {
+  s01: {},
+  s02: { bossCheck: { key: 'boss-holz' } },
+};
+const fakeEtappen = [
+  { id: 'holz', stations: ['s01', 's02'], badge: { key: 'badge-holz', icon: 'holz.png' } },
+  { id: 'eisen', stations: [], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
+];
+
+test('badgeSpecsFromEtappen liefert key/icon/cmids je Etappe (Quizze der Stationen + Boss-Check der letzten Station)', () => {
+  const items = { 's01-quiz': { cmid: 10 }, 's02-quiz': { cmid: 11 }, 'boss-holz': { cmid: 12 } };
+  const { specs, skipped } = badgeSpecsFromEtappen(fakeEtappen, fakeStations, items);
+  expect(specs).toEqual([{ etappeId: 'holz', key: 'badge-holz', icon: 'holz.png', cmids: [10, 11, 12] }]);
+  expect(skipped).toEqual([{ id: 'eisen', reason: 'keine Stationen (noch nicht gebaut)' }]);
+});
+
+test('badgeSpecsFromEtappen ueberspringt eine Etappe, wenn eine ihrer Stationen (oder deren Boss-Check) noch keine cmid im Register hat', () => {
+  const items = { 's01-quiz': { cmid: 10 } }; // s02-quiz fehlt
+  const { specs, skipped } = badgeSpecsFromEtappen(fakeEtappen, fakeStations, items);
+  expect(specs.find((s) => s.etappeId === 'holz')).toBeUndefined();
+  expect(skipped).toContainEqual({ id: 'holz', reason: "Register: items['s02-quiz'].cmid fehlt" });
 });

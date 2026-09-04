@@ -26,7 +26,22 @@ diesem Server (iframe) — ohne ihn bleiben die Stationsseiten im Kurs leer.
 
 `http://localhost:8080` · Login `admin` / `KiKurs-Demo-2026`.
 
-## 4. Kurs auf Ukrainisch öffnen
+## 4. Vor dem Start: Reset
+
+Falls vorher schon jemand als `schueler1` Quizze gelöst oder den Boss-Check abgegeben hat (dein
+eigener früherer Durchlauf, oder ein Lauf von `npm run moodle:smoke:learner`), im
+`code-welt`-Repo:
+
+    bash moodle/apply-php.sh php/reset-test-student.php 10 schueler1
+    npm run moodle:postbuild
+
+Löscht Aktivitätsabschluss, Quizversuche, Boss-Check-Abgaben und Noten von `schueler1` im Kurs und
+setzt beide Badges wieder auf ACTIVE (unverliehen); `moodle:postbuild` verknüpft die Badges danach
+wieder mit den aktuellen Quiz-/Aufgaben-CMIDs. Nur die Box — nie gegen Produktion ausführen. Ohne
+diesen Schritt zeigt Punkt 9 (Badge sehen) unter Umständen ein Badge, das aus einem alten Lauf
+stammt, nicht aus deinem eigenen Durchlauf.
+
+## 5. Kurs auf Ukrainisch öffnen
 
     http://localhost:8080/course/view.php?id=10&lang=uk
 
@@ -34,10 +49,11 @@ Der Kurs heißt „Code-Welt: Programmieren mit Minecraft". Mit `&lang=uk` siehs
 greift — Überschriften, Aufgabenarten und Fortschrittstext sind zweisprachig „Deutsch · Stütze",
 Buttons bleiben deutsch (Absicht, siehe Nachtrag zu Plan 2, Entscheidung 2).
 
-## 5. Stationen 1–6 durchgehen
+## 6. Stationen 1–6 durchgehen
 
-Abschnitt „Holz" (DS 1–3) und „Stein" (DS 4–6), je Station: Label → Quiz. Öffne jede Station
-(Label anklicken) und achte auf:
+Abschnitt „Holz" (DS 1–3) und „Stein" (DS 4–6), je Station: Label → Quiz. Jede Station ist direkt
+in der Kursseite eingebettet (iframe unter dem Label) — es gibt nichts anzuklicken, einfach nach
+unten scrollen. Achte auf:
 
 - **Dialog:** Nour/Dani führen kurz in die Aufgabe ein (Story).
 - **Block-Ansicht:** MakeCode-Blöcke in Editorfarben mit englischen Labels — kein Foto, sondern
@@ -50,7 +66,7 @@ Abschnitt „Holz" (DS 1–3) und „Stein" (DS 4–6), je Station: Label → Qu
 
 Danach das Quiz der Station abschließen (Bestehensnote 60 % reicht für den Aktivitätsabschluss).
 
-## 6. Boss-Check als Testschüler abgeben
+## 7. Boss-Check als Testschüler abgeben
 
 Testkonto: `schueler1` / `Test-2026!` (Rolle Student, bereits in Kurs 10 eingeschrieben).
 
@@ -60,28 +76,32 @@ Testkonto: `schueler1` / `Test-2026!` (Rolle Student, bereits in Kurs 10 eingesc
    abgeben (Freitext reicht — bewertet wird der Inhalt nicht automatisch).
 3. Genauso für „Boss-Check Stein", wenn du auch das Stein-Badge sehen willst.
 
-## 7. Lehrkraft bewertet die Abgabe
+## 8. Lehrkraft bewertet die Abgabe
 
 Als `admin` zurück zur Aufgabe „Boss-Check Holz" → „Alle Abgaben ansehen" → Feedback und Punkte
 eintragen. Der Aktivitätsabschluss ist hier **bei Abgabe** gesetzt (nicht bei einer Mindestnote)
 — das Badge hängt am Abschluss, nicht an der Bewertung (Nachtrag Entscheidung 3).
 
-## 8. Badge sehen
+## 9. Badge sehen
 
-- Badge-Übersicht des Kurses: `http://localhost:8080/badges/view.php?type=2&id=10`
+- Badge-Übersicht des Kurses: `http://localhost:8080/badges/index.php?type=2&id=10` (`view.php`
+  ist seit Moodle 4.5 deprecated und leitet nur noch auf `index.php` um)
 - Oder im Profil von `schueler1`: eingeloggt als `schueler1` → Profil → „Abzeichen".
 
 Voraussetzung für das Holz-Badge: alle drei Quizze der Etappe Holz bestanden **und** der
-Boss-Check Holz abgegeben (nicht: bewertet).
+Boss-Check Holz abgegeben (nicht: bewertet). Willst du stattdessen den automatischen Nachweis
+sehen (kein Klicken, echter Lernpfad als `schueler1`, inkl. Badge-Kontrolle per MCP): im
+`code-welt`-Repo `npm run moodle:smoke:learner` (Holz) bzw. `npm run moodle:smoke:learner -- --etappe stein` (Stein).
 
-## 9. Lehrkraft-Abschnitt sichten
+## 10. Lehrkraft-Abschnitt sichten
 
 Für Schüler:innen unsichtbarer Abschnitt (Auge durchgestrichen) — als `admin` trotzdem sichtbar.
 Enthält: Ordner „Weltdateien" (noch leer, siehe Punkt 3 unten), Setup-Anleitung, Weltbauplan
-„codewelt-ankunft" und sechs Stundenverläufe DS 1–6 mit Musterlösungen, Punkterastern und
-typischen Fehlern.
+„codewelt-ankunft" und sechs Stundenverläufe DS 1–6 mit Musterlösungen und typischen Fehlern —
+ein Punkteraster gibt es nur bei DS 3 und DS 6 (den beiden Boss-Checks; die übrigen vier
+Stundenverläufe bewerten nicht, nur die Quizze tun das automatisch).
 
-## 10. Forum-Testbeitrag
+## 11. Forum-Testbeitrag
 
 Forum „Fragen an Nour" (Abschnitt 0, oben im Kurs) — einen Testbeitrag schreiben, um zu sehen,
 dass Schüler:innen dort tatsächlich posten können (anders als im automatischen
