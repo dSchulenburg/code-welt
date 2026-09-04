@@ -32,9 +32,46 @@ const want = paths(de);
 // sie, ist die Aufgabe im Spiel unloesbar (Review T9, 03.09.2026: it schrieb "casa" statt "haus").
 // Gross-/Kleinschreibung zaehlt — "Weg", "Turm", "Mauer", "Wand", "Haus" sind im Deutschen die
 // normalen Substantive und werden sehr wohl uebersetzt; nur das kleingeschriebene Chat-Wort nicht.
-const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke'];
+// Plan 3 (Eisen, 04.09.2026): plattform (s08) und treppe (s09) kommen dazu.
+const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke', 'plattform', 'treppe'];
 const MAGIC_RE = new RegExp(`\\b(?:${MAGIC_WORDS.join('|')})\\b`, 'g');
+
+// Bezeichner aus dem Kurs-Code (Kanon IDENT_CANON in scripts/translate.mjs, Prompt-Regel 12).
+// Sie stehen in de.js mitten in der Prosa ("laenge steht einmal oben", "index zaehlt 0, 1, 2 …")
+// und meinen dieselbe Zeile, die die SuS im Editor vor sich haben: uebersetzt eine Sprache sie,
+// findet niemand die Zeile wieder. Gross-/Kleinschreibung zaehlt wie bei den Zauberwoertern —
+// "Stufen", "Länge", "Position" sind normale Substantive und werden sehr wohl uebersetzt.
+const IDENT_CANON = ['laenge', 'stufen', 'index', 'pos', 'fill'];
+const IDENT_RE = new RegExp(`\\b(?:${IDENT_CANON.join('|')})\\b`, 'g');
+
+// Ausnahme 04.09.2026 (Plan 3 Task 9, Station s08): In "Weit weg" ist "weg" das gewoehnliche
+// Adverb und wird uebersetzt ("Far away", "Muy lejos", "Molto lontano", …). Die Faustregel
+// "nur das kleingeschriebene Wort ist das Chat-Kommando" trennt hier nicht, weil auch das
+// Adverb klein geschrieben wird — deshalb diese pfadgenaue Ausnahme statt einer weicheren Regel.
+// Prompt-Regel 1 in scripts/translate.mjs nennt den Fall jetzt ausdruecklich.
+const ZAUBERWORT_AUSNAHMEN = { 'stations.s08.quiz[1].answers[2].text': ['weg'] };
+
 const deStrings = stringEntries(de);
+
+// Zauberwort- und Bezeichner-Test pruefen dasselbe Muster: ein Wort, das im deutschen String
+// steht, muss im uebersetzten String an derselben Stelle unveraendert wieder auftauchen.
+function fehlendeWoerter(bundle, regex, ausnahmen = {}) {
+  const fehlend = [];
+  for (const [path, deText] of deStrings) {
+    const woerter = [...new Set(deText.match(regex) || [])]
+      .filter((w) => !(ausnahmen[path] || []).includes(w));
+    if (!woerter.length) continue;
+    const ziel = String(valueAt(bundle, path) ?? '');
+    for (const wort of woerter) {
+      // Handkorrektur 2026-09-04 (Re-Review T9): wort stammt aus dem Kanon und ist damit
+      // aktuell unkritisch, aber ungeescapt in ein RegExp eingesetzt waere jedes kuenftige
+      // Wort mit Regex-Sonderzeichen ein stiller Bug.
+      const wortEscaped = wort.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (!new RegExp(`\\b${wortEscaped}\\b`).test(ziel)) fehlend.push(`${path}: "${wort}" fehlt in "${ziel}"`);
+    }
+  }
+  return fehlend;
+}
 
 for (const [code, bundle] of Object.entries(TRANSLATED)) {
   test(`${code} hat exakt die Schluessel von de`, () => {
@@ -49,20 +86,10 @@ for (const [code, bundle] of Object.entries(TRANSLATED)) {
     for (const q of bundle.stations.s02.quiz) expect(q.answers.filter((a) => a.correct === true)).toHaveLength(1);
   });
   test(`${code}: Zauberwoerter stehen unveraendert an derselben Stelle wie in de`, () => {
-    const fehlend = [];
-    for (const [path, deText] of deStrings) {
-      const woerter = [...new Set(deText.match(MAGIC_RE) || [])];
-      if (!woerter.length) continue;
-      const ziel = String(valueAt(bundle, path) ?? '');
-      for (const wort of woerter) {
-        // Handkorrektur 2026-09-04 (Re-Review T9): wort stammt aus MAGIC_WORDS und ist damit
-        // aktuell unkritisch, aber ungeescapt in ein RegExp eingesetzt waere jedes kuenftige
-        // Zauberwort mit Regex-Sonderzeichen ein stiller Bug.
-        const wortEscaped = wort.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        if (!new RegExp(`\\b${wortEscaped}\\b`).test(ziel)) fehlend.push(`${path}: "${wort}" fehlt in "${ziel}"`);
-      }
-    }
-    expect(fehlend).toEqual([]);
+    expect(fehlendeWoerter(bundle, MAGIC_RE, ZAUBERWORT_AUSNAHMEN)).toEqual([]);
+  });
+  test(`${code}: Code-Bezeichner stehen unveraendert an derselben Stelle wie in de`, () => {
+    expect(fehlendeWoerter(bundle, IDENT_RE)).toEqual([]);
   });
 }
 

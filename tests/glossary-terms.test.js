@@ -2,11 +2,15 @@ import de from '../src/i18n/de.js';
 import es from '../src/i18n/es.js';
 import uk from '../src/i18n/uk.js';
 
-// Regressionstest fuer sechs glossary.*.term-Werte in es und uk. Pinnt die Handkorrekturen aus
+// Regressionstest fuer die glossary.*.term-Werte in es und uk. Pinnt die Handkorrekturen aus
 // Plan 1 (Review Task 8, 03.09.2026: DE-Reste -> Zielsprache) fest, damit eine Neuuebersetzung
-// (Plan 2 Task 9, `translate.mjs --lang all`) sie nicht still durch einen deutschen Rest oder
-// eine schlechtere Uebersetzung ersetzt. agent und python sind ausgenommen (Prompt-Regel 7:
-// Namen bleiben unuebersetzt), daher sechs statt acht Begriffe.
+// (`translate.mjs --lang all`) sie nicht still durch einen deutschen Rest oder eine schlechtere
+// Uebersetzung ersetzt. agent und python sind ausgenommen (Prompt-Regel 7: Namen bleiben
+// unuebersetzt).
+//
+// 04.09.2026 (Plan 3 Task 9): die vier Eisen-Begriffe kommen dazu, Werte aus dem Lauf.
+// `fill` bleibt `fill` — das ist der Minecraft-Befehl, den die SuS tippen, kein Wort zum
+// Uebersetzen (steht deshalb auch in IDENT_CANON in scripts/translate.mjs).
 const EXPECTED = {
   es: {
     befehl: 'Orden',
@@ -15,6 +19,10 @@ const EXPECTED = {
     zauberwort: 'Palabra mágica',
     bloecke: 'Bloques',
     fehler: 'Error',
+    variable: 'Variable',
+    koordinaten: 'Coordenadas',
+    fill: 'fill',
+    zaehler: 'Contador',
   },
   uk: {
     befehl: 'Команда',
@@ -23,6 +31,10 @@ const EXPECTED = {
     zauberwort: 'Чарівне слово',
     bloecke: 'Блоки',
     fehler: 'Помилка',
+    variable: 'Змінна',
+    koordinaten: 'Координати',
+    fill: 'fill',
+    zaehler: 'Лічильник',
   },
 };
 
