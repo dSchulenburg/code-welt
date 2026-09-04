@@ -52,6 +52,10 @@ export default {
     "matchPrompt": "أي بلوك يطابق أي سطر؟ أولاً البلوك، ثم السطر.",
     "matchRight": "صحيح! لكل بلوك سطره.",
     "matchWrong": "ليس بعد. انظر إلى الأرقام والأسماء في البلوكات.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 3), Task 9 ersetzt sie
+    "fillPrompt": "اختر الإجابة الصحيحة لكل فراغ.",
+    "fillRight": "صحيح! الكود يعمل.",
+    "fillWrong": "ليس بعد. فراغ واحد غير مناسب.",
     "spielstandHeading": "حالة اللعب",
     // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich,
     // "ماذا تعرف" war maennlich.

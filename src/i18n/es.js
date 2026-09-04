@@ -48,6 +48,10 @@ export default {
     "matchPrompt": "¿Qué bloque va con qué línea? Primero el bloque, luego la línea.",
     "matchRight": "¡Correcto! Cada bloque tiene su línea.",
     "matchWrong": "Todavía no. Mira los números y nombres en los bloques.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 3), Task 9 ersetzt sie
+    "fillPrompt": "Elige la respuesta correcta para cada hueco.",
+    "fillRight": "¡Correcto! El código funciona.",
+    "fillWrong": "Todavía no. Un hueco no encaja.",
     // Handkorrektur 2026-09-03 (Review T9): Zwischenstand, nicht Startpunkt. Vorher: "Punto de partida".
     "spielstandHeading": "Tu progreso",
     "spielstandPrompt": "¿Qué sabes hacer ahora? Escribe tres frases cortas.",

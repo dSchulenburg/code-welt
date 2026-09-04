@@ -96,6 +96,12 @@ summary { cursor: pointer; font-weight: bold; }
 .match-lines li { display: flex; align-items: center; gap: 8px; margin: 4px 0; unicode-bidi: normal; }
 .match-num, .match-badge { display: inline-block; min-width: 22px; text-align: center; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font-weight: bold; }
 .match-line code { white-space: pre-wrap; direction: ltr; unicode-bidi: normal; }
+.fill-code { direction: ltr; unicode-bidi: normal; text-align: left; white-space: pre-wrap; background: #1e1e1e; color: #eee; padding: 10px 12px; border-radius: 8px; }
+.gap { display: inline-flex; gap: 4px; margin: 0 4px; vertical-align: middle; }
+.chip { font: inherit; font-family: inherit; padding: 2px 8px; border-radius: 12px; border: 2px solid #888; background: #333; color: #eee; cursor: pointer; unicode-bidi: normal; }
+.chip.selected { border-color: var(--accent); background: #444; }
+.chip.ok { border-color: #1f7a2e; }
+.chip.nope { border-color: #9b2c2c; }
 .ok { color: #1f7a2e; font-weight: bold; }
 .nope { color: #9b2c2c; font-weight: bold; }
 textarea { width: 100%; font: inherit; padding: 8px; border-radius: 8px; border: 1px solid var(--line); }

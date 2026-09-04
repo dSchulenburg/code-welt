@@ -47,6 +47,10 @@ export default {
     "matchPrompt": "Quale blocco va con quale riga? Prima il blocco, poi la riga.",
     "matchRight": "Giusto! Ogni blocco ha la sua riga.",
     "matchWrong": "Non ancora. Guarda i numeri e i nomi nei blocchi.",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 3), Task 9 ersetzt sie
+    "fillPrompt": "Scegli la risposta giusta per ogni spazio vuoto.",
+    "fillRight": "Giusto! Il codice funziona.",
+    "fillWrong": "Non ancora. Uno spazio vuoto è sbagliato.",
     "spielstandHeading": "Punto della situazione",
     "spielstandPrompt": "Che cosa sai fare adesso? Scrivi tre frasi brevi.",
     "spielstandSave": "Salva",
