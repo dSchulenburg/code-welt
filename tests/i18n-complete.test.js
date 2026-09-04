@@ -55,7 +55,11 @@ for (const [code, bundle] of Object.entries(TRANSLATED)) {
       if (!woerter.length) continue;
       const ziel = String(valueAt(bundle, path) ?? '');
       for (const wort of woerter) {
-        if (!new RegExp(`\\b${wort}\\b`).test(ziel)) fehlend.push(`${path}: "${wort}" fehlt in "${ziel}"`);
+        // Handkorrektur 2026-09-04 (Re-Review T9): wort stammt aus MAGIC_WORDS und ist damit
+        // aktuell unkritisch, aber ungeescapt in ein RegExp eingesetzt waere jedes kuenftige
+        // Zauberwort mit Regex-Sonderzeichen ein stiller Bug.
+        const wortEscaped = wort.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        if (!new RegExp(`\\b${wortEscaped}\\b`).test(ziel)) fehlend.push(`${path}: "${wort}" fehlt in "${ziel}"`);
       }
     }
     expect(fehlend).toEqual([]);

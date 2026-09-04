@@ -96,7 +96,10 @@ const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bru
 // ("El Agente", "L'Agente"); en/uk/ar halten ihn lateinisch und unflektiert, ar zusaetzlich ohne
 // Artikel — der Lauf lieferte gemischt "الـ Agent", geklebtes "الAgent" und blankes "Agent".
 const AGENT_CANON = { en: 'Agent', uk: 'Agent', ar: 'Agent', es: 'Agente', it: 'Agente' };
-// "Bloecke" im Arabischen: مكعبات wie im Spiel, nicht كتل und nicht das Lehnwort بلوكات.
+// "Bloecke" im Arabischen: مكعبات nur fuer Minecraft-Bloecke (Bausteine in der Welt) wie im Spiel,
+// nicht كتل und nicht das Lehnwort بلوكات. MakeCode-Bloecke im Editor (Puzzleteile, die man zieht —
+// glossary.bloecke, ui.blocksLabel, "Hut-Block") sind das nicht und behalten كتل/بلوكات
+// (Handkorrektur 2026-09-04, Re-Review T9).
 const BLOCKS_CANON = { ar: 'مكعبات' };
 // "Deutsch" als Sprachname. Der Agent versteht kein Deutsch — das Modell ersetzte den Sprachnamen
 // mehrfach durch die Zielsprache ("does not understand English", "No entiende español").
@@ -108,7 +111,17 @@ function systemPrompt(lang) {
   const etappenLine = canonLine(ETAPPEN_CANON[lang]);
   const glossaryLine = canonLine(GLOSSARY_CANON[lang]);
   const blocksLine = BLOCKS_CANON[lang]
-    ? ` The German "Blöcke"/"Block" is "${BLOCKS_CANON[lang]}" (and its singular) everywhere in the bundle, not only in this glossary entry.`
+    ? ` The German "Blöcke"/"Block" is "${BLOCKS_CANON[lang]}" (and its singular) everywhere it means Minecraft blocks — the cube-shaped building material placed in the world — not only in this glossary entry. It does NOT apply to MakeCode blocks in the code editor (the puzzle-piece code blocks students drag, including the hat block above an event handler): those keep the glossary.bloecke term instead.`
+    : '';
+  // Handkorrektur 2026-09-04 (Re-Review T9): AGENT_CANON/GERMAN_CANON nur interpolieren, wenn
+  // fuer die Sprache ein Eintrag existiert (wie canonLine()) — sonst faellt die Regelzeile ganz
+  // weg, statt "undefined" in den Prompt zu schreiben, falls TARGETS je eine Sprache ohne
+  // Kanon-Eintrag bekommt.
+  const agentLine = AGENT_CANON[lang]
+    ? `3. Character names stay: Nour, Dani. The Minecraft robot is called "${AGENT_CANON[lang]}" in ${NAMES[lang]} — use exactly that spelling everywhere, including glossary.agent.term. Do not glue an article onto the name (Arabic: bare "Agent", never "الـ Agent" and never "الAgent") and do not transliterate it into another script.`
+    : '';
+  const germanLine = GERMAN_CANON[lang]
+    ? `8. "Deutsch" as the name of the German language stays the name of German: "${GERMAN_CANON[lang]}". The students are learning German, so "the Agent does not understand German" must never turn into "does not understand ${NAMES[lang]}".`
     : '';
   return [
     `You translate a German learning app for a coding course (Minecraft Education, MakeCode, Python) into ${NAMES[lang]}.`,
@@ -116,16 +129,16 @@ function systemPrompt(lang) {
     `HARD RULES:`,
     `1. Code words stay byte-identical: anything like agent.move(FORWARD, 3), agent.turn(LEFT_TURN), agent.place(BACK), player.on_chat, GRASS, FORWARD, LEFT_TURN, BACK, Python, MakeCode, Minecraft, Code Builder. The magic words count as code too — they are the chat commands the students type into Minecraft: ${MAGIC_WORDS.join(', ')}. Never translate them, never capitalize them, never inflect them: "haus" stays "haus", not "casa" and not "Haus". Careful: the capitalized German nouns Weg, Turm, Mauer, Wand, Haus in the same sentence are ordinary words and ARE translated; only the lowercase chat word stays.`,
     `2. Placeholders in curly braces like {n}, {done}, {total} stay verbatim.`,
-    `3. Character names stay: Nour, Dani. The Minecraft robot is called "${AGENT_CANON[lang]}" in ${NAMES[lang]} — use exactly that spelling everywhere, including glossary.agent.term. Do not glue an article onto the name (Arabic: bare "Agent", never "الـ Agent" and never "الAgent") and do not transliterate it into another script.`,
+    agentLine,
     `4. JSON keys are never translated; only string values. Booleans and numbers unchanged. Same shape, same array order, no added or removed keys.`,
     `5. Etappen names (Holz, Stein, Eisen, Gold, Diamant, Netherite, Enderdrache) are translated to the Minecraft in-game item/mob names in ${NAMES[lang]}. These are fixed, established course vocabulary, not a free translation choice — use EXACTLY these canonical forms, no synonyms, no added grammatical articles (e.g. no Arabic ال- prefix beyond what a canonical form already contains): ${etappenLine}.`,
     `6. Quotation marks inside values: use the target language's own quotation marks, never a straight ASCII double quote.`,
     `7. glossary.*.term is the target-language word for the concept (the app shows the German term next to it); only agent and python keep their names.${glossaryLine ? ` These are fixed, established course vocabulary — use EXACTLY these canonical terms, no synonyms: ${glossaryLine}.` : ''}${blocksLine}`,
-    `8. "Deutsch" as the name of the German language stays the name of German: "${GERMAN_CANON[lang]}". The students are learning German, so "the Agent does not understand German" must never turn into "does not understand ${NAMES[lang]}".`,
+    germanLine,
     `9. Digits: Latin 0-9 only. In Arabic do NOT use the Arabic-Indic digits ٠١٢٣٤٥٦٧٨٩ — the numeric values themselves stay unchanged.`,
     `10. Address the reader gender-neutrally wherever the target language inflects a participle or an adjective for the reader's gender. Ukrainian: "пройшов(ла)", or an impersonal form such as "Усі перевірки пройдено". Keep it short — no extra sentence, no doubled wording.`,
     `11. Respond with ONLY the JSON object.`,
-  ].join('\n');
+  ].filter(Boolean).join('\n');
 }
 
 // Teilbaeume: ui, glossary, etappen einzeln; stations pro Station (skaliert auf 20 Stationen).

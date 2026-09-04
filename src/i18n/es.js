@@ -376,7 +376,9 @@ export default {
         {
           "kind": "remix",
           "title": "El puente",
-          "text": "Inventa una tercera palabra mágica: bruecke. Las palabras mágicas no llevan diéresis. Con ella el Agente construye un camino sobre un hueco."
+          // Handkorrektur 2026-09-04 (Re-Review T9): "diéresis" ist im Spanischen ein eigenes Zeichen (ü in "pingüino"),
+          // die deutschen Umlaute sind eine andere Sache — explizit ä, ö, ü benennen statt "diéresis".
+          "text": "Inventa una tercera palabra mágica: bruecke. Las palabras mágicas no llevan ä, ö, ü. Por eso se escribe bruecke. Con ella el Agente construye un camino sobre un hueco."
         }
       ],
       "tipSolution": "Para cinco bloques escribes agent.place(FORWARD) y agent.move(UP, 1) de forma alternada. Al final viene otra vez agent.place(FORWARD). Cuenta bien: cinco líneas con place.",

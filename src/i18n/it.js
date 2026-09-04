@@ -95,49 +95,56 @@ export default {
       "name": "Legno",
       "badge": {
         "name": "Legno",
-        "description": "Hai superato tutti i check della tappa Legno e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Legno e hai consegnato il Boss-Check."
       }
     },
     "stein": {
       "name": "Pietra",
       "badge": {
         "name": "Pietra",
-        "description": "Hai superato tutti i check della tappa Pietra e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Pietra e hai consegnato il Boss-Check."
       }
     },
     "eisen": {
       "name": "Ferro",
       "badge": {
         "name": "Ferro",
-        "description": "Hai superato tutti i check della tappa Ferro e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Ferro e hai consegnato il Boss-Check."
       }
     },
     "gold": {
       "name": "Oro",
       "badge": {
         "name": "Oro",
-        "description": "Hai superato tutti i check della tappa Oro e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Oro e hai consegnato il Boss-Check."
       }
     },
     "diamant": {
       "name": "Diamante",
       "badge": {
         "name": "Diamante",
-        "description": "Hai superato tutti i check della tappa Diamante e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Diamante e hai consegnato il Boss-Check."
       }
     },
     "netherite": {
       "name": "Netherite",
       "badge": {
         "name": "Netherite",
-        "description": "Hai superato tutti i check della tappa Netherite e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Netherite e hai consegnato il Boss-Check."
       }
     },
     "enderdrache": {
       "name": "Drago dell'End",
       "badge": {
         "name": "Drago dell'End",
-        "description": "Hai superato tutti i check della tappa Drago dell'End e hai consegnato il boss-check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "il Boss-Check" als feststehender Begriff (Grossschreibung), nicht "il boss-check".
+        "description": "Hai superato tutti i check della tappa Drago dell'End e hai consegnato il Boss-Check."
       }
     }
   },

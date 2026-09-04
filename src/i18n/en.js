@@ -91,49 +91,56 @@ export default {
       "name": "Wood",
       "badge": {
         "name": "Wood",
-        "description": "You passed all checks in the Wood stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Wood stage and handed in the Boss-Check."
       }
     },
     "stein": {
       "name": "Stone",
       "badge": {
         "name": "Stone",
-        "description": "You passed all checks in the Stone stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Stone stage and handed in the Boss-Check."
       }
     },
     "eisen": {
       "name": "Iron",
       "badge": {
         "name": "Iron",
-        "description": "You passed all checks in the Iron stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Iron stage and handed in the Boss-Check."
       }
     },
     "gold": {
       "name": "Gold",
       "badge": {
         "name": "Gold",
-        "description": "You passed all checks in the Gold stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Gold stage and handed in the Boss-Check."
       }
     },
     "diamant": {
       "name": "Diamond",
       "badge": {
         "name": "Diamond",
-        "description": "You passed all checks in the Diamond stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Diamond stage and handed in the Boss-Check."
       }
     },
     "netherite": {
       "name": "Netherite",
       "badge": {
         "name": "Netherite",
-        "description": "You passed all checks in the Netherite stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Netherite stage and handed in the Boss-Check."
       }
     },
     "enderdrache": {
       "name": "Ender Dragon",
       "badge": {
         "name": "Ender Dragon",
-        "description": "You passed all checks in the Ender Dragon stage and handed in the boss check."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "the Boss-Check" als feststehender Begriff (Grossschreibung), nicht "the boss check".
+        "description": "You passed all checks in the Ender Dragon stage and handed in the Boss-Check."
       }
     }
   },

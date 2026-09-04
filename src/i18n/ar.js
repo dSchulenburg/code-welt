@@ -23,7 +23,9 @@ export default {
     "conceptHeading": "الفكرة",
     "bridgeGame": "في اللعبة",
     "bridgeCode": "في الكود",
-    "blocksLabel": "هكذا يكون الشكل بالمكعبات",
+    // Handkorrektur 2026-09-04 (Re-Review T9): "بلوكات" bezeichnet hier MakeCode-Blöcke im Editor,
+    // nicht Minecraft-Würfel — BLOCKS_CANON-Klausel greift nur für Würfel in der Welt.
+    "blocksLabel": "هكذا يكون الشكل بالبلوكات",
     "pythonLabel": "هكذا يكون الشكل بـ Python",
     "tasksHeading": "مهامك في اللعبة",
     "taskAuftrag": "مهمة",
@@ -47,7 +49,8 @@ export default {
     "spielstandHeading": "حالة اللعب",
     // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich,
     // "ماذا تعرف" war maennlich.
-    "spielstandPrompt": "ماذا تعلّمت الآن؟ اكتب ثلاث جمل قصيرة.",
+    // Handkorrektur 2026-09-04 (Re-Review T9): Wortlaut nach Re-Review.
+    "spielstandPrompt": "ماذا تعلّمت حتى الآن؟",
     "spielstandSave": "احفظ",
     "spielstandSaved": "تم الحفظ. على هذا الجهاز فقط.",
     "progress": "لقد زرت {done} من {total} محطات.",
@@ -85,7 +88,8 @@ export default {
       "short": "لغة برمجة. كودك على شكل نص."
     },
     "bloecke": {
-      "term": "مكعبات",
+      // Handkorrektur 2026-09-04 (Re-Review T9): "كتل" = MakeCode-Blöcke im Editor, nicht Minecraft-Würfel.
+      "term": "كتل",
       "short": "كودك على شكل قطع تسحبها."
     },
     "fehler": {
@@ -360,7 +364,8 @@ export default {
       "storyShort": "الكلمة في الدردشة هي حدث. كل كلمة سحرية تشغّل برنامجها الخاص. يمكنك أن تملك عدة كلمات سحرية.",
       "bridge": {
         "game": "تكتب weg أو turm في الدردشة. فيبني Agent الطريق أو البرج.",
-        "code": "كل كلمة سحرية لها مكعب قبعة خاص به. وتحته يوجد برنامجها الخاص."
+        // Handkorrektur 2026-09-04 (Re-Review T9): "Hut-Block" ist ein MakeCode-Editor-Block, nicht ein Minecraft-Würfel.
+        "code": "كل كلمة سحرية لها كتلة قبعة خاصة بها. وتحتها يوجد برنامجها الخاص."
       },
       "tasks": [
         {

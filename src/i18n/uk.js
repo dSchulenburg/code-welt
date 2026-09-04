@@ -50,7 +50,8 @@ export default {
     "spielstandSave": "Зберегти",
     "spielstandSaved": "Збережено. Тільки на цьому пристрої.",
     // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "пройшов(ла)". Platzhalter {done}/{total} unveraendert.
-    "progress": "Ти пройшов(ла) {done} з {total} станцій.",
+    // Handkorrektur 2026-09-04 (Re-Review T9): unpersönliche Passivform statt "пройшов(ла)". Platzhalter {done}/{total} unveraendert.
+    "progress": "Пройдено {done} з {total} станцій.",
     "next": "Далі",
     "prev": "Назад",
     "play": "Прочитати вголос",
