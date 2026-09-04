@@ -44,7 +44,7 @@ export default {
     "parsonsWrong": "Non ancora. Che cosa deve fare per primo l'Agente?",
     // Handübersetzung 04.09.2026 (Plan 3 Task 2), Task 9 ersetzt sie
     "checkButton": "Verifica",
-    "matchPrompt": "Quale blocco va con quale riga? Clicca prima il blocco, poi la riga.",
+    "matchPrompt": "Quale blocco va con quale riga? Prima il blocco, poi la riga.",
     "matchRight": "Giusto! Ogni blocco ha la sua riga.",
     "matchWrong": "Non ancora. Guarda i numeri e i nomi nei blocchi.",
     "spielstandHeading": "Punto della situazione",

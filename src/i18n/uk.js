@@ -47,7 +47,7 @@ export default {
     "parsonsWrong": "Ще ні. Що Agent має зробити першим?",
     // Handübersetzung 04.09.2026 (Plan 3 Task 2), Task 9 ersetzt sie
     "checkButton": "Перевірити",
-    "matchPrompt": "Який блок належить якому рядку? Спочатку клацни блок, потім рядок.",
+    "matchPrompt": "Який блок належить якому рядку? Спочатку блок, потім рядок.",
     "matchRight": "Правильно! Кожен блок має свій рядок.",
     "matchWrong": "Ще ні. Подивись на числа й імена у блоках.",
     "spielstandHeading": "Твій прогрес",

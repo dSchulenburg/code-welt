@@ -39,7 +39,7 @@ export default {
     "parsonsRight": "Correct! That is the order.",
     "parsonsWrong": "Not yet. What does the Agent have to do first?",
     "checkButton": "Check",
-    "matchPrompt": "Which block matches which line? Click the block first, then the line.",
+    "matchPrompt": "Which block matches which line? First the block, then the line.",
     "matchRight": "Correct! Every block has its line.",
     "matchWrong": "Not yet. Look at the numbers and names in the blocks.",
     "spielstandHeading": "Save point",

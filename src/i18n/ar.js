@@ -49,7 +49,7 @@ export default {
     // Handübersetzung 04.09.2026 (Plan 3 Task 2), Task 9 ersetzt sie
     // "بلوكات" wie blocksLabel oben: MakeCode-Bloecke im Editor, nicht Minecraft-Wuerfel.
     "checkButton": "تحقّق",
-    "matchPrompt": "أي بلوك يطابق أي سطر؟ اضغط على البلوك أولاً، ثم على السطر.",
+    "matchPrompt": "أي بلوك يطابق أي سطر؟ أولاً البلوك، ثم السطر.",
     "matchRight": "صحيح! لكل بلوك سطره.",
     "matchWrong": "ليس بعد. انظر إلى الأرقام والأسماء في البلوكات.",
     "spielstandHeading": "حالة اللعب",

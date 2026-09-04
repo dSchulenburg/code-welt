@@ -38,7 +38,7 @@ export default {
     parsonsRight: 'Richtig! Das ist die Reihenfolge.',
     parsonsWrong: 'Noch nicht. Was muss der Agent zuerst tun?',
     checkButton: 'Prüfen',
-    matchPrompt: 'Welcher Block gehört zu welcher Zeile? Klick erst den Block, dann die Zeile.',
+    matchPrompt: 'Welcher Block gehört zu welcher Zeile? Erst den Block, dann die Zeile.',
     matchRight: 'Richtig! Jeder Block hat seine Zeile.',
     matchWrong: 'Noch nicht. Schau auf die Zahlen und Namen in den Blöcken.',
     spielstandHeading: 'Spielstand',

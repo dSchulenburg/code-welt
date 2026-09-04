@@ -93,7 +93,7 @@ summary { cursor: pointer; font-weight: bold; }
 .match-block.paired, .match-line.paired { border-style: dashed; }
 .match-block .blockview { max-width: 240px; }
 .match-lines { list-style: none; padding: 0; margin: 0; }
-.match-lines li { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.match-lines li { display: flex; align-items: center; gap: 8px; margin: 4px 0; unicode-bidi: normal; }
 .match-num, .match-badge { display: inline-block; min-width: 22px; text-align: center; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font-weight: bold; }
 .match-line code { white-space: pre-wrap; direction: ltr; unicode-bidi: normal; }
 .ok { color: #1f7a2e; font-weight: bold; }
