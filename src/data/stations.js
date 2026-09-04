@@ -10,11 +10,14 @@ export const ETAPPEN = [
   { id: 'enderdrache', emoji: '🐉', stations: [], badge: { key: 'badge-enderdrache', icon: 'enderdrache.png' } },
 ];
 
+// iframeHeight je Station: gemessen am 04.09.2026 mit scripts/measure-heights.mjs bei 750px
+// Breite (die iframe-Breite in der Box), Maximum ueber alle sechs Sprachen + 15%, auf 50
+// gerundet (Final-Review-Fix A, Punkt 1 — ersetzt die vorher geschaetzten Werte).
 export const STATIONS = {
   s01: {
     etappe: 'holz',
     ds: 1,
-    iframeHeight: 1300,
+    iframeHeight: 4600,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_hi():
     agent.teleport_to_player()
@@ -45,7 +48,7 @@ player.on_chat("hi", on_hi)`,
   s02: {
     etappe: 'holz',
     ds: 2,
-    iframeHeight: 1400,
+    iframeHeight: 5100,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
     agent.teleport_to_player()
@@ -60,7 +63,6 @@ player.on_chat("hi", on_hi)`,
     agent.move(FORWARD, 1)
     agent.place(BACK)
 player.on_chat("weg", on_weg)`,
-    blockImage: 's02-weg.png',
     // Eck-Regel (Fix-Runde 1): move(FORWARD, 1) + place(BACK) legt den Block immer in das gerade
     // verlassene Feld. Nach der Drehung liegt der erste Block deshalb noch in der alten Linie —
     // er ist der Eck-Block. Vier Paare ergeben vier Bloecke: drei in einer Linie (der dritte ist
@@ -96,7 +98,7 @@ player.on_chat("weg", on_weg)`,
   s03: {
     etappe: 'holz',
     ds: 3,
-    iframeHeight: 1500,
+    iframeHeight: 5100,
     bossCheck: { key: 'boss-holz', gradeMax: 100 },
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_weg():
@@ -156,7 +158,7 @@ player.on_chat("turm", on_turm)`,
   s04: {
     etappe: 'stein',
     ds: 4,
-    iframeHeight: 1500,
+    iframeHeight: 4950,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_mauer():
     agent.teleport_to_player()
@@ -197,7 +199,7 @@ player.on_chat("mauer", on_mauer)`,
   s05: {
     etappe: 'stein',
     ds: 5,
-    iframeHeight: 1600,
+    iframeHeight: 5150,
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_wand():
     agent.teleport_to_player()
@@ -255,7 +257,7 @@ player.on_chat("wand", on_wand)`,
   s06: {
     etappe: 'stein',
     ds: 6,
-    iframeHeight: 1600,
+    iframeHeight: 5100,
     bossCheck: { key: 'boss-stein', gradeMax: 100 },
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_haus():

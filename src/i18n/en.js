@@ -696,10 +696,12 @@ export default {
         {
           "kind": "remix",
           "title": "The Door",
-          "text": "Leave a gap in one wall as a door. Show your house to your partner."
+          "text": "Leave a gap in one side as a door. Show your house to your partner."
         }
       ],
-      "tipSolution": "Write for index3 in range(3): all the way outside. The whole ring sits indented inside it. After that comes agent.move(UP, 1). Count them: three loops, one inside the other.",
+      // Handkorrektur 2026-09-04 (Final Review): matches de.js — agent.move(UP, 1) sits inside
+      // the third loop, right after the ring, not after the whole block.
+      "tipSolution": "Write for index3 in range(3): all the way outside. The whole ring sits indented inside it. agent.move(UP, 1) sits inside it too, right after the ring. Count them: three loops, one inside the other.",
       "exercises": [
         {
           "prompt": "The Agent stands at the bottom in the middle. Its nose points up. The program: 2 steps forward, turn left. Then again: 2 steps forward, turn left. At the end 2 steps forward."

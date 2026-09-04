@@ -354,9 +354,11 @@ export default {
       tasks: [
         { kind: 'auftrag', title: 'Der Ring', text: 'Schreibe haus in den Chat. Der Agent baut einen Ring: 5 Blöcke pro Seite.' },
         { kind: 'nochEiner', title: 'Höher', text: 'Der Ring soll 3 Blöcke hoch werden. Dafür brauchst du eine dritte Schleife.' },
-        { kind: 'remix', title: 'Die Tür', text: 'Lass in einer Wand eine Lücke als Tür. Zeig dein Haus deinem Partner oder deiner Partnerin.' },
+        { kind: 'remix', title: 'Die Tür', text: 'Lass in einer Seite eine Lücke als Tür. Zeig dein Haus deinem Partner oder deiner Partnerin.' },
       ],
-      tipSolution: 'Schreibe for index3 in range(3): ganz nach außen. Der ganze Ring steht eingerückt darin. Danach kommt agent.move(UP, 1). Zähle nach: drei Schleifen, eine in der anderen.',
+      // Handkorrektur 2026-09-04 (Final Review): "Danach" war zweideutig — jetzt klar, dass
+      // agent.move(UP, 1) in der dritten Schleife steht, nach dem Ring, nicht danach.
+      tipSolution: 'Schreibe for index3 in range(3): ganz nach außen. Der ganze Ring steht eingerückt darin. agent.move(UP, 1) steht auch darin, direkt nach dem Ring. Zähle nach: drei Schleifen, eine in der anderen.',
       exercises: [
         { prompt: 'Der Agent steht unten in der Mitte. Seine Nase zeigt nach oben. Das Programm: 2 Schritte vor, links drehen. Dann noch einmal: 2 Schritte vor, links drehen. Zum Schluss 2 Schritte vor.' },
         { prompt: 'Der Agent baut einen Ring. Innen eine Seite, außen die vier Seiten. Die Drehung gehört zur äußeren Schleife.' },

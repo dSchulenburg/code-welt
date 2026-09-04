@@ -700,10 +700,12 @@ export default {
         {
           "kind": "remix",
           "title": "La porta",
-          "text": "Lascia un buco in un muro come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
+          "text": "Lascia un buco in un lato come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
         }
       ],
-      "tipSolution": "Scrivi for index3 in range(3): tutto all'esterno. Tutto l'anello sta dentro, rientrato. Poi viene agent.move(UP, 1). Conta: tre cicli, uno dentro l'altro.",
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach.
+      "tipSolution": "Scrivi for index3 in range(3): tutto all'esterno. Tutto l'anello sta dentro, rientrato. agent.move(UP, 1) sta anch'esso dentro, subito dopo l'anello. Conta: tre cicli, uno dentro l'altro.",
       "exercises": [
         {
           "prompt": "L'Agente sta in basso al centro. Il suo naso guarda in alto. Il programma: 2 passi avanti, gira a sinistra. Poi di nuovo: 2 passi avanti, gira a sinistra. Alla fine 2 passi avanti."

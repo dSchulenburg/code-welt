@@ -25,7 +25,8 @@ try {
   for (const sid of Object.keys(STATIONS)) {
     for (const { code } of LANGS) {
       await check(`${sid} ${code}`, async () => {
-        const page = await browser.newPage();
+        // 750px = die iframe-Breite, mit der die Box die Stationen einbettet (Final-Review-Fix A).
+        const page = await browser.newPage({ viewport: { width: 750, height: 900 } });
         const errors = [];
         page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
         page.on('pageerror', (e) => errors.push(e.message));
@@ -46,6 +47,22 @@ try {
         // sind gueltig, nur "gar keine Blockdarstellung" ist ein Fehler.
         const blockCount = await page.locator('.blockview, .blockimage').count();
         if (blockCount === 0) throw new Error('weder .blockview noch .blockimage (Block-Ansicht fehlt)');
+        // Final-Review-Fix A, Punkt 1: die gemessene Hoehe (scripts/measure-heights.mjs) darf bei
+        // 750px Breite nicht ueberschritten werden, sonst schneidet die Box den Inhalt ab.
+        const scrollHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+        const maxHeight = STATIONS[sid].iframeHeight;
+        if (scrollHeight > maxHeight) throw new Error(`Hoehe ${scrollHeight}px ueberschreitet iframeHeight ${maxHeight}px`);
+        // Final-Review-Fix A, Punkt 2: ein deutscher Story-Absatz (Leit-Ebene, immer Deutsch) bleibt
+        // bidi-sicher LTR, auch wenn die Seite bei Arabisch insgesamt dir="rtl" traegt.
+        if (code === 'ar') {
+          const bidi = await page.locator('.story p').first().evaluate((el) => {
+            const cs = getComputedStyle(el);
+            return { direction: cs.direction, unicodeBidi: cs.unicodeBidi };
+          });
+          if (bidi.direction !== 'ltr' && bidi.unicodeBidi !== 'plaintext') {
+            throw new Error(`Story-Absatz nicht bidi-sicher: direction=${bidi.direction} unicode-bidi=${bidi.unicodeBidi}`);
+          }
+        }
         if (errors.length) throw new Error(errors.join(' | '));
         await page.close();
       });

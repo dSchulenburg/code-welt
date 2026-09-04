@@ -20,6 +20,16 @@
 body { margin: 0; }
 .page { max-width: 900px; margin: 0 auto; padding: 16px; }
 [dir="rtl"] .page { text-align: right; }
+/* Final-Review-Fix A, Punkt 2: Prosa bestimmt ihre Schreibrichtung aus dem eigenen Text (erstes
+   starkes Zeichen), nicht aus dem geerbten dir="rtl" der Seite. Ohne das landet ein deutscher Satz
+   in arabischer Umgebung mit dem Satzzeichen links statt rechts — die Leit-Ebene (content/de.js)
+   ist immer Deutsch und erscheint auch bei lang=ar. Code/Grid/Parsons/BlockView haben ihr eigenes
+   direction: ltr bereits (siehe unten) und tragen keine p/li/h1-4/strong-Textknoten, sind hier also
+   nicht betroffen. */
+p, li, h1, h2, h3, h4, strong {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
 
 .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; }
 .lang-switcher select { font: inherit; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line); }

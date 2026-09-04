@@ -28,13 +28,15 @@ const CHOOSE = { de: 'Wähle deine Sprache: oben rechts auf deinen Namen klicken
 const STATION_LABEL = { de: 'Station', en: 'Station', uk: 'Станція', ar: 'محطة', es: 'Estación', it: 'Stazione' };
 const CHECK_LABEL = { de: 'Check', en: 'Check', uk: 'Перевірка', ar: 'اختبار', es: 'Comprobación', it: 'Verifica' };
 
-// Arabisch braucht mehr Platz (Zeilenumbruch bei RTL-Schrift), daher +10% Hoehe (Nachtrag Plan 2,
-// Entscheidung 6). Default 1400 fuer Stationen ohne eigenes iframeHeight-Feld (Altbestand).
+// iframeHeight kommt gemessen aus STATIONS[sid] (scripts/measure-heights.mjs, 750px Breite,
+// Maximum ueber alle sechs Sprachen + 15%) und gilt fuer jede Sprache gleich — Arabisch ist beim
+// Messen die kuerzeste Sprache, nicht die laengste, ein Zuschlag waere falsch (Final-Review-Fix A,
+// Punkt 1; vorher Nachtrag Plan 2, Entscheidung 6: geschaetztes +10%). Default 1400 fuer
+// Stationen ohne eigenes iframeHeight-Feld (Altbestand).
 function iframeLabel(appBase, sid, iframeHeight = 1400) {
   const by = {};
   for (const l of LANGS) {
-    const height = l === 'ar' ? Math.round(iframeHeight * 1.1) : iframeHeight;
-    by[l] = `<div class="cw-station"><iframe src="${appBase}?lang=${l}#/station/${sid}" width="100%" height="${height}" style="border:0;border-radius:12px" title="Code-Welt ${sid}" loading="lazy"></iframe></div>`;
+    by[l] = `<div class="cw-station"><iframe src="${appBase}?lang=${l}#/station/${sid}" width="100%" height="${iframeHeight}" style="border:0;border-radius:12px" title="Code-Welt ${sid}" loading="lazy"></iframe></div>`;
   }
   return mlang(by);
 }

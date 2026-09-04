@@ -1,5 +1,12 @@
 # Code-Welt · Plan 2 von 6: Holz und Stein — Implementation Plan
 
+> **Stand 04.09.2026: umgesetzt.** Abweichungen gegenüber diesem Plan: s05-Programm mit einem
+> Schritt nach den zwei Drehungen (Geometrie, sonst wird aus der Wand eine Treppe), Remix „Zinne"
+> statt der ursprünglichen Idee, Boss-Check 8 pro Seite, Titel kurz gehalten (Untertitel steht
+> fett am Anfang der Intro), Lehrkraft-Abschnitt Ordner vor Seiten, `iframeHeight` gemessen statt
+> geschätzt (Final-Review-Fix A). Details siehe `README.md` (Abschnitt „Stand") und das Ledger
+> in `.superpowers/sdd/2026-09-03-code-welt-02-holz-stein/progress.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Die ersten beiden Etappen komplett: sechs Stationen (DS 1–6) in sechs Sprachen mit eigener Block-Ansicht, Boss-Checks, Badges, Forum, Lehrkraft-Abschnitt, Charaktere, Weltbauplan, gehärtete Smokes, bereit für Dirks Probelauf in der Box.

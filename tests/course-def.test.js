@@ -57,12 +57,12 @@ test('Willkommen: Sprachwahl-Label ohne mlang, alle Sprachen untereinander', () 
   expect(welcome.html).toContain('العربية');
 });
 
-test('iframe-Hoehe kommt aus iframeHeight der Station, ar bekommt +10%', () => {
+test('iframe-Hoehe kommt aus iframeHeight der Station, gleiche Hoehe fuer jede Sprache', () => {
   const holz = def.sections[2];
   const label = holz.items.find((i) => i.key === 's02-station');
-  expect(STATIONS.s02.iframeHeight).toBe(1400);
-  expect(label.html).toContain('height="1400"');
-  expect(label.html).toContain('height="1540"');
+  expect(STATIONS.s02.iframeHeight).toBe(5100);
+  expect(label.html).toContain('height="5100"');
+  expect(label.html).not.toContain('height="5610"');
 });
 
 test('Boss-Check-Aufgabe erscheint nach dem Quiz der Station mit bossCheck', () => {

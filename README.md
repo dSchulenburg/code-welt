@@ -48,6 +48,15 @@ Tradeoff nicht betroffen (s. o., `managedBy`).
 Plan 1) — die App zeichnet die Block-Ansicht aller sechs Stationen live aus `src/data/stations.js`,
 diese Datei wird nicht mehr gebraucht und nicht mehr gepflegt.
 
+## Screenshots (Stand 04.09.2026)
+
+Deutsch, 900px Breite, volle Seite (`scripts/measure-heights.mjs` erzeugt die Werte, die
+Screenshots selbst entstehen mit einem Wegwerf-Playwright-Skript nach demselben Verfahren, siehe
+Final-Review-Fix A):
+
+- `docs/station-s01.png` … `docs/station-s06.png` — je eine Station komplett.
+- `docs/blockview-s02.png` — Block-Ansicht und Python nebeneinander (Station s02, `.side-by-side`).
+
 ## Stand
 
 **Plan 2 (Holz und Stein) fertig:** sechs Stationen (DS 1–6) in sechs Sprachen, Block-Ansicht

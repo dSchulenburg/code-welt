@@ -697,10 +697,12 @@ export default {
         {
           "kind": "remix",
           "title": "La puerta",
-          "text": "Deja un hueco en una pared como puerta. Muestra tu casa a tu compañero o compañera."
+          "text": "Deja un hueco en un lado como puerta. Muestra tu casa a tu compañero o compañera."
         }
       ],
-      "tipSolution": "Escribe for index3 in range(3): del todo afuera. Todo el anillo va sangrado dentro. Después viene agent.move(UP, 1). Cuenta: tres bucles, uno dentro del otro.",
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach.
+      "tipSolution": "Escribe for index3 in range(3): del todo afuera. Todo el anillo va sangrado dentro. agent.move(UP, 1) también va dentro, justo después del anillo. Cuenta: tres bucles, uno dentro del otro.",
       "exercises": [
         {
           "prompt": "El Agente está abajo en el centro. Su nariz mira hacia arriba. El programa: 2 pasos adelante, girar a la izquierda. Luego otra vez: 2 pasos adelante, girar a la izquierda. Al final, 2 pasos adelante."
