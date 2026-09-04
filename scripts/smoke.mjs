@@ -40,8 +40,12 @@ try {
         if (!(await page.locator('h1').first().textContent())) throw new Error('kein h1');
         const supportBtn = await page.locator('.btn-support').count();
         if (code === 'de' ? supportBtn !== 0 : supportBtn !== 1) throw new Error(`Stuetz-Umschalter: ${supportBtn}`);
-        const blockviewCount = await page.locator('.blockview').count();
-        if (blockviewCount === 0) throw new Error('kein .blockview (Block-Ansicht fehlt)');
+        // ConceptCard.jsx zeigt statt der BlockView (".blockview") ein Block-Bild (".blockimage"),
+        // sobald eine Station blockImage traegt UND die passende PNG unter src/assets/blocks/
+        // existiert (heute leer, daher faellt jede Station auf BlockView zurueck) -- beide Faelle
+        // sind gueltig, nur "gar keine Blockdarstellung" ist ein Fehler.
+        const blockCount = await page.locator('.blockview, .blockimage').count();
+        if (blockCount === 0) throw new Error('weder .blockview noch .blockimage (Block-Ansicht fehlt)');
         if (errors.length) throw new Error(errors.join(' | '));
         await page.close();
       });

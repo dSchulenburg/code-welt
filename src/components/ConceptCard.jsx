@@ -16,7 +16,7 @@ export default function ConceptCard({ paragraphs, bridge, supportBridge, python,
         <figure className="blocks">
           <figcaption>{pair(ui.blocksLabel, sui?.blocksLabel)}</figcaption>
           {blockImage
-            ? <img src={blockImage} alt="MakeCode-Blöcke des Programms" />
+            ? <img className="blockimage" src={blockImage} alt="MakeCode-Blöcke des Programms" />
             : blocks && blocks.length > 0
               ? <BlockView blocks={blocks} />
               : <div className="blocks-missing">Block-Bild folgt</div>}

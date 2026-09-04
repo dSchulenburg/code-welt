@@ -51,16 +51,25 @@ try {
     loginRetried = true;
     await login();
   }
-  check('Login', !page.url().includes('/login/'), 'url ' + page.url());
   if (loginRetried) console.log('  Hinweis: Login-Formular blieb beim ersten Versuch auf /login/, zweiter Versuch erfolgreich.');
+  check('Login', !page.url().includes('/login/'), 'url ' + page.url());
 
   // Soll-Reihenfolge je Abschnitt (2 = Holz, 3 = Stein): CMIDs aus dem Register als geordnete
   // Teilfolge der tatsaechlichen Kursinhalte -- derselbe Beweis wie build-course.mjs Schritt 4,
-  // hier nur gelesen statt durchgesetzt.
+  // hier nur gelesen statt durchgesetzt. Fehlt ein Registry-Key, wuerde ein stilles .filter()
+  // ihn verschlucken und isOrderedSubsequence([], irgendwas) waere immer true (leeres "want" ist
+  // per Definition erfuellt) -- also erst pruefen, ob alle Keys ueberhaupt eine CMID haben, und
+  // bei Luecken laut FAILen statt einen verkuerzten (und damit trivial erfuellten) Vergleich zu
+  // fahren.
   const contentsText = await callTool('moodle_get_course_contents', { courseId: reg.courseId });
   for (const [label, num] of [['Holz', 2], ['Stein', 3]]) {
     const section = def.sections.find((s) => s.num === num);
-    const want = section.items.map((it) => reg.items[it.key]?.cmid).filter((cmid) => typeof cmid === 'number');
+    const missing = section.items.filter((item) => typeof reg.items[item.key]?.cmid !== 'number').map((item) => item.key);
+    if (missing.length > 0) {
+      check(`Reihenfolge Abschnitt ${num} (${label})`, false, `fehlt im Register: ${missing.join(', ')}`);
+      continue;
+    }
+    const want = section.items.map((item) => reg.items[item.key].cmid);
     const actual = parseSectionModules(contentsText, num);
     check(`Reihenfolge Abschnitt ${num} (${label})`, isOrderedSubsequence(want, actual?.cmids || []), `soll ${JSON.stringify(want)}, ist ${JSON.stringify(actual?.cmids || [])}`);
   }
@@ -87,9 +96,13 @@ try {
 
   // Boss-Check-Aufgabe (Abschnitt 2, Station s03) auf Ukrainisch
   const bossHolzCmid = reg.items['boss-holz']?.cmid;
-  await page.goto(`${M}/mod/assign/view.php?id=${bossHolzCmid}&lang=uk`, { waitUntil: 'networkidle' });
-  const bossBody = await page.locator('body').innerText();
-  check('Boss-Check-Aufgabe auf uk', bossBody.includes(uk.stations.s03.bossCheck.title), `erwartet "${uk.stations.s03.bossCheck.title}"`);
+  if (typeof bossHolzCmid !== 'number') {
+    check('Boss-Check-Aufgabe auf uk', false, 'boss-holz fehlt im Register');
+  } else {
+    await page.goto(`${M}/mod/assign/view.php?id=${bossHolzCmid}&lang=uk`, { waitUntil: 'networkidle' });
+    const bossBody = await page.locator('body').innerText();
+    check('Boss-Check-Aufgabe auf uk', bossBody.includes(uk.stations.s03.bossCheck.title), `erwartet "${uk.stations.s03.bossCheck.title}"`);
+  }
 
   // Quiz: Versuch starten, Frage lesen
   const quiz = reg.items['s02-quiz'];
@@ -108,11 +121,19 @@ try {
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=ar`, { waitUntil: 'networkidle' });
   check('ar setzt dir=rtl', (await page.evaluate(() => document.documentElement.getAttribute('dir'))) === 'rtl');
 
-  // Badge-Seite: beide Etappen-Badges (Holz, Stein) gelistet
+  // Badge-Seite: beide Etappen-Badges (Holz, Stein) gelistet. Nicht auf den ganzen Seitentext
+  // pruefen (der urspruengliche Check war vakuos -- "Holz"/"Stein" stehen als Abschnittsnamen
+  // z. B. auch im Kursindex, wenn der irgendwo mitgerendert wird), sondern gezielt auf die
+  // Badge-Namenslinks der Liste ("#region-main a[href*=overview.php]", je Badge genau einer, per
+  // Snapshot der echten Seite verifiziert) -- und zusaetzlich die Anzahl dieser Links gegen 2
+  // pruefen, damit weder "Badge fehlt" noch "es sind auf einmal drei" unbemerkt bliebe.
   await page.goto(`${M}/badges/view.php?type=2&id=${reg.courseId}&lang=de`, { waitUntil: 'networkidle' });
-  const badgeBody = await page.locator('body').innerText();
-  check('Badge Holz auf Badge-Seite', badgeBody.includes(de.etappen.holz.badge.name), `erwartet "${de.etappen.holz.badge.name}"`);
-  check('Badge Stein auf Badge-Seite', badgeBody.includes(de.etappen.stein.badge.name), `erwartet "${de.etappen.stein.badge.name}"`);
+  const badgeLinks = page.locator('#region-main a[href*="overview.php"]');
+  const badgeCount = await badgeLinks.count();
+  const badgeText = (await badgeLinks.allTextContents()).join(' | ');
+  const badgeExtra = `Badge-Eintraege: ${badgeCount} (erwartet 2), Namen: [${badgeText}]`;
+  check('Badge Holz auf Badge-Seite', badgeCount === 2 && badgeText.includes(de.etappen.holz.badge.name), badgeExtra);
+  check('Badge Stein auf Badge-Seite', badgeCount === 2 && badgeText.includes(de.etappen.stein.badge.name), badgeExtra);
 
   // Zurueck auf Deutsch, damit die Session sauber bleibt
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=de`);
