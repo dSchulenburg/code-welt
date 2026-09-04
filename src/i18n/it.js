@@ -698,9 +698,10 @@ export default {
           "text": "L'anello deve essere alto 3 blocchi. Per questo ti serve un terzo ciclo."
         },
         {
+          // Handkorrektur 2026-09-04 (Welle C): Praeposition korrigiert (su, nicht in).
           "kind": "remix",
           "title": "La porta",
-          "text": "Lascia un buco in un lato come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
+          "text": "Lascia un buco su un lato come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
         }
       ],
       // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in

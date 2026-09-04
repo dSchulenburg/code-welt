@@ -23,9 +23,11 @@ body { margin: 0; }
 /* Final-Review-Fix A, Punkt 2: Prosa bestimmt ihre Schreibrichtung aus dem eigenen Text (erstes
    starkes Zeichen), nicht aus dem geerbten dir="rtl" der Seite. Ohne das landet ein deutscher Satz
    in arabischer Umgebung mit dem Satzzeichen links statt rechts — die Leit-Ebene (content/de.js)
-   ist immer Deutsch und erscheint auch bei lang=ar. Code/Grid/Parsons/BlockView haben ihr eigenes
+   ist immer Deutsch und erscheint auch bei lang=ar. Code/Grid/BlockView haben ihr eigenes
    direction: ltr bereits (siehe unten) und tragen keine p/li/h1-4/strong-Textknoten, sind hier also
-   nicht betroffen. */
+   nicht betroffen. Parsons dagegen nutzt li fuer seine Code-Zeilen (siehe .parsons-list li unten) —
+   die Ausnahme dort holt es explizit aus dieser Regel raus, sonst reisst plaintext seine Bidi-Ordnung
+   durcheinander. Final-Review-Fix C, 2026-09-04. */
 p, li, h1, h2, h3, h4, strong {
   unicode-bidi: plaintext;
   text-align: start;
@@ -75,7 +77,10 @@ summary { cursor: pointer; font-weight: bold; }
 .cell.right { background: #c8f0c8; }
 .cell.wrong { background: #ffd6d6; }
 .parsons-list { list-style: none; padding: 0; direction: ltr; text-align: left; }
-.parsons-list li { display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; margin: 4px 0; background: #fff; }
+/* Final-Review-Fix C, 2026-09-04: die p/li/h1-4/strong-Regel oben (unicode-bidi: plaintext) greift
+   auch hier, weil das ein li-Element ist — ohne diese Ausnahme wuerde Playwright unter ar den
+   Code-Zeilen ihre feste LTR-Ordnung wegplaintexten. */
+.parsons-list li { display: flex; justify-content: space-between; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; margin: 4px 0; background: #fff; unicode-bidi: normal; }
 /* Rumpfzeilen tragen ihre Einrueckung als fuehrende Leerzeichen (ab s01/s03). HTML wuerde sie
    verschlucken; pre-wrap zeigt sie und laesst lange Zeilen auf dem Handy trotzdem umbrechen. */
 .parsons-list code { white-space: pre-wrap; }

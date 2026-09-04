@@ -2,6 +2,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildCourseDef } from '../moodle/course-def.mjs';
 import { assertNameLengths } from '../moodle/lib/limits.mjs';
+import { LANGS } from '../moodle/lib/mlang.mjs';
 import { STATIONS } from '../src/data/stations.js';
 import de from '../src/i18n/de.js';
 import en from '../src/i18n/en.js';
@@ -63,6 +64,21 @@ test('iframe-Hoehe kommt aus iframeHeight der Station, gleiche Hoehe fuer jede S
   expect(STATIONS.s02.iframeHeight).toBe(5100);
   expect(label.html).toContain('height="5100"');
   expect(label.html).not.toContain('height="5610"');
+  // Final-Review-Fix C, 2026-09-04: "toContain" belegt nur, dass die Hoehe irgendwo auftaucht —
+  // nicht, dass sie fuer jede der sechs LANGS-Sprachen gesetzt ist. Zaehlen statt nur enthalten.
+  // Ein rohes `height="X"`-Zaehlen laeuft auf 7 hinaus: mlang() haengt hinter den sechs
+  // sprachgetaggten Bloecken immer noch einen {mlang other}-Fallback mit dem deutschen Inhalt an
+  // (siehe moodle/lib/mlang.mjs) — der ist keine eigene Sprache, sondern Moodles Ausweichblock.
+  // Der Regex zaehlt deshalb nur die sechs echten {mlang <code>}-Bloecke, nicht den other-Block.
+  const allItems = def.sections.flatMap((s) => s.items);
+  const langAlt = LANGS.join('|');
+  for (const sid of Object.keys(STATIONS)) {
+    const item = allItems.find((i) => i.key === `${sid}-station`);
+    const height = STATIONS[sid].iframeHeight ?? 1400;
+    const re = new RegExp(`\\{mlang (?:${langAlt})\\}[^{]*height="${height}"`, 'g');
+    const matches = item.html.match(re) || [];
+    expect(matches).toHaveLength(LANGS.length);
+  }
 });
 
 test('Boss-Check-Aufgabe erscheint nach dem Quiz der Station mit bossCheck', () => {

@@ -690,9 +690,10 @@ export default {
           "text": "Кільце має бути 3 блоки у висоту. Для цього тобі потрібен третій цикл."
         },
         {
+          // Handkorrektur 2026-09-04 (Welle C): Praeposition korrigiert (на, nicht в).
           "kind": "remix",
           "title": "Двері",
-          "text": "Залиш в одній стороні проміжок як двері. Покажи свій дім своєму партнеру або партнерці."
+          "text": "Залиш на одній стороні отвір як двері. Покажи свій дім своєму партнеру або партнерці."
         }
       ],
       // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in

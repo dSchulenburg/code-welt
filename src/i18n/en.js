@@ -694,9 +694,10 @@ export default {
           "text": "The ring should be 3 blocks high. For that you need a third loop."
         },
         {
+          // Handkorrektur 2026-09-04 (Welle C): Praeposition korrigiert (on, nicht in).
           "kind": "remix",
           "title": "The Door",
-          "text": "Leave a gap in one side as a door. Show your house to your partner."
+          "text": "Leave a gap on one side as a door. Show your house to your partner."
         }
       ],
       // Handkorrektur 2026-09-04 (Final Review): matches de.js — agent.move(UP, 1) sits inside
