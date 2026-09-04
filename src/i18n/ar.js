@@ -46,6 +46,12 @@ export default {
     "parsonsCheck": "تحقّق",
     "parsonsRight": "صحيح! هذا هو الترتيب.",
     "parsonsWrong": "ليس بعد. ما الذي يجب أن يفعله Agent أولاً؟",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 2), Task 9 ersetzt sie
+    // "بلوكات" wie blocksLabel oben: MakeCode-Bloecke im Editor, nicht Minecraft-Wuerfel.
+    "checkButton": "تحقّق",
+    "matchPrompt": "أي بلوك يطابق أي سطر؟ اضغط على البلوك أولاً، ثم على السطر.",
+    "matchRight": "صحيح! لكل بلوك سطره.",
+    "matchWrong": "ليس بعد. انظر إلى الأرقام والأسماء في البلوكات.",
     "spielstandHeading": "حالة اللعب",
     // Handkorrektur 2026-09-03 (Review T9): Geschlechtsneutral: "ماذا تعلّمت" ist ohne Vokalzeichen fuer beide Formen gleich,
     // "ماذا تعرف" war maennlich.

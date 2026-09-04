@@ -11,6 +11,7 @@ import TaskCard from './TaskCard.jsx';
 import TipLadder from './TipLadder.jsx';
 import AgentGrid from './AgentGrid.jsx';
 import ParsonsPuzzle from './ParsonsPuzzle.jsx';
+import MatchBlocksPython from './MatchBlocksPython.jsx';
 import Spielstand from './Spielstand.jsx';
 
 const BLOCK_IMAGES = import.meta.glob('../assets/blocks/*.png', { eager: true, import: 'default' });
@@ -59,9 +60,10 @@ export default function StationView({ id, lang }) {
       <section className="card check" aria-labelledby="check-h">
         <h2 id="check-h">{pair(ui.checkHeading, sui?.checkHeading)}</h2>
         {s.exercises.map((ex, i) => {
-          const props = { exercise: ex, prompt: t.exercises[i].prompt, supportPrompt: st?.exercises?.[i]?.prompt, ui, sui, showSupport: !!(support && showSupport) };
+          const props = { exercise: ex, prompt: t.exercises[i].prompt, supportPrompt: st?.exercises?.[i]?.prompt, explain: t.exercises[i].explain, supportExplain: st?.exercises?.[i]?.explain, ui, sui, showSupport: !!(support && showSupport) };
           if (ex.type === 'predict') return <AgentGrid key={`${id}-${i}`} {...props} />;
           if (ex.type === 'parsons') return <ParsonsPuzzle key={`${id}-${i}`} {...props} />;
+          if (ex.type === 'match') return <MatchBlocksPython key={`${id}-${i}`} {...props} />;
           return null;
         })}
       </section>

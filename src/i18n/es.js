@@ -43,6 +43,11 @@ export default {
     "parsonsCheck": "Comprobar",
     "parsonsRight": "¡Correcto! Ese es el orden.",
     "parsonsWrong": "Todavía no. ¿Qué tiene que hacer el Agente primero?",
+    // Handübersetzung 04.09.2026 (Plan 3 Task 2), Task 9 ersetzt sie
+    "checkButton": "Comprobar",
+    "matchPrompt": "¿Qué bloque va con qué línea? Haz clic primero en el bloque, luego en la línea.",
+    "matchRight": "¡Correcto! Cada bloque tiene su línea.",
+    "matchWrong": "Todavía no. Mira los números y nombres en los bloques.",
     // Handkorrektur 2026-09-03 (Review T9): Zwischenstand, nicht Startpunkt. Vorher: "Punto de partida".
     "spielstandHeading": "Tu progreso",
     "spielstandPrompt": "¿Qué sabes hacer ahora? Escribe tres frases cortas.",

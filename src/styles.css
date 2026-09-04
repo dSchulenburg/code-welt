@@ -86,6 +86,16 @@ summary { cursor: pointer; font-weight: bold; }
    verschlucken; pre-wrap zeigt sie und laesst lange Zeilen auf dem Handy trotzdem umbrechen. */
 .parsons-list code { white-space: pre-wrap; }
 .parsons-btns button { font: inherit; padding: 2px 8px; margin-inline-start: 4px; }
+.match-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; direction: ltr; }
+@media (max-width: 700px) { .match-cols { grid-template-columns: 1fr; } }
+.match-block, .match-line { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; font: inherit; background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 6px 8px; margin: 4px 0; cursor: pointer; }
+.match-block.selected { border-color: var(--accent); }
+.match-block.paired, .match-line.paired { border-style: dashed; }
+.match-block .blockview { max-width: 240px; }
+.match-lines { list-style: none; padding: 0; margin: 0; }
+.match-lines li { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.match-num, .match-badge { display: inline-block; min-width: 22px; text-align: center; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font-weight: bold; }
+.match-line code { white-space: pre-wrap; direction: ltr; unicode-bidi: normal; }
 .ok { color: #1f7a2e; font-weight: bold; }
 .nope { color: #9b2c2c; font-weight: bold; }
 textarea { width: 100%; font: inherit; padding: 8px; border-radius: 8px; border: 1px solid var(--line); }
