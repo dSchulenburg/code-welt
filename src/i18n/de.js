@@ -443,7 +443,7 @@ export default {
           ],
         },
         {
-          q: 'Du willst die Brücke 8 lang. Was änderst du?',
+          q: 'Die Brücke soll 8 lang werden. Was änderst du?',
           answers: [
             { text: 'Nur die Zeile laenge = 5', correct: true },
             { text: 'Jede Zeile mit einer 5', correct: false },
@@ -477,10 +477,10 @@ export default {
       },
       tasks: [
         { kind: 'auftrag', title: 'Die Plattform', text: 'Schalte die Koordinaten ein. Stell dich auf den Goldblock an der Schlucht. Lies x, y, z ab und schreib sie auf. Schreibe plattform. Geh über die Plattform. Schalte auf Python: Finde die zwei Ecken.' },
-        { kind: 'nochEiner', title: 'Breiter', text: 'Mach die Plattform doppelt so breit. Welche Zahl änderst du?' },
+        { kind: 'nochEiner', title: 'Breiter', text: 'Mach die Plattform doppelt so breit. Nach rechts, also die x-Zahl. Welche Zahl änderst du?' },
         { kind: 'remix', title: 'Das Dach', text: 'Bau ein Dach über die Plattform. Tipp: y = 2. Zeig es deinem Partner oder deiner Partnerin.' },
       ],
-      tipSolution: 'Die zweite Ecke wird pos(8, -1, 7) statt pos(4, -1, 7). Nur die x-Zahl wird größer.',
+      tipSolution: 'Die zweite Ecke wird pos(9, -1, 7) statt pos(4, -1, 7). 0 bis 9 sind zehn Blöcke. Nur die x-Zahl wird größer.',
       exercises: [
         { prompt: 'Drei fill-Blöcke, drei Zeilen. Achte auf y und auf den Block.' },
         { prompt: 'Die Plattform hängt über deinem Kopf. Welche Zeile ist falsch?', explain: 'Die zweite Ecke hat y = 1. Das ist über dir. Die Plattform muss unter deinen Füßen liegen: y = -1.' },

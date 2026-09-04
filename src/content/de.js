@@ -154,7 +154,7 @@ export default {
     },
     s08: {
       story: [
-        { who: 'dani', mood: 'ueberrascht', text: 'Wow, die Schlucht ist riesig! Sieben breit und sechs tief.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Die Schlucht ist sieben Blöcke weit und sechs tief.' },
         { who: 'dani', mood: 'nachdenklich', text: 'Eine Brücke aus Einzelblöcken dauert ewig.' },
         { who: 'nour', mood: 'erklaerend', text: 'Schalte die Koordinaten ein. Jeder Block hat drei Zahlen: x, y, z.' },
         { who: 'dani', mood: 'fragend', text: 'Und was ist y?' },
