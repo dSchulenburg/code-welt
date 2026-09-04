@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { ETAPPEN, STATIONS } from '../src/data/stations.js';
 import de from '../src/i18n/de.js';
 import content from '../src/content/de.js';
+import { assertKnown } from '../src/lib/blocks.js';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const BADGES_DIR = path.join(HERE, '..', 'src', 'assets', 'badges');
@@ -76,13 +77,18 @@ test('jede Etappe hat ein Badge (Daten + i18n Name/Beschreibung)', () => {
   }
 });
 
-// Nur Etappen mit gebauten Stationen (Holz, Stein) muessen schon eine echte SVG haben --
-// postbuild.mjs (badgeSpecsFromEtappen) und scripts/badge-icons.mjs ueberspringen Etappen ohne
-// Stationen (Eisen, Gold, ...) ausdruecklich als "noch nicht gebaut", nicht als Fehler; dieselbe
-// Grenze gilt hier, sonst wuerde dieser Test schon jetzt an den Zukunfts-Etappen scheitern.
-test('badge.icon jeder gebauten Etappe zeigt auf eine vorhandene SVG in src/assets/badges/', () => {
+// Nur vollstaendig befuellte Etappen (Holz, Stein) muessen schon eine echte SVG haben. Eine Etappe
+// ist "gebaut" in diesem Sinn erst, wenn eine ihrer Stationen einen bossCheck traegt -- so wie in
+// s01-s06 nur die letzte Station einer Etappe den bossCheck bekommt (siehe der Test oben). Reines
+// `stations.length > 0` reicht seit Plan 3 Task 5 nicht mehr: eisen bekommt seine Stationen ueber
+// zwei Tasks verteilt (Task 5: s07/s08, Task 6: s09 + bossCheck), das SVG selbst erst in Task 7
+// (Nachtrag 04.09.2026) -- mit der alten Bedingung waere dieser Test zwischen Task 5 und Task 7
+// rot, obwohl badge-icons.mjs/postbuild.mjs den Zwischenstand ausdruecklich als "noch nicht
+// gebaut" behandeln (siehe deren Kommentare). Fuer holz/stein aendert sich nichts: beide haben
+// ihren bossCheck laengst.
+test('badge.icon jeder vollstaendig gebauten Etappe zeigt auf eine vorhandene SVG in src/assets/badges/', () => {
   for (const e of ETAPPEN) {
-    if (e.stations.length === 0) continue;
+    if (!e.stations.some((sid) => STATIONS[sid].bossCheck)) continue;
     const stem = e.badge.icon.replace(/\.png$/, '');
     expect(existsSync(path.join(BADGES_DIR, `${stem}.svg`)), `${e.id}: src/assets/badges/${stem}.svg`).toBe(true);
   }
@@ -100,4 +106,18 @@ test('story-mood ist, wenn gesetzt, aus der erlaubten Menge; mindestens eine Zei
     }
   }
   expect(anyMoodSet).toBe(true);
+});
+
+test('Uebungstypen sind bekannt und formal vollstaendig', () => {
+  const TYPES = ['predict', 'parsons', 'match', 'fill', 'findbug'];
+  for (const [id, s] of Object.entries(STATIONS)) {
+    s.exercises.forEach((ex, i) => {
+      expect(TYPES, `${id}[${i}]`).toContain(ex.type);
+      const t = de.stations[id].exercises[i];
+      expect(typeof t.prompt, `${id}[${i}].prompt`).toBe('string');
+      if (ex.type === 'match') { expect(ex.pairs.length).toBeGreaterThanOrEqual(3); for (const p of ex.pairs) { assertKnown(p.block); expect(p.python.trim().length).toBeGreaterThan(0); } }
+      if (ex.type === 'fill') { expect((ex.code.match(/___/g) || []).length).toBe(ex.gaps.length); for (const g of ex.gaps) expect(g.options).toContain(g.correct); }
+      if (ex.type === 'findbug') { expect(ex.wrong).toBeGreaterThanOrEqual(0); expect(ex.wrong).toBeLessThan(ex.lines.length); expect(typeof t.explain, `${id}[${i}].explain`).toBe('string'); }
+    });
+  }
 });

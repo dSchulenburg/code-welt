@@ -416,5 +416,109 @@ export default {
         task: 'Baue einen Zaun um dich herum. Der Ring hat 8 Blöcke pro Seite. Was spart die Schleife? Wie viele Befehle wären es ohne Schleife?',
       },
     },
+    s07: {
+      title: 'Zahlen mit Namen',
+      storyShort: 'Eine Variable ist eine Zahl mit einem Namen. Du setzt sie einmal, die Schleife nutzt sie überall. Ändere nur die Zahl, nicht das ganze Programm.',
+      bridge: {
+        game: 'Du tippst bruecke. Der Agent baut eine Brücke über den Fluss.',
+        code: 'laenge steht einmal oben. Die Schleife nutzt die Zahl.',
+      },
+      tasks: [
+        { kind: 'auftrag', title: 'Die Brücke', text: 'Stell dich auf den Goldblock an Stelle A. Schreibe bruecke. Geh über die Brücke. Schalte oben auf Python. Finde die Zeile laenge = 5.' },
+        { kind: 'nochEiner', title: 'Stelle B', text: 'Geh zum Goldblock an Stelle B. Der Fluss ist 8 breit. Ändere nur eine Zahl. Schreibe bruecke.' },
+        { kind: 'remix', title: 'Deine Brücke', text: 'Bau die Brücke aus einem anderen Block. Oder mach sie zwei Blöcke breit. Zeig es deinem Partner oder deiner Partnerin.' },
+      ],
+      tipSolution: 'Setze laenge = 8. Ändere nur diese eine Zeile. range(laenge) baut dann acht move-place-Paare.',
+      exercises: [
+        { prompt: 'Ordne jeden Block seiner Python-Zeile zu.' },
+        { prompt: 'Der Fluss an Stelle B ist 8 Blöcke breit. Welche Zahl gehört in die Lücke?' },
+      ],
+      quiz: [
+        {
+          q: 'Was ist laenge?',
+          answers: [
+            { text: 'Eine Zahl mit Namen', correct: true },
+            { text: 'Ein Zauberwort', correct: false },
+            { text: 'Ein Block', correct: false },
+          ],
+        },
+        {
+          q: 'Du willst die Brücke 8 lang. Was änderst du?',
+          answers: [
+            { text: 'Nur die Zeile laenge = 5', correct: true },
+            { text: 'Jede Zeile mit einer 5', correct: false },
+            { text: 'Das Zauberwort', correct: false },
+          ],
+        },
+        {
+          q: 'laenge = 5. Wie oft läuft range(laenge)?',
+          answers: [
+            { text: '5-mal', correct: true },
+            { text: '4-mal', correct: false },
+            { text: '6-mal', correct: false },
+          ],
+        },
+        {
+          q: 'Wo siehst du dein Programm als Python?',
+          answers: [
+            { text: 'Mit dem Umschalter oben im Editor', correct: true },
+            { text: 'Im Chat', correct: false },
+            { text: 'In der Welt', correct: false },
+          ],
+        },
+      ],
+    },
+    s08: {
+      title: 'Wo bin ich?',
+      storyShort: 'Jeder Block hat drei Koordinaten: x, y und z. pos zählt von deinen Füßen aus, y ist die Höhe. fill füllt einen ganzen Quader mit einem Befehl.',
+      bridge: {
+        game: 'Du liest x, y, z ab. Du tippst plattform. Die Plattform liegt über der Schlucht.',
+        code: 'fill füllt alles zwischen zwei Ecken. pos zählt von deinen Füßen.',
+      },
+      tasks: [
+        { kind: 'auftrag', title: 'Die Plattform', text: 'Schalte die Koordinaten ein. Stell dich auf den Goldblock an der Schlucht. Lies x, y, z ab und schreib sie auf. Schreibe plattform. Geh über die Plattform. Schalte auf Python: Finde die zwei Ecken.' },
+        { kind: 'nochEiner', title: 'Breiter', text: 'Mach die Plattform doppelt so breit. Welche Zahl änderst du?' },
+        { kind: 'remix', title: 'Das Dach', text: 'Bau ein Dach über die Plattform. Tipp: y = 2. Zeig es deinem Partner oder deiner Partnerin.' },
+      ],
+      tipSolution: 'Die zweite Ecke wird pos(8, -1, 7) statt pos(4, -1, 7). Nur die x-Zahl wird größer.',
+      exercises: [
+        { prompt: 'Drei fill-Blöcke, drei Zeilen. Achte auf y und auf den Block.' },
+        { prompt: 'Die Plattform hängt über deinem Kopf. Welche Zeile ist falsch?', explain: 'Die zweite Ecke hat y = 1. Das ist über dir. Die Plattform muss unter deinen Füßen liegen: y = -1.' },
+      ],
+      quiz: [
+        {
+          q: 'Was bedeutet y?',
+          answers: [
+            { text: 'Die Höhe', correct: true },
+            { text: 'Links und rechts', correct: false },
+            { text: 'Vorne und hinten', correct: false },
+          ],
+        },
+        {
+          q: 'Wo ist pos(0, -1, 1)?',
+          answers: [
+            { text: 'Ein Block unter dir, ein Block vor dir', correct: true },
+            { text: 'Über dir', correct: false },
+            { text: 'Weit weg', correct: false },
+          ],
+        },
+        {
+          q: 'Was macht fill?',
+          answers: [
+            { text: 'Füllt alles zwischen zwei Ecken', correct: true },
+            { text: 'Setzt einen Block', correct: false },
+            { text: 'Bewegt den Agenten', correct: false },
+          ],
+        },
+        {
+          q: 'Die Anzeige im Spiel zeigt x, y, z. Was sind das?',
+          answers: [
+            { text: 'Welt-Koordinaten, für alle gleich', correct: true },
+            { text: 'Abstände von dir', correct: false },
+            { text: 'Zufallszahlen', correct: false },
+          ],
+        },
+      ],
+    },
   },
 };

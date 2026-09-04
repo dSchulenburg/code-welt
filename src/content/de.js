@@ -130,5 +130,49 @@ export default {
         'Gerüst: Lege eine dritte Schleife ganz außen. Der ganze Ring steht eingerückt darin.',
       ],
     },
+    s07: {
+      story: [
+        { who: 'dani', mood: 'begeistert', text: 'Ich will die Welt erkunden! Nördlich liegt ein Fluss.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Ich baue mit fünf move- und place-Paaren. Am zweiten Ufer sind es acht.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Gib der Zahl einen Namen. laenge = 5.' },
+        { who: 'dani', mood: 'fragend', text: 'Und dann?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Die Schleife nutzt laenge. Du änderst nur eine Zeile.' },
+        { who: 'nour', mood: 'begeistert', text: 'Schalte oben auf Python. Da siehst du die Zeile.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Python sieht fast aus wie die Blöcke!' },
+      ],
+      concept: [
+        'Eine Variable ist eine Zahl mit einem Namen. laenge steht für die Zahl 5.',
+        'Du setzt sie einmal ganz oben. Danach benutzt du sie überall im Programm.',
+        'range(laenge) zählt so oft, wie laenge groß ist. Ändert sich laenge, ändert sich die Anzahl.',
+        'Der Umschalter im Editor zeigt Blöcke oder Python. Beide zeigen dasselbe Programm.',
+      ],
+      tips: [
+        'Frage: Wie oft baut der Agent? Schau auf laenge.',
+        'Richtung: Der Fluss ist 8 breit. Ändere nur eine Zeile.',
+        'Gerüst: Schreibe laenge = ___ in die erste Zeile. Die Schleife bleibt for index in range(laenge): so stehen.',
+      ],
+    },
+    s08: {
+      story: [
+        { who: 'dani', mood: 'ueberrascht', text: 'Wow, die Schlucht ist riesig! Sieben breit und sechs tief.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Eine Brücke aus Einzelblöcken dauert ewig.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Schalte die Koordinaten ein. Jeder Block hat drei Zahlen: x, y, z.' },
+        { who: 'dani', mood: 'fragend', text: 'Und was ist y?' },
+        { who: 'nour', mood: 'erklaerend', text: 'y ist die Höhe. x und z zeigen die Richtung.' },
+        { who: 'nour', mood: 'begeistert', text: 'fill füllt alles zwischen zwei Ecken. Ein Befehl!' },
+        { who: 'dani', mood: 'begeistert', text: 'Eine ganze Plattform mit einer Zeile!' },
+      ],
+      concept: [
+        'Jeder Block hat drei Koordinaten: x, y und z. Die Anzeige im Spiel zeigt sie dir absolut.',
+        'pos(x, y, z) zählt anders: von deinen Füßen aus. Das ist relativ, -1 ist unter dir.',
+        'fill füllt den ganzen Quader zwischen zwei Ecken. Du sparst dir jeden Einzelblock.',
+        'FillOperation.REPLACE ersetzt alles in diesem Quader, auch Luft. Nichts bleibt stehen.',
+      ],
+      tips: [
+        'Frage: Wo ist y = -1? Unter dir oder über dir?',
+        'Richtung: Die Plattform muss unter den Füßen liegen. Die zweite Ecke ist am anderen Rand.',
+        'Gerüst: blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(___, -1, ___), FillOperation.REPLACE). Setze die zwei fehlenden Zahlen ein.',
+      ],
+    },
   },
 };

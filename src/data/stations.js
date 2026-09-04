@@ -3,7 +3,7 @@
 export const ETAPPEN = [
   { id: 'holz', emoji: '🪵', stations: ['s01', 's02', 's03'], badge: { key: 'badge-holz', icon: 'holz.png' } },
   { id: 'stein', emoji: '🪨', stations: ['s04', 's05', 's06'], badge: { key: 'badge-stein', icon: 'stein.png' } },
-  { id: 'eisen', emoji: '⛏️', stations: [], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
+  { id: 'eisen', emoji: '⛏️', stations: ['s07', 's08'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
   { id: 'gold', emoji: '🟡', stations: [], badge: { key: 'badge-gold', icon: 'gold.png' } },
   { id: 'diamant', emoji: '💎', stations: [], badge: { key: 'badge-diamant', icon: 'diamant.png' } },
   { id: 'netherite', emoji: '🏙️', stations: [], badge: { key: 'badge-netherite', icon: 'netherite.png' } },
@@ -301,6 +301,63 @@ player.on_chat("haus", on_haus)`,
           '        agent.turn(LEFT_TURN)',
         ],
       },
+    ],
+  },
+  s07: {
+    etappe: 'eisen',
+    ds: 7,
+    iframeHeight: 5200,
+    // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor steht noch aus
+    // (Nachtrag Plan 3, Abschnitt 5: place(DOWN) ueber Wasser, Variable im Handler).
+    python: `def on_bruecke():
+    laenge = 5
+    agent.teleport_to_player()
+    agent.set_item(PLANKS_OAK, 64, 1)
+    for index in range(laenge):
+        agent.move(FORWARD, 1)
+        agent.place(DOWN)
+player.on_chat("bruecke", on_bruecke)`,
+    blocks: [{ kind: 'onChat', word: 'bruecke', body: [
+      { kind: 'setVar', varName: 'laenge', value: 5 },
+      { kind: 'agent.teleportToPlayer' },
+      { kind: 'agent.setItem', block: 'planks_oak', count: 64, slot: 1 },
+      { kind: 'repeat', n: 'laenge', body: [
+        { kind: 'agent.move', dir: 'forward', n: 1 }, { kind: 'agent.place', dir: 'down' },
+      ] },
+    ] }],
+    exercises: [
+      { type: 'match', pairs: [
+        { block: { kind: 'setVar', varName: 'laenge', value: 5 }, python: 'laenge = 5' },
+        { block: { kind: 'repeat', n: 'laenge', body: [] }, python: 'for index in range(laenge):' },
+        { block: { kind: 'agent.move', dir: 'forward', n: 1 }, python: 'agent.move(FORWARD, 1)' },
+        { block: { kind: 'agent.place', dir: 'down' }, python: 'agent.place(DOWN)' },
+      ] },
+      { type: 'fill', code: 'laenge = ___\nfor index in range(laenge):\n    agent.move(FORWARD, 1)\n    agent.place(DOWN)',
+        gaps: [{ options: ['5', '8', 'laenge'], correct: '8' }] },
+    ],
+  },
+  s08: {
+    etappe: 'eisen',
+    ds: 8,
+    iframeHeight: 5200,
+    // Entwurf; Gegenpruefung im Editor: FillOperation.REPLACE in Python, pos() relativ (Fuesse = 0).
+    python: `def on_plattform():
+    blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)
+player.on_chat("plattform", on_plattform)`,
+    blocks: [{ kind: 'onChat', word: 'plattform', body: [
+      { kind: 'fill', block: 'planks_oak', from: { pos: [0, -1, 1] }, to: { pos: [4, -1, 7] }, op: 'replace' },
+    ] }],
+    exercises: [
+      { type: 'match', pairs: [
+        { block: { kind: 'fill', block: 'planks_oak', from: { pos: [0, -1, 1] }, to: { pos: [4, -1, 7] }, op: 'replace' }, python: 'blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)' },
+        { block: { kind: 'fill', block: 'planks_oak', from: { pos: [0, 1, 1] }, to: { pos: [4, 1, 7] }, op: 'replace' }, python: 'blocks.fill(PLANKS_OAK, pos(0, 1, 1), pos(4, 1, 7), FillOperation.REPLACE)' },
+        { block: { kind: 'fill', block: 'stone', from: { pos: [0, -1, 1] }, to: { pos: [4, -1, 7] }, op: 'replace' }, python: 'blocks.fill(STONE, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)' },
+      ] },
+      { type: 'findbug', lines: [
+        'def on_plattform():',
+        '    blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, 1, 7), FillOperation.REPLACE)',
+        'player.on_chat("plattform", on_plattform)',
+      ], wrong: 1 },
     ],
   },
 };

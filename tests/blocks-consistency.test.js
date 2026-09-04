@@ -16,6 +16,8 @@ const withBlocks = Object.entries(STATIONS).filter(([, s]) => Array.isArray(s.bl
 // Blockart -> Anfang der zugehoerigen Python-Zeile. `repeat` und `for` fuehren beide auf `for `:
 // MakeCode schreibt "repeat n times" als `for index in range(n)` aus. Blockarten ohne Eintrag
 // (Huete, spaetere Ausdrucksbloecke) erzeugen keine eigene Befehlszeile und zaehlen nicht mit.
+// `setVar` hat keinen festen Praefix: seine Python-Zeile beginnt mit dem Variablennamen selbst
+// (`laenge = `) — deshalb steht dort eine Funktion statt eines Strings (Plan 3 Task 5).
 const KIND_TO_PY = {
   'agent.teleportToPlayer': 'agent.teleport_to_player(',
   'agent.setItem': 'agent.set_item(',
@@ -26,8 +28,11 @@ const KIND_TO_PY = {
   'agent.detect': 'agent.detect(',
   for: 'for ',
   repeat: 'for ',
+  fill: 'blocks.fill(',
+  setVar: (b) => `${b.varName} = `,
 };
-const PY_PREFIXES = [...new Set(Object.values(KIND_TO_PY))];
+const prefixOf = (b) => { const p = KIND_TO_PY[b.kind]; return typeof p === 'function' ? p(b) : p; };
+const PY_PREFIXES = [...new Set(Object.values(KIND_TO_PY).filter((p) => typeof p === 'string'))];
 
 // Eine Stufe Python-Einrueckung. MakeCode schreibt mit vier Leerzeichen aus.
 const INDENT = 4;
@@ -37,7 +42,7 @@ const INDENT = 4;
 // im Python unter ihrer Schleifenzeile stehen. Tiefe 0 = direkt unter dem Hut.
 function blockSteps(body, depth = 0, out = []) {
   for (const b of body) {
-    const prefix = KIND_TO_PY[b.kind];
+    const prefix = prefixOf(b);
     if (prefix) out.push({ py: prefix, depth });
     // Nur ein Block mit eigener Python-Zeile (for/repeat) macht seinen Rumpf eine Stufe tiefer.
     if (b.body) blockSteps(b.body, prefix ? depth + 1 : depth, out);
@@ -47,14 +52,21 @@ function blockSteps(body, depth = 0, out = []) {
 
 const blockOrder = (body) => blockSteps(body).map((s) => s.py);
 
+// Zuweisungszeile erkennen (setVar hat keinen festen Praefix in KIND_TO_PY): ein Bezeichner,
+// dann " = ", z. B. "laenge = 5". Faengt so denselben Praefix ein wie prefixOf({kind:'setVar',...}).
+const ASSIGN = /^([a-z_]+) = /;
+
 // Python an den `def `-Grenzen zerlegen; je Funktion die Zeilen, die zu einer bekannten Blockart
-// gehoeren, jeweils mit ihrer Einrueckungsstufe relativ zum Rumpf des `def` (vier Leerzeichen =
-// Stufe 0). Die `player.on_chat(...)`-Zeile faellt heraus — sie ist der Hut, kein Befehl im Rumpf.
+// oder einer Zuweisung gehoeren, jeweils mit ihrer Einrueckungsstufe relativ zum Rumpf des `def`
+// (vier Leerzeichen = Stufe 0). Die `player.on_chat(...)`-Zeile faellt heraus — sie ist der Hut,
+// kein Befehl im Rumpf.
 function pythonSteps(python) {
   return python.split(/^def /m).slice(1).map((chunk) => chunk
     .split('\n')
     .map((line) => {
-      const py = PY_PREFIXES.find((p) => line.trim().startsWith(p));
+      const trimmed = line.trim();
+      const assign = trimmed.match(ASSIGN);
+      const py = assign ? `${assign[1]} = ` : PY_PREFIXES.find((p) => trimmed.startsWith(p));
       if (!py) return null;
       const spaces = line.length - line.trimStart().length;
       return { py, depth: spaces / INDENT - 1 };
@@ -129,3 +141,10 @@ for (const [id, s] of withBlocks) {
     });
   });
 }
+
+test('setVar und fill werden in Reihenfolge und Tiefe mit dem Python verglichen', () => {
+  const s = { blocks: [{ kind: 'onChat', word: 't', body: [{ kind: 'setVar', varName: 'stufen', value: 6 }, { kind: 'for', varName: 'index', to: { minus: ['stufen', 1] }, body: [{ kind: 'fill', block: 'cobblestone', from: { pos: [0, 0, 1] }, to: { pos: [0, 0, 3] }, op: 'replace' }] }] }],
+    python: 'def on_t():\n    stufen = 6\n    for index in range(stufen):\n        blocks.fill(COBBLESTONE, pos(0, 0, 1), pos(0, 0, 3), FillOperation.REPLACE)\nplayer.on_chat("t", on_t)' };
+  expect(blockOrder(s.blocks[0].body)).toEqual(['stufen = ', 'for ', 'blocks.fill(']);
+  expect(pythonSteps(s.python)[0].map((x) => x.py)).toEqual(['stufen = ', 'for ', 'blocks.fill(']);
+});
