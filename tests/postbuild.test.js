@@ -26,16 +26,24 @@ test('parseBadgeLines liefert ein leeres Array ohne Treffer', () => {
   expect(parseBadgeLines('nichts hier')).toEqual([]);
 });
 
-test('applyForumResult schreibt items["forum-nour"] mit der cmid', () => {
+test('applyForumResult schreibt items["forum-nour"] mit der cmid und managedBy: "postbuild"', () => {
   const reg = { items: {} };
   applyForumResult(reg, 42);
-  expect(reg.items['forum-nour']).toEqual({ cmid: 42 });
+  expect(reg.items['forum-nour']).toEqual({ cmid: 42, managedBy: 'postbuild' });
 });
 
 test('applyForumResult ueberschreibt einen bestehenden Eintrag (idempotent bei erneutem Lauf)', () => {
-  const reg = { items: { 'forum-nour': { cmid: 1 } } };
+  const reg = { items: { 'forum-nour': { cmid: 1, managedBy: 'postbuild' } } };
   applyForumResult(reg, 1);
-  expect(reg.items['forum-nour']).toEqual({ cmid: 1 });
+  expect(reg.items['forum-nour']).toEqual({ cmid: 1, managedBy: 'postbuild' });
+});
+
+// managedBy markiert das Forum als Nachlauf-Item, damit build-course.mjs' orphanKeys() (moodle/lib/
+// registry-ops.mjs) es nicht als verwaist loescht -- siehe tests/registry-ops.test.js (Fix 3c).
+test('applyForumResult setzt managedBy: "postbuild" auch bei einem Altbestand ohne das Feld', () => {
+  const reg = { items: { 'forum-nour': { cmid: 108 } } };
+  applyForumResult(reg, 122);
+  expect(reg.items['forum-nour']).toEqual({ cmid: 122, managedBy: 'postbuild' });
 });
 
 test('applyBadgeResults legt reg.badges an und traegt beide Badges ein', () => {

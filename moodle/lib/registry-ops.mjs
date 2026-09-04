@@ -57,8 +57,13 @@ export function isOrderedSubsequence(want, actual) {
 // umbenannt hat. Reine Funktion (kein Registry-Feld wie "criteriaCmids" wird hier interpretiert,
 // nur registryItems-Keys gegen def.sections[].items[].key abgeglichen) — der Aufrufer entscheidet,
 // was mit den Treffern passiert (build-course.mjs loescht das Modul und den Registry-Eintrag).
+// Nachlauf-Items ueberspringen: Eintraege mit einem "managedBy"-Feld (z. B. { cmid, managedBy:
+// 'postbuild' } fuer forum-nour) gehoeren nicht course-def.mjs, sondern einem Nachlaufskript wie
+// postbuild.mjs. Sie stehen nie in def.sections und waeren sonst bei jedem Build faelschlich
+// "verwaist" -- gelöscht und vom Nachlauf sofort neu angelegt (Produktion verlor damit bei jedem
+// Rebuild alle Forenbeitraege, Fix 3c).
 export function orphanKeys(registryItems, def) {
   const wanted = new Set();
   for (const s of def.sections) for (const item of s.items) wanted.add(item.key);
-  return Object.keys(registryItems).filter((k) => !wanted.has(k));
+  return Object.keys(registryItems).filter((k) => !wanted.has(k) && registryItems[k].managedBy === undefined);
 }

@@ -111,7 +111,8 @@
         "hash": "5ae4a4bb712b"
       },
       "forum-nour": {
-        "cmid": 122
+        "cmid": 122,
+        "managedBy": "postbuild"
       }
     },
     "criteriaCmids": "110,111,113,114,116,118,120,121",

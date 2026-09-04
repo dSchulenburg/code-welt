@@ -29,7 +29,11 @@ Gesamtlauf in dieser Reihenfolge:
 `npm run moodle:build` legt den Kurs in der Kurs-in-a-Box an oder aktualisiert ihn
 (`moodle/registry.json` merkt sich die IDs). `npm run smoke` prüft die App (sechs Stationen ×
 sechs Sprachen), `npm run moodle:smoke` den Kurs in der Box End-to-End (Login, Reihenfolge,
-Forum, Boss-Check, Quiz, Badges, RTL).
+Forum, Boss-Check, Quiz, Badges, RTL). Nachlauf-Items wie das Forum „Fragen an Nour" tragen im
+Register ein `managedBy`-Feld (z. B. `managedBy: 'postbuild'`) und werden von der
+Verwaisungs-Bereinigung in `moodle:build` deshalb nicht angefasst — vorher hat jeder Build das
+Forum als „verwaist" gelöscht und `moodle:postbuild` es neu angelegt, dabei wären auf Produktion
+alle Forenbeiträge verloren gegangen (Fix 3c, behoben).
 
 **Tradeoff für Produktion:** Ein geänderter Quiz-Name, -Intro oder geänderte Fragen lösen in
 `moodle:build` ein Neu-Anlegen aus (Moodle kann Quizfragen nicht in-place ersetzen) — die CMID
@@ -37,7 +41,8 @@ wandert, damit verlieren die Badge-Kriterien und die Kurs-Abschlusskriterien ihr
 Versuchshistorie der Lernenden geht verloren. War das Badge bereits verliehen, sperrt Moodle
 außerdem die Kriterien-Änderung (`ACTIVE_LOCKED`) — dafür gibt es `moodle/php/reset-badges.php`
 (**nur Box**, löscht Verleihungen). Auf Produktion vor einem Rebuild: Badges prüfen, Versuchshistorie
-sichern, nicht blind `moodle:build` laufen lassen.
+sichern, nicht blind `moodle:build` laufen lassen. Das Forum „Fragen an Nour" ist von diesem
+Tradeoff nicht betroffen (s. o., `managedBy`).
 
 `scripts/blocks-js/s02.js` ist veraltet (Vorlage für ein optionales, manuell gerendertes Bild aus
 Plan 1) — die App zeichnet die Block-Ansicht aller sechs Stationen live aus `src/data/stations.js`,
@@ -48,7 +53,7 @@ diese Datei wird nicht mehr gebraucht und nicht mehr gepflegt.
 **Plan 2 (Holz und Stein) fertig:** sechs Stationen (DS 1–6) in sechs Sprachen, Block-Ansicht
 (SVG, live aus den Stationsdaten gezeichnet — kein manueller Screenshot mehr), zwei Boss-Checks
 (Aufgaben mit Online-Text), zwei Badges (Holz, Stein), Forum „Fragen an Nour", Lehrkraft-Abschnitt
-(Setup, Weltbauplan, Stundenverläufe DS 1–6), Charaktere Nour und Dani. Box-Kurs 10 gebaut, Gesamtlauf
+(Setup, Weltbauplan, Stundenverläufe DS 1–6), Referenzbilder für Nour und Dani. Box-Kurs 10 gebaut, Gesamtlauf
 (`moodle:build` ×2, `apply-completion.sh`, `reset-badges.php`, `moodle:postbuild` ×2) durch, Badge
 Holz für den Testschüler `schueler1` erneut nachgewiesen. App-Smoke (36 Checks) und Box-Smoke
 (13 Checks) je dreimal hintereinander grün.

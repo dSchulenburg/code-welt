@@ -116,3 +116,13 @@ test('orphanKeys findet auch Keys, die erst in einem spaeteren Abschnitt gebrauc
   const def = { sections: [{ items: [] }, { items: [{ key: 'boss-holz' }] }] };
   expect(orphanKeys(registryItems, def)).toEqual([]);
 });
+
+test('managedBy-Items sind keine Waisen', () => {
+  const registryItems = {
+    's02-quiz': {},
+    'forum-nour': { cmid: 122, managedBy: 'postbuild' },
+    'teacher-setup': {},
+  };
+  const def = { sections: [{ items: [{ key: 's02-quiz' }] }] };
+  expect(orphanKeys(registryItems, def)).toEqual(['teacher-setup']);
+});

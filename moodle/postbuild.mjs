@@ -60,8 +60,11 @@ export function parseBadgeLines(text) {
   return out;
 }
 
+// managedBy: 'postbuild' markiert das Forum als Nachlauf-Item -- build-course.mjs' orphanKeys()
+// (moodle/lib/registry-ops.mjs) ueberspringt jeden Eintrag mit managedBy, sonst wuerde Schritt 3b
+// das Forum bei jedem Build als "verwaist" loeschen, weil course-def.mjs es nie liefert (Fix 3c).
 export function applyForumResult(reg, cmid) {
-  reg.items['forum-nour'] = { cmid };
+  reg.items['forum-nour'] = { cmid, managedBy: 'postbuild' };
   return reg;
 }
 

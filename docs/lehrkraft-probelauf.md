@@ -30,7 +30,7 @@ diesem Server (iframe) — ohne ihn bleiben die Stationsseiten im Kurs leer.
 
     http://localhost:8080/course/view.php?id=10&lang=uk
 
-Der Kurs heißt „Code-Welt". Mit `&lang=uk` siehst du sofort, ob die Sprachumschaltung wirklich
+Der Kurs heißt „Code-Welt: Programmieren mit Minecraft". Mit `&lang=uk` siehst du sofort, ob die Sprachumschaltung wirklich
 greift — Überschriften, Aufgabenarten und Fortschrittstext sind zweisprachig „Deutsch · Stütze",
 Buttons bleiben deutsch (Absicht, siehe Nachtrag zu Plan 2, Entscheidung 2).
 
