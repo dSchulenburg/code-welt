@@ -59,7 +59,7 @@ if (!bossKey) {
 
 // Drei-Saetze-Abgabe fuer den Boss-Check, inhaltlich passend zur jeweiligen Aufgabe (s. content/de
 // bzw. src/i18n/de.js stations.<sid>.bossCheck.task). Fuer eine Etappe ohne eigenen Text greift
-// ein generischer, aber sachlich zutreffender Fallback -- vorerst nur Holz/Stein gebraucht.
+// ein generischer, aber sachlich zutreffender Fallback -- vorerst nur Holz/Stein/Eisen gebraucht.
 const BOSS_TEXT = {
   holz: 'Mein Programm legt vier Bloecke geradeaus und dann zwei um die Ecke, so entsteht ein L. '
     + 'Die Reihenfolge ist wichtig, weil der Agent sich sonst an der falschen Stelle dreht und das L verschoben waere. '
@@ -68,6 +68,9 @@ const BOSS_TEXT = {
     + 'sodass ein Ring aus vier Seiten mit je acht Bloecken entsteht. '
     + 'Die Schleife spart mir das Wiederholen der einzelnen Bau-Befehle fuer jede Seite einzeln. '
     + 'Ohne Schleife braeuchte ich fuer alle vier Seiten zusammen deutlich mehr einzelne Befehle.',
+  eisen: 'Ich habe y unten und oben abgelesen, die Differenz ist 4, also stufen = 4. '
+    + 'index zaehlt von 0 bis 3 und ist die Hoehe jeder Stufe. '
+    + 'Bei einer hoeheren Klippe setze ich stufen hoeher, sonst aendert sich nichts.',
 };
 const bossText = BOSS_TEXT[etappe.id]
   || `Ich habe die Aufgabe der Etappe ${etappe.id} geloest. Der Share-Link zeigt mein Ergebnis. Am schwersten war der letzte Schritt.`;

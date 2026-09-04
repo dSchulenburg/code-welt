@@ -113,12 +113,47 @@
         "quizId": 24,
         "questions": 4,
         "hash": "28829f67fb77"
+      },
+      "s07-station": {
+        "cmid": 141,
+        "hash": "101ceeb0d43f"
+      },
+      "s07-quiz": {
+        "cmid": 142,
+        "quizId": 25,
+        "questions": 4,
+        "hash": "ac84c1542a1f"
+      },
+      "s08-station": {
+        "cmid": 143,
+        "hash": "8bc925238ddd"
+      },
+      "s08-quiz": {
+        "cmid": 144,
+        "quizId": 26,
+        "questions": 4,
+        "hash": "ef8a51916283"
+      },
+      "s09-station": {
+        "cmid": 145,
+        "hash": "1c87bdfd0f59"
+      },
+      "s09-quiz": {
+        "cmid": 146,
+        "quizId": 27,
+        "questions": 4,
+        "hash": "cdc6c272a6ce"
+      },
+      "boss-eisen": {
+        "cmid": 147,
+        "hash": "af2742b27456"
       }
     },
-    "criteriaCmids": "114,121,129,130,131,132,133,134",
+    "criteriaCmids": "114,121,129,130,131,132,133,134,142,144,146,147",
     "badges": {
       "badge-holz": 1,
-      "badge-stein": 2
+      "badge-stein": 2,
+      "badge-eisen": 3
     }
   }
 }

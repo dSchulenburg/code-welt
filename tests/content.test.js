@@ -77,19 +77,20 @@ test('jede Etappe hat ein Badge (Daten + i18n Name/Beschreibung)', () => {
   }
 });
 
-// Nur vollstaendig befuellte Etappen (Holz, Stein) muessen schon eine echte SVG haben. Eine Etappe
-// ist "gebaut" in diesem Sinn erst, wenn eine ihrer Stationen einen bossCheck traegt -- so wie in
-// s01-s06 nur die letzte Station einer Etappe den bossCheck bekommt (siehe der Test oben). Reines
-// `stations.length > 0` reicht seit Plan 3 Task 5 nicht mehr: eisen bekommt seine Stationen ueber
-// zwei Tasks verteilt (Task 5: s07/s08, Task 6: s09 + bossCheck), das SVG selbst erst in Task 7
-// (Nachtrag 04.09.2026) -- mit der alten Bedingung waere dieser Test zwischen Task 5 und Task 7
-// rot. Achtung, das ist NICHT durch badge-icons.mjs/postbuild.mjs abgedeckt: badgeSpecsFromEtappen
-// (moodle/postbuild.mjs) ueberspringt nur bei `stations.length === 0`, faellt fuer eisen (zwei
-// Stationen) also NICHT mehr heraus; badge-icons.mjs ueberspringt gar nichts -- es meldet jede
-// fehlende SVG und beendet sich mit Exitcode 1. Zwischen dieser Task und der Badge-Task (7) darf
-// deshalb weder `npm run moodle:postbuild` noch `node scripts/badge-icons.mjs` gegen die Box
-// laufen; dieser Test hier deckt nur die SVG-Existenz ab, nicht diese beiden Skripte. Fuer
-// holz/stein aendert sich nichts: beide haben ihren bossCheck laengst.
+// Nur vollstaendig befuellte Etappen (Holz, Stein, Eisen) muessen schon eine echte SVG haben. Eine
+// Etappe ist "gebaut" in diesem Sinn erst, wenn eine ihrer Stationen einen bossCheck traegt -- so
+// wie in s01-s06 nur die letzte Station einer Etappe den bossCheck bekommt (siehe der Test oben).
+// Reines `stations.length > 0` reicht seit Plan 3 Task 5 nicht mehr: eisen bekam seine Stationen
+// ueber zwei Tasks verteilt (Task 5: s07/s08 ohne bossCheck, Task 6: s09 + bossCheck), und erst mit
+// dem bossCheck in Task 6 verlangt dieser Test die SVG -- die lag seit Task 6 bereit, Task 7 hat nur
+// noch ihre Grundfarbe angepasst. Achtung, das ist NICHT durch badge-icons.mjs/postbuild.mjs
+// abgedeckt: badgeSpecsFromEtappen (moodle/postbuild.mjs) ueberspringt nur bei
+// `stations.length === 0`, faellt fuer eine Etappe mit Stationen aber ohne SVG also NICHT heraus;
+// badge-icons.mjs ueberspringt gar nichts -- es meldet jede fehlende SVG und beendet sich mit
+// Exitcode 1. Eine neue Etappe muss ihre SVG deshalb zusammen mit ihrem bossCheck ausliefern, sonst
+// klafft zwischen beiden Skripten eine Luecke, die nur dieser Test hier abdeckt (er prueft nur die
+// SVG-Existenz, nicht die beiden Skripte). Fuer holz/stein/eisen aendert sich nichts mehr: alle drei
+// haben ihren bossCheck und ihre SVG laengst.
 test('badge.icon jeder vollstaendig gebauten Etappe zeigt auf eine vorhandene SVG in src/assets/badges/', () => {
   for (const e of ETAPPEN) {
     if (!e.stations.some((sid) => STATIONS[sid].bossCheck)) continue;

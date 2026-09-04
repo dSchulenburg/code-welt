@@ -12,7 +12,14 @@
 // anschliessender `npm run moodle:postbuild`-Lauf die Kriterien frisch auf die aktuellen CMIDs
 // setzen kann. assign_grades (die plugin-interne Bewertungstabelle) fasst dieses Skript bewusst
 // nicht an -- der Boss-Check hat keine automatische Note (nur completionsubmit), assign_grades
-// bleibt also ohnehin leer.
+// bleibt also ohnehin leer. Loescht zuletzt auch den Kursabschluss selbst (course_completions +
+// course_completion_crit_compl) -- Schritt 1 raeumt nur die Aktivitaets-Completion-Flags weg,
+// die Kern-Completion-API haelt den einmal erreichten Kursabschluss aber in einer eigenen,
+// separaten Tabelle fest, die davon unberuehrt bleibt. Ohne diesen Schritt bleibt nach einem
+// vollstaendigen Lernpfad ein stiller Altbestand zurueck, der spaeter jeden Versuch blockiert,
+// an einer neu hinzugefuegten Aktivitaet die Abschlussverfolgung einzuschalten
+// (moodle_set_completion meldet dann "Teilnehmende haben Kurs bereits abgeschlossen" -- siehe
+// Task-7-Report/Ledger, Plan 3 Eisen).
 //
 // Aufruf im Container:  php /tmp/reset-test-student.php <courseid> <username>
 // Ueblicher Weg:         bash moodle/apply-php.sh php/reset-test-student.php <courseid> schueler1
@@ -101,6 +108,17 @@ foreach ($badges as $b) {
     $DB->set_field('badge', 'status', BADGE_STATUS_ACTIVE, ['id' => $b->id]);
     echo "badge {$b->id} ({$b->name}): {$issued} Verleihung(en) entfernt, status=ACTIVE\n";
 }
+
+// 6. Kursabschluss selbst -- separat von course_modules_completion (Schritt 1): das ist die
+// Kern-Completion-API-Tabelle, die einen einmal erreichten Kursabschluss dauerhaft festhaelt, und
+// die dazugehoerige Kriterien-Tabelle. Ohne diesen Schritt blockiert ein stiller Altbestand hier
+// jeden spaeteren Versuch, an einer neuen Aktivitaet die Abschlussverfolgung einzuschalten.
+$courseCompletions = $DB->count_records('course_completions', ['userid' => $userid, 'course' => $courseid]);
+$DB->delete_records('course_completions', ['userid' => $userid, 'course' => $courseid]);
+echo "course_completions: {$courseCompletions} geloescht\n";
+$critCompl = $DB->count_records('course_completion_crit_compl', ['userid' => $userid, 'course' => $courseid]);
+$DB->delete_records('course_completion_crit_compl', ['userid' => $userid, 'course' => $courseid]);
+echo "course_completion_crit_compl: {$critCompl} geloescht\n";
 
 rebuild_course_cache($courseid, true);
 echo "ok\n";
