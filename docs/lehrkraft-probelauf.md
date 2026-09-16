@@ -146,10 +146,10 @@ Abschnitt „Eisen" im Kurs, je Station Label → Quiz, wie bei Holz und Stein:
 - **Goldmarken:** im Erkundungsgebiet markieren Goldblöcke die Stellen, an denen Schüler:innen die
   Koordinaten ablesen sollen (Fluss, Schlucht, beide Klippen). Ob sie im gebauten Bauplan wirklich
   an diesen Stellen liegen, ist noch nicht im Spiel geprüft (siehe „Offene Punkte" unten).
-- **Python-Umschalter:** anders als bei den Parsons-Puzzles aus Holz/Stein haben die drei neuen
-  Übungstypen keinen eigenen Block-↔-Python-Umschalter. „Zuordnung" zeigt Block und Python-Zeile
-  direkt nebeneinander, „Lückencode" und „Fehlersuche" zeigen nur Python-Text. Prüfen, ob das ohne
-  Umschalter trotzdem verständlich bleibt.
+- **Python-Umschalter (im MakeCode-Editor, nicht in der App):** bei s07 von Block auf Python
+  umschalten und prüfen, ob `laenge = 5` wirklich als erste Zeile unter `def on_bruecke():` steht
+  (hängt mit Editor-Prüfpunkt 4 unten zusammen: Variable als erste Zeile im Chat-Handler, oder
+  zieht der Editor sie nach `on start`?).
 
 ### Badge sehen
 
