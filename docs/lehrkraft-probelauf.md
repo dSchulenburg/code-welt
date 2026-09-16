@@ -140,12 +140,15 @@ Abschnitt „Eisen" im Kurs, je Station Label → Quiz, wie bei Holz und Stein:
 ### Worauf achten
 
 - **Koordinatenanzeige:** ab s08 zeigt Minecraft Education die x/y/z-Koordinaten im HUD (Einstellung
-  einschalten, `content/lehrkraft/00-setup.md` nennt den Menüpfad. Der genaue Name in der
-  deutschen und englischen Spiel-UI ist einer der offenen Editor-Prüfpunkte unten). Ohne
-  eingeschaltete Anzeige lässt sich „Wo bin ich?" nicht lösen.
-- **Goldmarken:** im Erkundungsgebiet markieren Goldblöcke die Stellen, an denen Schüler:innen die
-  Koordinaten ablesen sollen (Fluss, Schlucht, beide Klippen). Ob sie im gebauten Bauplan wirklich
-  an diesen Stellen liegen, ist noch nicht im Spiel geprüft (siehe „Offene Punkte" unten).
+  einschalten; `content/lehrkraft/00-setup.md` nennt nur die Einstellung „Koordinaten anzeigen" in
+  den Welteinstellungen, der Menüpfad selbst ist dort als „im Spiel prüfen" markiert. Der genaue
+  Name in der deutschen und englischen Spiel-UI ist einer der offenen Editor-Prüfpunkte unten).
+  Ohne eingeschaltete Anzeige lässt sich „Wo bin ich?" nicht lösen.
+- **Goldmarken:** im Erkundungsgebiet liegen fünf Goldblöcke (Fluss Stelle A, Fluss Stelle B,
+  Schlucht, Klippe 1, Klippe 2). Sie sind die Startpunkte der Programme: Dort stellen sich die
+  Schüler:innen hin, bevor sie `bruecke`, `plattform` oder `treppe` schreiben, und lesen dort auch
+  die Koordinaten ab. Ob sie im gebauten Bauplan wirklich an diesen Stellen liegen, ist noch nicht
+  im Spiel geprüft (siehe „Offene Punkte" unten).
 - **Python-Umschalter (im MakeCode-Editor, nicht in der App):** bei s07 von Block auf Python
   umschalten und prüfen, ob `laenge = 5` wirklich als erste Zeile unter `def on_bruecke():` steht
   (hängt mit Editor-Prüfpunkt 4 unten zusammen: Variable als erste Zeile im Chat-Handler, oder
@@ -181,7 +184,7 @@ Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Ed
 - **Python-Gegenprüfung im Editor:** Für alle neun Stationen (s01–s09) und für
   `scripts/minecraft/welt-ankunft-bau.py` prüfen, ob die verwendeten Befehle und ihre Syntax so
   im MakeCode-Python-Editor existieren — insbesondere die Signatur
-  `agent.teleport(world(x, y, z), NORTH)` (zweiter Parameter = Blickrichtung, aus der Doku
+  `agent.teleport(world(x, y, z), SOUTH)` (zweiter Parameter = Blickrichtung, aus der Doku
   übernommen, nicht getestet; Rückfallweg mit separaten `agent.turn`-Zeilen ist im Skript als
   Kommentar hinterlegt). Für Eisen zusätzlich die fünf Punkte aus dem Plan-3-Nachtrag, Abschnitt 5
   (`docs/specs/2026-09-04-code-welt-plan3-nachtrag.md`): `agent.place(DOWN)` über Wasser als
@@ -198,7 +201,21 @@ Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Ed
   (`scripts/minecraft/welt-ankunft-bau.py`) und seit Plan 3 der Chat-Befehl `erkunden` für das
   Erkundungsgebiet liegen bereit. Welt im Editor um `erkunden` erweitern, dann komplett als
   `.mcworld` neu exportieren, in den Lehrkraft-Ordner „Weltdateien" (Abschnitt 1) hochladen.
-- **Blickrichtung der Schilder** DS 1–6 (nach Süden lesbar oder nach Norden) — im Spiel prüfen.
+- **Blickrichtung der Schilder** DS 1–6 (vom Spawn aus lesbar, Schriftseite nach Süden) — im
+  Spiel prüfen.
+- **Achsen und Blickrichtung (vor `bau` und `erkunden`):** Laut Doku ist +x Osten und +z Süden.
+  Im Spiel bestätigen: Auf der Plattform stehen, `blocks.place(GOLD_BLOCK, pos(0, 0, 1))` per
+  Chat-Befehl setzen und schauen, auf welcher Seite der Block liegt; in der Koordinatenanzeige muss
+  dabei z um 1 größer sein. Außerdem prüfen, ob `agent.teleport(..., SOUTH)` den Agent wirklich zu
+  größeren z-Werten schauen lässt (ein `agent.move(FORWARD, 1)` danach erhöht z um 1).
+- **Bodenhöhe (vor `erkunden`):** Neben der Startzone auf freies Gras stellen und y ablesen. Der
+  Bauplan nimmt die Grasoberfläche auf y=4 an (Füße y=5). Stimmt das nicht, `erkunden` nicht
+  laufen lassen (Vorgehen: Bauplan, Abschnitt „Bodenhöhe").
+- **Koordinatenanzeige = Fußhöhe?** Auf die Steinplatte stellen (Oberkante y=4) und prüfen, ob die
+  Anzeige y=5 zeigt. Die erwarteten Werte im Boss-Check (`ds09.md`: unten 5, oben 9) setzen
+  voraus, dass die Anzeige die Füße zeigt und nicht die Augenhöhe oder den Block darunter. Die
+  Differenz 4 bliebe bei einem festen Versatz gleich, die Bewertungshilfe müsste aber andere
+  Einzelwerte nennen.
 
 ## Sprachqualität — Muttersprachler:innen-Check
 

@@ -228,8 +228,10 @@ for (const key of orphanKeys(reg.items, def)) {
   await sleepBetween(800);
 }
 
-// 4. Reihenfolge im Abschnitt erzwingen: moodle_update_label haengt aktualisierte Labels ans
-// Abschnittsende, dadurch driftet die Modul-Reihenfolge bei jedem Update-Lauf. Nur Items aus
+// 4. Reihenfolge im Abschnitt erzwingen. Frueher haengte moodle_update_label (Delete+Recreate)
+// aktualisierte Labels ans Abschnittsende; seit MCP v3.5.0 aktualisiert es in-place (CMID und
+// Position bleiben). Quizze, Aufgaben und Seiten werden bei Aenderung aber neu angelegt, und
+// solche wie ganz neue Items landen am Abschnittsende; deshalb bleibt dieser Schritt noetig. Nur Items aus
 // der Registry werden angeordnet — Module, die build-course.mjs nicht kennt (z. B. das
 // Ankuendigungsforum in Abschnitt 0), bleiben, wo der Tool sie hinstellt.
 //

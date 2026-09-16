@@ -108,11 +108,11 @@
       },
       "s07-station": {
         "cmid": 153,
-        "hash": "dd5a9789b41d"
+        "hash": "8adcb60b72df"
       },
       "s08-station": {
         "cmid": 155,
-        "hash": "aeb2785897ed"
+        "hash": "37e13721359a"
       },
       "s09-station": {
         "cmid": 157,
@@ -122,33 +122,11 @@
         "cmid": 148,
         "hash": "c4c44c529447"
       },
-      "page-01-welt-ankunft": {
-        "cmid": 149,
-        "hash": "ee0bc9b785bf"
-      },
-      "page-ds07": {
-        "cmid": 150,
-        "hash": "e259a30de97e"
-      },
-      "page-ds08": {
-        "cmid": 151,
-        "hash": "dda3aebb57dc"
-      },
-      "page-ds09": {
-        "cmid": 152,
-        "hash": "b99b9828fd01"
-      },
       "s07-quiz": {
         "cmid": 154,
         "quizId": 28,
         "questions": 4,
         "hash": "2d994d3f93a3"
-      },
-      "s08-quiz": {
-        "cmid": 156,
-        "quizId": 29,
-        "questions": 4,
-        "hash": "83b386658d6d"
       },
       "s09-quiz": {
         "cmid": 158,
@@ -159,9 +137,31 @@
       "boss-eisen": {
         "cmid": 159,
         "hash": "e37bffa6d0b1"
+      },
+      "page-ds07": {
+        "cmid": 204,
+        "hash": "45e09db7f4be"
+      },
+      "page-ds08": {
+        "cmid": 205,
+        "hash": "6be1f684e5f8"
+      },
+      "page-ds09": {
+        "cmid": 206,
+        "hash": "a8664cf85303"
+      },
+      "s08-quiz": {
+        "cmid": 207,
+        "quizId": 33,
+        "questions": 4,
+        "hash": "652f360e3400"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 208,
+        "hash": "a13617b14eb7"
       }
     },
-    "criteriaCmids": "114,121,129,130,131,132,133,134,154,156,158,159",
+    "criteriaCmids": "114,121,129,130,131,132,133,134,154,158,159,207",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2,

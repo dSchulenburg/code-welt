@@ -110,7 +110,15 @@ Goldmarken) als Bauplan und Chat-Befehl `erkunden` im Weltbauskript; Lehrkraft-S
 Übersetzung der drei Stationen plus vier neue Glossarbegriffe in fünf Sprachen: 1,558 USD (unter
 dem 3-USD-Deckel), der Chunk-Cache übernimmt s01–s06 unverändert aus dem letzten Lauf und
 übersetzt nur Eisen neu. `iframeHeight` für s07–s09 gemessen (Task 11, 16.09.2026): 4700, 4750,
-4500. App-Smoke (54 Checks) und Box-Smoke (16 Checks) je dreimal hintereinander grün, Lernenden-Pfad
+4500; nach dem Final-Review-Fix (Zuordnung in natürlicher Blockgröße) nachgemessen: 4650, 4850,
+4500.
+
+**Final-Review-Fix (16.09.2026):** +z ist in Minecraft Süden, nicht Norden. Koordinaten bleiben,
+Richtungswörter, Schilder („Blick nach Süden") und die Blickrichtung im Weltbauskript (`SOUTH`,
+Weg und Ring starten am Westrand) sind korrigiert. Dazu: s08-Zuordnung lesbar (breite
+`fill`-Blöcke in natürlicher Größe, Spalten gestapelt), s08-Fehlersuche beschreibt das richtige
+Ergebnis (dicke Mauer statt Platte über dem Kopf), „Prüfen" in der Fehlersuche erst nach einer
+Zeilenwahl. Neuübersetzung nur `stations.s08`: 0,253 USD (Plan 3 gesamt 1,811 USD). App-Smoke (54 Checks) und Box-Smoke (16 Checks) je dreimal hintereinander grün, Lernenden-Pfad
 Eisen und Holz beide grün (Plan 2 bleibt unverändert).
 
 Zwei Funde beim Gesamtlauf für Task 11: `moodle/build-course.mjs` erwartete nach einem
@@ -118,8 +126,9 @@ Label-Update noch die alte Delete+Recreate-Antwort mit „Neuer CMID" in der Mel
 MCP-Server v3.5.0 läuft das Update in-place, die CMID bleibt gleich, und der alte Parser warf einen
 Fehler, sobald sich eine Label-Höhe wirklich änderte. Behoben, kein CMID-Extrakt mehr nötig. Und:
 das `.side-by-side`-Grid (Block-Ansicht neben Python) hatte kein `min-width: 0`, dazu setzte
-`.findbug-line code` starres `white-space: pre`. Eine lange Fehlersuchzeile (s09, doppelter
-`index`-Parameter) sprengte dadurch bei 750px Iframe-Breite die ganze Seite nach rechts. Beide
+`.findbug-line code` starres `white-space: pre`. Die lange Zeile mit `pos(index, index, 3)` im
+Haupt-Python von s09 (`.side-by-side .code pre`, nicht die Fehlersuchzeile mit
+`pos(index, stufen, 3)`) sprengte dadurch bei 750px Iframe-Breite die ganze Seite nach rechts. Beide
 Stellen in `src/styles.css` korrigiert (Grid schrumpft jetzt, Fehlersuchzeilen brechen bei Bedarf
 um), `scripts/smoke.mjs` prüft seitdem zusätzlich `scrollWidth <= 750`.
 
@@ -127,10 +136,17 @@ Nicht in Plan 3: Gold (Plan 4), Audio, Cheat-Sheets, Glossar-Vollausbau über di
 hinaus, Deploy (Phase 6), Hour-of-Code-Verweise, neue Charakter-Posen.
 
 **Offen für Dirk** (Details: `docs/lehrkraft-probelauf.md`):
+- **Offener DoD-Punkt Plan 3:** Die Editor-Prüfung (Nachtrag Plan 3, Abschnitt 5) sollte laut Spec
+  vor dem Übersetzen liegen. Übersetzt ist schon. Ändert die Prüfung Python oder Stütztexte von
+  s07–s09, müssen diese Chunks neu übersetzt werden
+  (`npm run translate -- --lang all --chunk stations.s07,stations.s08,stations.s09`).
 - Python im Editor gegenprüfen — Stationen s01–s09 sowie `scripts/minecraft/welt-ankunft-bau.py`
-  (`agent.teleport(world(...), NORTH)`-Signatur, Nachtrag Plan 3 Abschnitt 5: Brücke über Wasser,
+  (`agent.teleport(world(...), SOUTH)`-Signatur, Nachtrag Plan 3 Abschnitt 5: Brücke über Wasser,
   `FillOperation.REPLACE`-Syntax, `for … to`-Rendering im Editor, Variable als erste Zeile im
   Chat-Handler, Name der Koordinatenanzeige in der Spiel-UI).
+- Vor `erkunden` im Spiel prüfen: Bodenhöhe (Gras auf y=4?), Achsen (baut `pos(0, 0, 1)` nach
+  Süden?), zeigt die Koordinatenanzeige die Fußhöhe? (Bauplan Abschnitt „Bodenhöhe",
+  `docs/lehrkraft-probelauf.md` „Offene Punkte").
 - Ring-Tür-Hypothese (Boss-Check Stein): im Spiel nachzählen, ob der Ring 19 oder 20 Blöcke hat.
 - Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit, inkl. Erkundungsgebiet),
   als `.mcworld` exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.

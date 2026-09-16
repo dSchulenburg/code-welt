@@ -1,6 +1,6 @@
 # Code-Welt · Plan 3 von 6: Eisen (DS 7–9) — Implementation Plan
 
-> **Stand 16.09.2026: umgesetzt.** Abweichungen gegenüber diesem Plan: Task 5 korrigierte die
+> **Stand 16.09.2026: umgesetzt bis auf Dirks Editor-Prüfung (siehe „Offen" unten).** Abweichungen gegenüber diesem Plan: Task 5 korrigierte die
 > s08-Musterlösung auf `pos(9, -1, 7)` (0 bis 9 sind zehn Blöcke, `pos(8, ...)` gab nur neun) und
 > trennte „weit" (Schluchtbreite, z-Achse) von „breit" (Plattformbreite, x-Achse) in der Story;
 > Task 7 brauchte einen Zusatz in `reset-test-student.php`, der auch `course_completions` löscht,
@@ -12,10 +12,21 @@
 > zwei weitere Abweichungen: `moodle/build-course.mjs` erwartete nach einem Label-Update noch die
 > alte Delete+Recreate-Antwort („Neuer CMID"). Der MCP-Server aktualisiert Labels seit v3.5.0
 > in-place, die CMID bleibt gleich, der alte Parser warf deshalb einen Fehler; und das
-> `.side-by-side`-Grid samt `.findbug-line code` sprengte bei einer langen s09-Fehlersuchzeile die
-> Iframe-Breite (750px) nach rechts, behoben mit `min-width: 0` und `white-space: pre-wrap` in
+> `.side-by-side`-Grid sprengte mit der langen Zeile `pos(index, index, 3)` aus dem Haupt-Python
+> von s09 (`.side-by-side .code pre`) die Iframe-Breite (750px) nach rechts, behoben mit
+> `min-width: 0`; zusätzlich brechen die Fehlersuchzeilen (`.findbug-line code`, z. B. s09 mit
+> `pos(index, stufen, 3)`) jetzt mit `white-space: pre-wrap` statt `pre` um, beides in
 > `src/styles.css`, dazu ein neuer Breiten-Check in `scripts/smoke.mjs`. Details: `README.md`
 > (Abschnitt „Stand") und das Ledger in `.superpowers/sdd/2026-09-04-code-welt-03-eisen/progress.md`.
+>
+> **Final-Review-Fix 16.09.2026:** Der Plan nahm „Norden = +z" an. In Minecraft ist +z Süden.
+> Koordinaten bleiben, korrigiert sind Richtungswörter, Schilder („Blick nach Süden") und die
+> Blickrichtung im Weltbauskript (`SOUTH`; Weg und Ring starten am Westrand, siehe Bauplan).
+>
+> **Offen (DoD-Punkt, nicht erledigt):** Dirks Editor-Prüfung nach Nachtrag Abschnitt 5. Die Spec
+> sah sie *vor* dem Übersetzen vor; übersetzt wurde trotzdem schon (Task 9). Ändert die
+> Editor-Prüfung Python oder Stütztexte von s07–s09, müssen diese Chunks neu übersetzt werden
+> (`npm run translate -- --lang all --chunk stations.s07,stations.s08,stations.s09`).
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
@@ -693,7 +704,7 @@ player.on_chat("bruecke", on_bruecke)`,
 },
 ```
 
-`content/de.js` s07 — Story (Sätze ≤ 12 Wörter, jede Zeile mit `mood`): Dani (begeistert) will erkunden, nördlich liegt ein Fluss; Dani (nachdenklich) baut mit fünf `move`/`place`-Paaren, am zweiten Ufer sind es acht; Nour (erklaerend): „Gib der Zahl einen Namen. `laenge = 5`."; Dani (fragend): „Und dann?"; Nour (erklaerend): die Schleife nutzt `laenge`, du änderst nur eine Zeile; Nour (begeistert): „Schalte oben auf Python. Da siehst du die Zeile."; Dani (ueberrascht): „Python sieht fast aus wie die Blöcke!" Konzept (4 Absätze): Variable = Zahl mit Namen; einmal oben setzen, überall benutzen; `range(laenge)` zählt so oft wie `laenge`; Umschalter Blöcke/Python im Editor zeigt dasselbe Programm. Tipps (3): Frage (Wie oft baut der Agent? Schau auf `laenge`) → Richtung (Der Fluss ist 8 breit. Ändere nur eine Zeile) → Gerüst (`laenge = ___` und `for index in range(laenge):`).
+`content/de.js` s07 — Story (Sätze ≤ 12 Wörter, jede Zeile mit `mood`): Dani (begeistert) will erkunden, südlich liegt ein Fluss; Dani (nachdenklich) baut mit fünf `move`/`place`-Paaren, an Stelle B sind es acht; Nour (erklaerend): „Gib der Zahl einen Namen. `laenge = 5`."; Dani (fragend): „Und dann?"; Nour (erklaerend): die Schleife nutzt `laenge`, du änderst nur eine Zeile; Nour (begeistert): „Schalte oben auf Python. Da siehst du die Zeile."; Dani (ueberrascht): „Python sieht fast aus wie die Blöcke!" Konzept (4 Absätze): Variable = Zahl mit Namen; einmal oben setzen, überall benutzen; `range(laenge)` zählt so oft wie `laenge`; Umschalter Blöcke/Python im Editor zeigt dasselbe Programm. Tipps (3): Frage (Wie oft baut der Agent? Schau auf `laenge`) → Richtung (Der Fluss ist 8 breit. Ändere nur eine Zeile) → Gerüst (`laenge = ___` und `for index in range(laenge):`).
 
 `i18n/de.js` s07: `title: 'Zahlen mit Namen'`, `storyShort`, `bridge: { game: 'Du tippst bruecke. Der Agent baut eine Brücke über den Fluss.', code: 'laenge steht einmal oben. Die Schleife nutzt die Zahl.' }`, `tasks`: Auftrag „Die Brücke" (Stell dich auf den Goldblock an Stelle A. Schreibe bruecke. Geh über die Brücke. Schalte oben auf Python. Finde die Zeile laenge = 5.), Noch einer „Stelle B" (Geh zum Goldblock an Stelle B. Der Fluss ist 8 breit. Ändere nur eine Zahl. Schreibe bruecke.), Remix „Deine Brücke" (Bau die Brücke aus einem anderen Block. Oder mach sie zwei Blöcke breit. Zeig es deinem Partner oder deiner Partnerin.), `tipSolution` (laenge = 8 setzen; nur diese Zeile; `range(laenge)` baut acht Paare), `exercises[0].prompt` (Ordne jeden Block seiner Python-Zeile zu.), `exercises[1].prompt` (Der Fluss an Stelle B ist 8 Blöcke breit. Welche Zahl gehört in die Lücke?), `quiz` (4 Fragen, je 3 Antworten, genau eine `correct: true`): „Was ist laenge?" (Eine Zahl mit Namen ✓ / Ein Zauberwort / Ein Block) · „Du willst die Brücke 8 lang. Was änderst du?" (Nur die Zeile laenge = 5 ✓ / Jede Zeile mit einer 5 / Das Zauberwort) · „laenge = 5. Wie oft läuft range(laenge)?" (5-mal ✓ / 4-mal / 6-mal) · „Wo siehst du dein Programm als Python?" (Mit dem Umschalter oben im Editor ✓ / Im Chat / In der Welt).
 
@@ -832,11 +843,11 @@ Glossar (`de.glossary`, Form der vorhandenen Einträge übernehmen): `variable` 
 - Consumes: `pagesFromMarkdown(lehrkraftDir)` aus `moodle/course-def.mjs` (rendert alle `content/lehrkraft/*.md` als Seiten; Reihenfolge nach Dateiname).
 - Produces: Chat-Befehl `erkunden` im Bauskript; Koordinaten der Tabelle unten sind die Autorität für Bauplan, Skript und Aufgabentexte.
 
-**Koordinaten** (Weltachsen wie im bestehenden Bauplan: Norden = +z, Boden y=4, Füße y=5; Erkunden-Bereich ab z=10):
+**Koordinaten** (Weltachsen: Süden = +z, Osten = +x, Boden y=4, Füße y=5; Erkunden-Bereich ab z=10. Korrektur 16.09.2026: hier stand „Norden = +z", das war falsch; die Zahlen bleiben):
 
 | Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild (von Hand) |
 |---|---|---|---|---|
-| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A · bruecke · Blick nach Norden" |
+| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A · bruecke · Blick nach Süden" |
 | Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B · 8 breit" |
 | Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8 · plattform · Stell dich auf das Gold" |
 | Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9 · treppe · 6 hoch" |
