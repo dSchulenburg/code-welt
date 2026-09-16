@@ -24,7 +24,7 @@
 
 ## 2. Der Bogen der Etappe Eisen
 
-Nach dem Haus will Dani die Welt erkunden. Nördlich der Startzone liegt das Erkundungsgebiet:
+Nach dem Haus will Dani die Welt erkunden. Südlich der Startzone liegt das Erkundungsgebiet:
 erst ein Fluss, dahinter eine Schlucht, am Ende eine Klippe mit Hochplateau. Nours Satz für die
 Etappe: „Der Agent kann bauen. Du musst ihm sagen: wie lang, wo, wie hoch." Roter Faden:
 **Zahlen bekommen Namen, Orte bekommen Zahlen, der Zähler zählt mit.**
@@ -119,7 +119,9 @@ wenn die Klippe höher ist?
 ## 4. Welt: Erkundungsgebiet
 
 Alle Lagen relativ zur Startzone der Welt `ankunft`; die Achsen übernimmt der Plan aus dem
-bestehenden Bauplan (`01-welt-ankunft.md`, Blick Norden, Erkunden-Bereich ab z=10).
+bestehenden Bauplan (`01-welt-ankunft.md`, Blick Süden, Erkunden-Bereich ab z=10).
+Korrektur 16.09.2026: +z ist in Minecraft **Süden** (−z Norden, +x Osten). Frühere Fassungen
+nannten „Norden (+z)"; die Koordinaten bleiben, nur die Richtungswörter sind korrigiert.
 
 | Element | Maße | Material | Markierung | Für |
 |---|---|---|---|---|

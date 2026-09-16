@@ -18,12 +18,31 @@ und Wegmarken automatisch, den Rest im Editor gegenprüfen.
 - **Keine Wegmarke ab z=6.** Der Erkunden-Bereich (ab z=10) bleibt frei, auch von Markierungen —
   dort baut die Etappe Eisen.
 
+## Bodenhöhe (Annahme, im Spiel prüfen)
+
+Bauplan und Bauskript nehmen an: Die Grasoberfläche der Flachwelt liegt auf **y=4**. Wer auf dem
+Gras steht, hat die Füße auf y=5. Darunter liegen mindestens sechs Schichten Boden, denn die
+Schlucht reicht bis y=-1. Das ist **nicht im Spiel gemessen**. Liegt das Gras tiefer (zum Beispiel
+auf y=3), passt die Startzone noch: Die Steinplatte liegt dann eine Stufe über dem Gras. Das
+Erkundungsgebiet passt dann nicht: Goldmarken stehen heraus, Wasser läuft über das Ufer, Klippen
+schweben, und die Schlucht kann unten offen sein.
+
+**Vor `erkunden` prüfen:** Neben der Startzone auf freies Gras stellen und y ablesen. Zeigt die
+Anzeige die Füße auf y=5, stimmt die Annahme. Ob die Anzeige wirklich die Fußhöhe zeigt, ist ein
+eigener Prüfpunkt (siehe `docs/lehrkraft-probelauf.md`). Stimmt die Annahme nicht, `erkunden`
+nicht laufen lassen. Dann alle y-Werte im Abschnitt „Erkundungsgebiet" und in `bau_fluss`,
+`bau_schlucht` und `bau_klippen` um denselben Betrag verschieben. Die Stationsprogramme bleiben
+gleich, weil `pos()` von den Füßen aus zählt. Die abgelesenen y-Werte im Boss-Check (`ds09.md`)
+verschieben sich mit, ihre Differenz bleibt 4.
+
 ## Schilder DS 1–6
 
-Ein Schild je Doppelstunde, kurzer deutscher Text. Alle sechs stehen in einer Reihe südlich vom
-Spawn, auf **y=5**, und werden von links nach rechts gelesen. Ein Minecraft-Schild hat vier
-Zeilen mit etwa 15 Zeichen — die Zeilenumbrüche unten sind so gemeint, wie sie dastehen.
-Blickrichtung des Schildes (nach Süden lesbar oder nach Norden): **im Spiel prüfen**.
+Ein Schild je Doppelstunde, kurzer deutscher Text. Alle sechs stehen in einer Reihe nördlich vom
+Spawn (z=-1, Norden ist −z), auf **y=5**, und werden vom Spawn aus mit Blick nach Norden von links
+nach rechts gelesen. Ein Minecraft-Schild hat vier Zeilen mit etwa 15 Zeichen — die
+Zeilenumbrüche unten sind so gemeint, wie sie dastehen.
+Blickrichtung des Schildes: Vom Spawn aus lesbar heißt, die Schriftseite zeigt nach Süden (+z).
+Ob das Schild beim Setzen so steht: **im Spiel prüfen**.
 
 | Schild | Koordinaten (x/y/z) | Text, Zeile für Zeile |
 |---|---|---|
@@ -37,22 +56,33 @@ Blickrichtung des Schildes (nach Süden lesbar oder nach Norden): **im Spiel pr�
 ## Beispielbauten
 
 Dieselben Programme wie in den Stationen DS 2–6, als Vorbild in der Welt aufgebaut. Alle Bauten
-liegen auf **y=5**, der Agent startet jeweils mit Blick nach **Norden** (+z) und baut von seinem
-Startfeld aus nach vorn. Der kleinste Abstand zwischen zwei Bauten beträgt **5 Felder** (gefordert
-sind mindestens 4), Spawn und Wegmarken bleiben frei.
+liegen auf **y=5**, der Agent startet jeweils mit Blick nach **Süden** (+z) und baut von seinem
+Startfeld aus nach vorn. Achsen in Minecraft: +x = Osten, −x = Westen, +z = Süden, −z = Norden.
+Der kleinste Abstand zwischen zwei Bauten beträgt **5 Felder** (gefordert sind mindestens 4), Spawn
+und Wegmarken bleiben frei.
 
 | Bau | Aus Station | Blöcke | Startfeld (x/y/z) | Blick | Belegte Felder (x / z) | Ausmaß |
 |---|---|---|---|---|---|---|
-| Weg | DS 2 (s02) | 4 (Gras) | -8/5/-9 | Norden | x -9…-8 / z -9…-7 | 3 lang × 2 breit |
-| Turm | DS 3 (s03) | 3 (Stein) | 2/5/-9 | Norden | x 2 / z -8 | 1×1, Höhe 3 |
-| Mauer | DS 4 (s04) | 10 (Bruchstein) | -8/5/-2 | Norden | x -8 / z -2…7 | 10 lang × 1 breit |
-| Wand | DS 5 (s05) | 18 = 6×3 (Bruchstein) | -3/5/-8 | Norden | x -3 / z -8…-3 | 6 lang × 1 breit, Höhe 3 |
-| Ring | DS 6 (s06, „haus") | 20 = 4 Seiten × 5 (Eiche) | 8/5/-3 | Norden | x 3…8 / z -3…2 | Umriss 6×6, Höhe 1 |
+| Weg | DS 2 (s02) | 4 (Gras) | -9/5/-9 | Süden | x -9…-8 / z -9…-7 | 3 lang × 2 breit |
+| Turm | DS 3 (s03) | 3 (Stein) | 2/5/-9 | Süden | x 2 / z -8 | 1×1, Höhe 3 |
+| Mauer | DS 4 (s04) | 10 (Bruchstein) | -8/5/-2 | Süden | x -8 / z -2…7 | 10 lang × 1 breit |
+| Wand | DS 5 (s05) | 18 = 6×3 (Bruchstein) | -3/5/-8 | Süden | x -3 / z -8…-3 | 6 lang × 1 breit, Höhe 3 |
+| Ring | DS 6 (s06, „haus") | 20 = 4 Seiten × 5 (Eiche) | 3/5/-3 | Süden | x 3…8 / z -3…2 | Umriss 6×6, Höhe 1 |
 
 Rechenprobe: Weg 4 Blöcke (drei in einer Linie, der vierte um die Ecke); Turm 3 Blöcke
 übereinander, er steht ein Feld **vor** dem Startfeld; Mauer 10 Blöcke aus einer Schleife
 (`range(10)`); Wand 6 breit × 3 hoch = 18 Blöcke; Ring 4 Seiten × 5 Blöcke = 20 Blöcke, Umriss
 aber 6×6 Felder — die vier Ecken gehören je zwei Seiten gleichzeitig.
+
+**Drehrichtung und Startfeld (Korrektur 16.09.2026):** Der Bauplan nahm früher Norden = +z an.
+Richtig ist Süden = +z. Die Bereiche in der Spalte „Belegte Felder" bleiben für alle fünf Bauten
+gleich. Geändert haben sich nur Blickrichtung und zwei Startfelder: Mit Blick nach Süden führt
+`agent.turn(LEFT_TURN)` nach **Osten** (+x), nicht nach Westen. Weg und Ring behalten deshalb die
+Linksdrehung aus den Stationen s02 und s06 und starten am westlichen Rand ihres Umrisses: Weg bei
+x=-9 (drei Blöcke x=-9, z -9…-7, der vierte bei -8/5/-7), Ring bei x=3 (erste Seite x=3,
+z -3…1, dann nach Osten). Der Weg ist damit gegenüber der alten Annahme gespiegelt, bleibt aber im
+selben 2×3-Feld; der Ring belegt genau dieselben 20 Felder. Turm, Mauer und Wand drehen nicht
+seitlich und starten unverändert.
 
 **Eck-Regel, gilt für Weg und Ring:** `agent.move(FORWARD, 1)` und danach `agent.place(BACK)`
 legt den Block immer in das Feld, das der Agent gerade verlassen hat. Nach einer Drehung liegt
@@ -65,9 +95,9 @@ geraden Wand. Das Bauskript hat den Schritt schon drin.
 
 ## Freie Flächen
 
-- **Spawn `0/*/0`** und der Streifen entlang x=0 nach Norden bleiben frei. Der nächste Bau (der
+- **Spawn `0/*/0`** und der Streifen entlang x=0 nach Süden bleiben frei. Der nächste Bau (der
   Ring) beginnt bei x=3.
-- **Bereich „Erkunden": nördlich der Startzone, ab z=10.** Dort entsteht in der Etappe Eisen das
+- **Bereich „Erkunden": südlich der Startzone, ab z=10.** Dort entsteht in der Etappe Eisen das
   Erkundungsgebiet mit Fluss und Schlucht (Hauptspec, Abschnitt 6.2). Beim Bauen der Etappen Holz
   und Stein hier nichts platzieren — auch keine Wegmarke.
 
@@ -79,17 +109,17 @@ und zwei Klippen für die Stationen DS 7–9. Baut der Chat-Befehl `erkunden` im
 einer bereits gebauten Welt aufrufbar. Er verändert nichts an Startzone, Schildern DS 1–6 oder den
 Beispielbauten.
 
-| Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild-Text (von Hand, vier Zeilen) | Schild-Position |
+| Element | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild-Text (von Hand, drei oder vier Zeilen) | Schild-Position |
 |---|---|---|---|---|---|
-| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A<br>5 Blöcke breit<br>bruecke<br>Blick nach Norden" | (-7, 5, 11) |
-| Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B<br>8 Blöcke breit<br>bruecke<br>Blick nach Norden" | (5, 5, 11) |
-| Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8<br>plattform<br>Steh auf dem Gold<br>Blick nach Norden" | (-1, 5, 25) |
-| Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9<br>treppe<br>6 Blöcke hoch<br>Blick nach Norden" | (-19, 5, 43) |
-| Klippe 2 (4 hoch, Boss) | (3, 5, 40) → (12, 8, 49) | STONE | (-1, 4, 43) | „DS 9 · Klippe 2<br>treppe<br>Blick nach Norden" | (-2, 5, 43) |
+| Fluss Stelle A (5 breit) | (-12, 3, 12) → (-1, 4, 16) | WATER | (-6, 4, 11) | „DS 7 · Stelle A<br>5 Blöcke breit<br>bruecke<br>Blick nach Süden" | (-7, 5, 11) |
+| Fluss Stelle B (8 breit) | (0, 3, 12) → (11, 4, 19) | WATER | (6, 4, 11) | „DS 7 · Stelle B<br>8 Blöcke breit<br>bruecke<br>Blick nach Süden" | (5, 5, 11) |
+| Schlucht (7 breit, 6 tief) | (-12, -1, 26) → (11, 4, 32) | AIR | (0, 4, 25) | „DS 8<br>plattform<br>Steh auf dem Gold<br>Blick nach Süden" | (-1, 5, 25) |
+| Klippe 1 (6 hoch) | (-12, 5, 40) → (-3, 10, 49) | STONE | (-18, 4, 43) | „DS 9<br>treppe<br>6 Blöcke hoch<br>Blick nach Süden" | (-19, 5, 43) |
+| Klippe 2 (4 hoch, Boss) | (3, 5, 40) → (12, 8, 49) | STONE | (-1, 4, 43) | „DS 9 · Klippe 2<br>treppe<br>Blick nach Süden" | (-2, 5, 43) |
 
 **Schilder:** Jedes Schild steht **einen Block westlich seiner Goldmarke, auf dem Boden (y=5)** —
 nie auf der Marke selbst, das würde sie ersetzen. Beispiel Stelle A: Marke (-6, 4, 11) → Schild
-(-7, 5, 11). Vier Zeilen, rund 15 Zeichen je Zeile, `<br>`-Umbrüche wie bei den Schildern DS 1–6
+(-7, 5, 11). Höchstens vier Zeilen, rund 15 Zeichen je Zeile, `<br>`-Umbrüche wie bei den Schildern DS 1–6
 oben. Klippe 2 (Boss-Check) trägt bewusst **keine Höhenangabe** — die SuS lesen die nötige Höhe
 selbst aus der Differenz zweier abgelesener y-Werte ab (siehe Boss-Check-Bewertung in `ds09.md`),
 deshalb nennt ihr Schild nur das Zauberwort und die Blickrichtung.
@@ -110,16 +140,18 @@ Plateau-Oberkante, bei x=-13 direkt neben der Klippe (x=-12). Klippe 2 — `stuf
 Goldmarke (-1, 4, 43): Stufen bei x=-1…2, Oberkante y=8 = Plateau, neben x=3. Abstände: Fluss
 endet z=19, Schlucht beginnt z=26 (6 frei); Schlucht endet z=32, Klippen beginnen z=40 (7 frei).
 
-**Blickrichtung:** `pos()` zählt von den Füßen aus, aber an den Weltachsen ausgerichtet, nicht an
-der Blickrichtung der SuS. Genau deshalb trägt **jede** Goldmarke ihr Schild mit „Blick nach
-Norden" — nicht nur dort, wo ein falsch stehendes Kind das Ergebnis sofort im Spiel sieht. Bei
-`bruecke` (DS 7) wirkt sich eine falsche Blickrichtung unmittelbar aus: Der Agent startet mit der
-Blickrichtung der SuS, eine schräg stehende Person baut die Brücke schräg in den Fluss statt
-darüber. Bei `plattform` (DS 8) und `treppe` (DS 9) baut `pos()` zwar unabhängig von der
-Blickrichtung immer an derselben Weltstelle — aber nur mit Blick nach Norden stimmt die im
-Unterricht gezeigte Eselsbrücke „ein Block vor dir" (DS 8, siehe dort) tatsächlich mit dem
-überein, was die SuS vor sich sehen. Deshalb ist „Blick nach Norden" an allen fünf Goldmarken
-derselbe, durchgängige Hinweis, nicht nur an einzelnen.
+**Blickrichtung:** `pos()` zählt von den Füßen aus, aber an den Weltachsen: +x ist Osten, +z ist
+Süden. Die Blickrichtung der SuS ändert an `pos()` nichts. Alle Baustellen liegen südlich (+z)
+ihrer Goldmarke. Deshalb trägt **jede** Goldmarke ihr Schild mit „Blick nach Süden". Bei `bruecke`
+(DS 7) wirkt sich eine falsche Blickrichtung unmittelbar aus: Der Agent startet mit der
+Blickrichtung der SuS. Mit Blick nach Süden liegt das Wasser direkt vor der Goldmarke. Wer schräg
+steht, baut die Brücke schräg in den Fluss; wer nach Norden schaut, baut sie zurück zur Startzone.
+Bei `plattform` (DS 8) und `treppe` (DS 9) baut `pos()` unabhängig von der Blickrichtung immer an
+derselben Weltstelle. Mit Blick nach Süden liegt die Plattform (z +1 bis +7) vor den SuS. Osten
+(+x) liegt dann aber **links**. Deshalb sagt Station s08 beim Verbreitern „in x-Richtung" und nicht
+„nach rechts". An den Klippen wächst die Treppe ebenfalls nach Osten, also vorn links; die Klippe
+liegt östlich der Goldmarke. „Blick nach Süden" ist an allen fünf Goldmarken derselbe Hinweis, damit
+„vorn" für alle dieselbe Weltrichtung meint.
 
 **Leiter Klippe 2:** An der Westseite von Klippe 2, bei (2, 5–8, 47), von Hand gesetzt (nicht im
 Bauskript) — sie führt vom Fuß der Klippe bis zum Plateau und ist im Boss-Check der Weg nach oben,
