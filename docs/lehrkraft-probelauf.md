@@ -1,8 +1,10 @@
-# Probelauf für Dirk — Etappen Holz und Stein in der Box
+# Probelauf für Dirk — Etappen Holz, Stein und Eisen in der Box
 
 Schritt-für-Schritt-Anleitung für den ersten eigenen Durchlauf durch Plan 2 (sechs Stationen,
 zwei Boss-Checks, zwei Badges, Forum, Lehrkraft-Abschnitt) in der lokalen Kurs-in-a-Box. Dauer
-für den vollständigen Durchlauf: ca. 30–45 Minuten.
+für den vollständigen Durchlauf: ca. 30–45 Minuten. Plan 3 (Eisen, DS 7–9) hat einen eigenen,
+kürzeren Abschnitt weiter unten, „Etappe Eisen". Er baut auf den Grundlagen hier auf (Login,
+Reset, Badge-Ansicht) und wiederholt sie nicht.
 
 ## 1. Box starten
 
@@ -110,13 +112,60 @@ Ankündigungsforum).
 
 ---
 
+## Etappe Eisen (DS 7–9)
+
+Plan 3: drei neue Stationen mit den drei neuen Übungstypen „Zuordnung" (Block ↔ Python-Zeile),
+„Lückencode" (Chips statt Tippen) und „Fehlersuche" (eine Zeile ist falsch) statt der bekannten
+Parsons-Puzzle aus Holz und Stein; dazu ein Erkundungsgebiet in der Welt „ankunft" (Fluss, Schlucht,
+zwei Klippen, Goldmarken), Boss-Check und Badge Eisen.
+
+### Reset vor dem Durchlauf
+
+Derselbe Befehl wie bei Holz und Stein (Punkt 4 oben): er setzt `schueler1` in **allen drei**
+Etappen zurück, nicht nur in Eisen.
+
+    bash moodle/apply-php.sh php/reset-test-student.php 10 schueler1
+    npm run moodle:postbuild
+
+### Reihenfolge
+
+Abschnitt „Eisen" im Kurs, je Station Label → Quiz, wie bei Holz und Stein:
+
+1. **s07 „Zahlen mit Namen":** Variable (`laenge = 5`), Brücke über den Fluss.
+2. **s08 „Wo bin ich?":** Koordinaten und `fill`, Plattform über die Schlucht.
+3. **s09 „Zählen":** Zähler-Variable in der Schleife, Treppe die Klippe hoch.
+4. **Boss-Check Eisen** (letztes Element im Abschnitt): als `schueler1` einen Text abgeben, wie
+   bei Boss-Check Holz/Stein (Schritt 7 oben).
+
+### Worauf achten
+
+- **Koordinatenanzeige:** ab s08 zeigt Minecraft Education die x/y/z-Koordinaten im HUD (Einstellung
+  einschalten, `content/lehrkraft/00-setup.md` nennt den Menüpfad. Der genaue Name in der
+  deutschen und englischen Spiel-UI ist einer der offenen Editor-Prüfpunkte unten). Ohne
+  eingeschaltete Anzeige lässt sich „Wo bin ich?" nicht lösen.
+- **Goldmarken:** im Erkundungsgebiet markieren Goldblöcke die Stellen, an denen Schüler:innen die
+  Koordinaten ablesen sollen (Fluss, Schlucht, beide Klippen). Ob sie im gebauten Bauplan wirklich
+  an diesen Stellen liegen, ist noch nicht im Spiel geprüft (siehe „Offene Punkte" unten).
+- **Python-Umschalter:** anders als bei den Parsons-Puzzles aus Holz/Stein haben die drei neuen
+  Übungstypen keinen eigenen Block-↔-Python-Umschalter. „Zuordnung" zeigt Block und Python-Zeile
+  direkt nebeneinander, „Lückencode" und „Fehlersuche" zeigen nur Python-Text. Prüfen, ob das ohne
+  Umschalter trotzdem verständlich bleibt.
+
+### Badge sehen
+
+Wie bei Holz/Stein: Badge-Übersicht `http://localhost:8080/badges/index.php?type=2&id=10`, oder
+automatisch per `npm run moodle:smoke:learner -- --etappe eisen` (echter Lernpfad, Badge-Nachweis
+per MCP, kein Klicken nötig).
+
+---
+
 ## Rückmeldeliste
 
 Bitte beim Durchlauf auf diese Punkte achten und zurückmelden:
 
 - [ ] **Sprache A2/B1:** Sind die deutschen Texte für die Zielgruppe verständlich? Zu schwer,
       zu kindlich, Fachbegriffe ungeklärt?
-- [ ] **Python im Editor:** Stimmen die Codezeilen aus den Stationen (s01–s06) tatsächlich mit
+- [ ] **Python im Editor:** Stimmen die Codezeilen aus den Stationen (s01–s09) tatsächlich mit
       dem, was MakeCode im Editor anbietet, überein? (Noch nicht im Spiel geprüft, siehe unten.)
 - [ ] **Reihenfolge:** Ergibt der Aufbau innerhalb einer Station Sinn (Dialog → Konzept →
       Aufgabe → Tipp-Leiter → Übungen → Quiz)? Wirkt eine Station zu lang oder zu kurz?
@@ -129,19 +178,26 @@ Bitte beim Durchlauf auf diese Punkte achten und zurückmelden:
 
 Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Education selbst:
 
-- **Python-Gegenprüfung im Editor:** Für alle sechs Stationen (s01–s06) und für
+- **Python-Gegenprüfung im Editor:** Für alle neun Stationen (s01–s09) und für
   `scripts/minecraft/welt-ankunft-bau.py` prüfen, ob die verwendeten Befehle und ihre Syntax so
   im MakeCode-Python-Editor existieren — insbesondere die Signatur
   `agent.teleport(world(x, y, z), NORTH)` (zweiter Parameter = Blickrichtung, aus der Doku
   übernommen, nicht getestet; Rückfallweg mit separaten `agent.turn`-Zeilen ist im Skript als
-  Kommentar hinterlegt).
+  Kommentar hinterlegt). Für Eisen zusätzlich die fünf Punkte aus dem Plan-3-Nachtrag, Abschnitt 5
+  (`docs/specs/2026-09-04-code-welt-plan3-nachtrag.md`): `agent.place(DOWN)` über Wasser als
+  begehbare Brücke (s07), `FillOperation.REPLACE`-Schreibweise und welche Achse `pos()` ausdehnt
+  (s08), ob der Editor `for index in range(stufen)` wirklich als „for index from 0 to stufen − 1"
+  rendert (s09, betrifft die Minus-Ausdruck-Pille in der Block-Ansicht), ob eine Variable als erste
+  Zeile im Chat-Handler landet oder in `on start` (s07), und der Name der Koordinatenanzeige in der
+  deutschen und englischen Spiel-UI (für `00-setup.md`).
 - **Ring-Tür-Hypothese (Boss-Check Stein, „Der Zaun"):** Der Agent endet vermutlich auf seinem
   Startfeld, das schon einen Block trägt — dann fehlt der letzte Block und der Ring hat von
   selbst eine Lücke. Einmal `haus` bauen lassen und nachzählen: **19 oder 20 Blöcke?** (Details
   und beide Fälle: `content/lehrkraft/ds06.md`.)
-- **Weltdatei „ankunft":** Bauplan (`content/lehrkraft/01-welt-ankunft.md`) und Bauskript
-  (`scripts/minecraft/welt-ankunft-bau.py`) liegen bereit. Im Editor bauen, als `.mcworld`
-  exportieren, in den Lehrkraft-Ordner „Weltdateien" (Abschnitt 1) hochladen.
+- **Weltdatei „ankunft":** Bauplan (`content/lehrkraft/01-welt-ankunft.md`), Bauskript
+  (`scripts/minecraft/welt-ankunft-bau.py`) und seit Plan 3 der Chat-Befehl `erkunden` für das
+  Erkundungsgebiet liegen bereit. Welt im Editor um `erkunden` erweitern, dann komplett als
+  `.mcworld` neu exportieren, in den Lehrkraft-Ordner „Weltdateien" (Abschnitt 1) hochladen.
 - **Blickrichtung der Schilder** DS 1–6 (nach Süden lesbar oder nach Norden) — im Spiel prüfen.
 
 ## Sprachqualität — Muttersprachler:innen-Check

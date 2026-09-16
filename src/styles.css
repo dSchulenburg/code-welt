@@ -55,6 +55,12 @@ p, li, h1, h2, h3, h4, strong {
 .bridge { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
 .bridge > div { background: var(--bg); border-radius: 8px; padding: 10px; }
 .side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+/* Ohne min-width:0 zwingt eine lange Python-Zeile (z.B. s09-fill mit doppeltem index) die
+   Grid-Spur ueber die Kartenbreite hinaus, weil .code pre { overflow-x: auto } den Scrollbalken
+   auf einem Nachfahren setzt, nicht auf dem Grid-Item selbst — das Grid-Item bleibt bei
+   min-width:auto so breit wie sein Inhalt. Fund Plan 3 Task 11 (Screenshot s09 971px statt 900px,
+   im echten 750px-Iframe genauso breit -> horizontaler Seiten-Scroll). */
+.side-by-side > * { min-width: 0; }
 @media (max-width: 700px) { .bridge, .side-by-side { grid-template-columns: 1fr; } }
 figure { margin: 0; }
 figcaption { font-weight: bold; margin-bottom: 6px; }
@@ -108,7 +114,12 @@ summary { cursor: pointer; font-weight: bold; }
 .findbug-list li { unicode-bidi: normal; }
 .findbug-line { display: block; width: 100%; text-align: left; font: inherit; background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 6px 10px; margin: 4px 0; cursor: pointer; }
 .findbug-line.selected { border-color: var(--accent); }
-.findbug-line code { white-space: pre; unicode-bidi: normal; direction: ltr; }
+/* pre-wrap statt pre (Fund Plan 3 Task 11): die Eisen-Fehlersuchzeilen sind laenger als die aus
+   Holz/Stein (z.B. s09 mit doppeltem index-Parameter, ~99 Zeichen) und sprengten bei 750px
+   Iframe-Breite die Buttonbreite -- Seiten-Scroll nach rechts, kein overflow-x wie bei .code pre.
+   pre-wrap erhaelt die eingerueckten Leerzeichen, bricht aber bei Bedarf an einer Leerstelle um
+   (wie .fill-code, das dasselbe Problem schon so loest). */
+.findbug-line code { white-space: pre-wrap; unicode-bidi: normal; direction: ltr; }
 .explain { background: var(--bg); border-radius: 8px; padding: 8px 12px; }
 .ok { color: #1f7a2e; font-weight: bold; }
 .nope { color: #9b2c2c; font-weight: bold; }

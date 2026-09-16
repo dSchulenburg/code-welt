@@ -1,5 +1,22 @@
 # Code-Welt · Plan 3 von 6: Eisen (DS 7–9) — Implementation Plan
 
+> **Stand 16.09.2026: umgesetzt.** Abweichungen gegenüber diesem Plan: Task 5 korrigierte die
+> s08-Musterlösung auf `pos(9, -1, 7)` (0 bis 9 sind zehn Blöcke, `pos(8, ...)` gab nur neun) und
+> trennte „weit" (Schluchtbreite, z-Achse) von „breit" (Plattformbreite, x-Achse) in der Story;
+> Task 7 brauchte einen Zusatz in `reset-test-student.php`, der auch `course_completions` löscht,
+> sonst blieb der Kursabschluss nach einem Reset stehen; Task 9 kostete 1,558 USD (unter dem
+> 3-USD-Deckel), die arabische Register-Frage (Imperative bleiben maskulin) ist bewusst offen für
+> Dirks Entscheidung; Task 10 prüft die Match-Übung gegen den deutschen Text `ui.matchRight`
+> (Plan-2-Entscheidung: Übungs-Buttons/Feedback bleiben in jeder Sprache Deutsch); `badge-icons.mjs`
+> bleibt mit Exitcode 1 stehen, bis auch Gold (Plan 4) eine SVG hat. Task 11 selbst fand und behob
+> zwei weitere Abweichungen: `moodle/build-course.mjs` erwartete nach einem Label-Update noch die
+> alte Delete+Recreate-Antwort („Neuer CMID"). Der MCP-Server aktualisiert Labels seit v3.5.0
+> in-place, die CMID bleibt gleich, der alte Parser warf deshalb einen Fehler; und das
+> `.side-by-side`-Grid samt `.findbug-line code` sprengte bei einer langen s09-Fehlersuchzeile die
+> Iframe-Breite (750px) nach rechts, behoben mit `min-width: 0` und `white-space: pre-wrap` in
+> `src/styles.css`, dazu ein neuer Breiten-Check in `scripts/smoke.mjs`. Details: `README.md`
+> (Abschnitt „Stand") und das Ledger in `.superpowers/sdd/2026-09-04-code-welt-03-eisen/progress.md`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Die Etappe Eisen komplett: drei Stationen (DS 7–9) in sechs Sprachen mit Variable, Koordinaten/`fill` und Zähler, drei neue Übungstypen für „Python lesen", Boss-Check und Badge Eisen, Erkundungsgebiet in der Welt `ankunft`, Lehrkraft-Seiten, erweiterte Smokes, bereit für Dirks Probelauf Eisen in der Box.

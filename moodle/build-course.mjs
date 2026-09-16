@@ -81,8 +81,12 @@ for (const s of def.sections) {
         reg.items[item.key] = { cmid: extractId(r, 'Modul-ID'), hash }; save();
         console.log(`Label ${item.key}: angelegt (cmid ${reg.items[item.key].cmid})`);
       } else if (have.hash !== undefined && needsUpdate(have, item)) {
-        const r = await callTool('moodle_update_label', { courseId, cmid: have.cmid, labelText: item.html });
-        have.cmid = extractId(r, 'Neuer CMID'); have.hash = hash; save();     // Update = Delete+Recreate, CMID wandert
+        // moodle_update_label ist seit MCP v3.5.0 in-place (Antwort "CMID <n> unveraendert",
+        // keine "Neuer CMID"-Zeile mehr) — CMID und Position bleiben erhalten, nichts zu
+        // extrahieren (Fund Plan 3 Task 11: der alte extractId(r, 'Neuer CMID') warf hier,
+        // weil die Update-Antwort dieses Label-Format nie mehr enthaelt).
+        await callTool('moodle_update_label', { courseId, cmid: have.cmid, labelText: item.html });
+        have.hash = hash; save();
         console.log(`Label ${item.key}: aktualisiert (cmid ${have.cmid})`);
       } else {
         // have.hash === undefined: Altbestand aus der Zeit vor der Hash-Einfuehrung — Hash jetzt

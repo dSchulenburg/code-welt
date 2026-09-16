@@ -68,13 +68,14 @@ wieder mit den aktuellen CMIDs verknüpfen, falls seitdem ein Quiz neu angelegt 
 Plan 1) — die App zeichnet die Block-Ansicht aller sechs Stationen live aus `src/data/stations.js`,
 diese Datei wird nicht mehr gebraucht und nicht mehr gepflegt.
 
-## Screenshots (Stand 04.09.2026)
+## Screenshots (Stand 16.09.2026)
 
 Deutsch, 900px Breite, volle Seite (`scripts/measure-heights.mjs` erzeugt die Werte, die
 Screenshots selbst entstehen mit einem Wegwerf-Playwright-Skript nach demselben Verfahren, siehe
 Final-Review-Fix A):
 
-- `docs/station-s01.png` … `docs/station-s06.png` — je eine Station komplett.
+- `docs/station-s01.png` … `docs/station-s06.png`: je eine Station komplett (Holz, Stein).
+- `docs/station-s07.png` … `docs/station-s09.png`: je eine Station komplett (Eisen).
 - `docs/blockview-s02.png` — Block-Ansicht und Python nebeneinander (Station s02, `.side-by-side`).
 
 ## Stand
@@ -100,12 +101,42 @@ Stationen in fünf Sprachen: 2,81 USD.
 Nicht in Plan 2: Audio, Cheat-Sheets, Glossar-Vollausbau (Phase 5), Deploy (Phase 6), Etappen ab
 Eisen.
 
-**Offen für Dirk** (Details: `docs/lehrkraft-probelauf.md`):
-- Python im Editor gegenprüfen — Stationen s01–s06 sowie `scripts/minecraft/welt-ankunft-bau.py`
-  (`agent.teleport(world(...), NORTH)`-Signatur).
-- Ring-Tür-Hypothese (Boss-Check Stein): im Spiel nachzählen, ob der Ring 19 oder 20 Blöcke hat.
-- Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit), als `.mcworld`
-  exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
-- uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen.
+**Plan 3 (Eisen) fertig:** drei Stationen (DS 7–9) in sechs Sprachen. Block-Ansicht erweitert um
+Variablen-Pille, Minus-Ausdruck, pos-Pille und Operator-Slot; drei neue Übungstypen fürs
+Python-Lesen (`MatchBlocksPython`, `FillCode`, `FindBug`) mit eigenen Komponententests; Boss-Check
+Eisen als Aufgabe, Badge Eisen mit Icon, Verleihung über den echten Lernpfad nachgewiesen (`npm run
+moodle:smoke:learner -- --etappe eisen`); Erkundungsgebiet (Fluss, Schlucht, zwei Klippen,
+Goldmarken) als Bauplan und Chat-Befehl `erkunden` im Weltbauskript; Lehrkraft-Seiten ds07–ds09.
+Übersetzung der drei Stationen plus vier neue Glossarbegriffe in fünf Sprachen: 1,558 USD (unter
+dem 3-USD-Deckel), der Chunk-Cache übernimmt s01–s06 unverändert aus dem letzten Lauf und
+übersetzt nur Eisen neu. `iframeHeight` für s07–s09 gemessen (Task 11, 16.09.2026): 4700, 4750,
+4500. App-Smoke (54 Checks) und Box-Smoke (16 Checks) je dreimal hintereinander grün, Lernenden-Pfad
+Eisen und Holz beide grün (Plan 2 bleibt unverändert).
 
-Nächster Schritt: Plan 3 (Eisen), danach Phase 5/6.
+Zwei Funde beim Gesamtlauf für Task 11: `moodle/build-course.mjs` erwartete nach einem
+Label-Update noch die alte Delete+Recreate-Antwort mit „Neuer CMID" in der Meldung. Seit
+MCP-Server v3.5.0 läuft das Update in-place, die CMID bleibt gleich, und der alte Parser warf einen
+Fehler, sobald sich eine Label-Höhe wirklich änderte. Behoben, kein CMID-Extrakt mehr nötig. Und:
+das `.side-by-side`-Grid (Block-Ansicht neben Python) hatte kein `min-width: 0`, dazu setzte
+`.findbug-line code` starres `white-space: pre`. Eine lange Fehlersuchzeile (s09, doppelter
+`index`-Parameter) sprengte dadurch bei 750px Iframe-Breite die ganze Seite nach rechts. Beide
+Stellen in `src/styles.css` korrigiert (Grid schrumpft jetzt, Fehlersuchzeilen brechen bei Bedarf
+um), `scripts/smoke.mjs` prüft seitdem zusätzlich `scrollWidth <= 750`.
+
+Nicht in Plan 3: Gold (Plan 4), Audio, Cheat-Sheets, Glossar-Vollausbau über die vier Einträge
+hinaus, Deploy (Phase 6), Hour-of-Code-Verweise, neue Charakter-Posen.
+
+**Offen für Dirk** (Details: `docs/lehrkraft-probelauf.md`):
+- Python im Editor gegenprüfen — Stationen s01–s09 sowie `scripts/minecraft/welt-ankunft-bau.py`
+  (`agent.teleport(world(...), NORTH)`-Signatur, Nachtrag Plan 3 Abschnitt 5: Brücke über Wasser,
+  `FillOperation.REPLACE`-Syntax, `for … to`-Rendering im Editor, Variable als erste Zeile im
+  Chat-Handler, Name der Koordinatenanzeige in der Spiel-UI).
+- Ring-Tür-Hypothese (Boss-Check Stein): im Spiel nachzählen, ob der Ring 19 oder 20 Blöcke hat.
+- Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit, inkl. Erkundungsgebiet),
+  als `.mcworld` exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
+- uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen (Eisen kommt dazu; die
+  arabische Register-Frage aus Task 9, Imperative bleiben maskulin, ist eine eigene, noch offene
+  Entscheidung).
+- Probelauf Eisen in der Box (Abschnitt „Etappe Eisen" in `docs/lehrkraft-probelauf.md`).
+
+Nächster Schritt: Plan 4 (Gold), danach Phase 5/6.
