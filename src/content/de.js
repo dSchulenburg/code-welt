@@ -132,8 +132,8 @@ export default {
     },
     s07: {
       story: [
-        { who: 'dani', mood: 'begeistert', text: 'Ich will die Welt erkunden! Nördlich liegt ein Fluss.' },
-        { who: 'dani', mood: 'nachdenklich', text: 'Ich baue mit fünf move- und place-Paaren. Am zweiten Ufer sind es acht.' },
+        { who: 'dani', mood: 'begeistert', text: 'Ich will die Welt erkunden! Südlich liegt ein Fluss.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Ich baue mit fünf move- und place-Paaren. An Stelle B sind es acht.' },
         { who: 'nour', mood: 'erklaerend', text: 'Gib der Zahl einen Namen. laenge = 5.' },
         { who: 'dani', mood: 'fragend', text: 'Und dann?' },
         { who: 'nour', mood: 'erklaerend', text: 'Die Schleife nutzt laenge. Du änderst nur eine Zeile.' },
