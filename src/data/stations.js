@@ -15,7 +15,9 @@ export const ETAPPEN = [
 // gerundet (Final-Review-Fix A, Punkt 1 — ersetzt die vorher geschaetzten Werte). Zuletzt
 // nachgemessen nach Task 6 Phase B (Story-Portraits 64px statt 48px: +60 bis +90px je Station).
 // s07-s09 gemessen am 16.09.2026 (Plan 3, Task 11): s01-s06 unveraendert, s07-s09 erstmals
-// mit echten Werten statt dem vorlaeufigen 5200 aus Task 5/6.
+// mit echten Werten statt dem vorlaeufigen 5200 aus Task 5/6. Nachgemessen 16.09.2026 nach dem
+// Final-Review-Fix I3 (Zuordnung in natuerlicher Blockgroesse, s08 gestapelt): s07 4650, s08 4850,
+// s09 4500, s01-s06 unveraendert.
 export const STATIONS = {
   s01: {
     etappe: 'holz',
@@ -308,7 +310,7 @@ player.on_chat("haus", on_haus)`,
   s07: {
     etappe: 'eisen',
     ds: 7,
-    iframeHeight: 4700, // gemessen 16.09.2026
+    iframeHeight: 4650, // gemessen 16.09.2026 (nach Final-Review-Fix I3)
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor steht noch aus
     // (Nachtrag Plan 3, Abschnitt 5: place(DOWN) ueber Wasser, Variable im Handler).
     python: `def on_bruecke():
@@ -341,7 +343,7 @@ player.on_chat("bruecke", on_bruecke)`,
   s08: {
     etappe: 'eisen',
     ds: 8,
-    iframeHeight: 4750, // gemessen 16.09.2026
+    iframeHeight: 4850, // gemessen 16.09.2026 (nach Final-Review-Fix I3)
     // Entwurf; Gegenpruefung im Editor: FillOperation.REPLACE in Python, pos() relativ (Fuesse = 0).
     python: `def on_plattform():
     blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)
@@ -365,7 +367,7 @@ player.on_chat("plattform", on_plattform)`,
   s09: {
     etappe: 'eisen',
     ds: 9,
-    iframeHeight: 4500, // gemessen 16.09.2026
+    iframeHeight: 4500, // gemessen 16.09.2026 (nach Final-Review-Fix I3 unveraendert)
     bossCheck: { key: 'boss-eisen', gradeMax: 100 },
     // Entwurf; Gegenpruefung im Editor: zeigt der Block-Editor "for index from 0 to stufen - 1"?
     python: `def on_treppe():

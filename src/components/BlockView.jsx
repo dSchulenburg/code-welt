@@ -40,12 +40,23 @@ function shape(row) {
   return `M0,${r} a${r},${r} 0 0 1 ${r},-${r} h8 l4,4 h12 l4,-4 h${w - 32} a${r},${r} 0 0 1 ${r},${r} v${h - 2 * r} a${r},${r} 0 0 1 -${r},${r} h-${w - 32} l-4,4 h-12 l-4,-4 h-8 a${r},${r} 0 0 1 -${r},-${r} z`;
 }
 
-export default function BlockView({ blocks }) {
+// Natuerliche Breite der Zeichnung in SVG-Einheiten (1 Einheit = 1 CSS-Pixel bei natural).
+export function blockViewWidth(blocks) {
+  const { rows } = layout(blocks);
+  if (rows.length === 0) return 0;
+  return Math.max(...rows.map((r) => r.depth * IND + r.w)) + PAD;
+}
+
+// natural: SVG in natuerlicher Groesse statt auf 100 % der Spalte skaliert; CSS
+// (.blockview { max-width: 100% }) verkleinert nur, wenn der Platz nicht reicht. Die Zuordnung
+// (MatchBlocksPython) braucht das: breite fill-Bloecke wurden sonst auf wenige Pixel Schrift
+// gestaucht, schmale Bloecke aufgeblasen.
+export default function BlockView({ blocks, natural = false }) {
   const { rows, y } = layout(blocks);
   if (rows.length === 0) return null;
   const width = Math.max(...rows.map((r) => r.depth * IND + r.w)) + PAD;
   return (
-    <svg className="blockview" viewBox={`0 0 ${width} ${y + 8}`} width="100%" role="img" aria-label="MakeCode-Blöcke" style={{ fontFamily: FONT, fontWeight: 600, fontSize: 13 }}>
+    <svg className="blockview" viewBox={`0 0 ${width} ${y + 8}`} width={natural ? width : '100%'} role="img" aria-label="MakeCode-Blöcke" style={{ fontFamily: FONT, fontWeight: 600, fontSize: 13 }}>
       {rows.map((row, i) => {
         const col = CATEGORY_COLORS[row.spec.cat];
         const x = row.depth * IND;

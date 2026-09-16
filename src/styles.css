@@ -43,6 +43,7 @@ p, li, h1, h2, h3, h4, strong {
 .btn-ghost { background: transparent; color: var(--ink); }
 .btn-support { background: var(--support); color: var(--ink); border-color: var(--support-line); }
 .btn-station { width: 100%; text-align: start; margin: 4px 0; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .station-list { list-style: none; padding: 0; margin: 0; }
 .crumb { color: #555; margin: 0; }
 .title-support { font-weight: normal; color: #555; }
@@ -55,7 +56,7 @@ p, li, h1, h2, h3, h4, strong {
 .bridge { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 12px 0; }
 .bridge > div { background: var(--bg); border-radius: 8px; padding: 10px; }
 .side-by-side { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-/* Ohne min-width:0 zwingt eine lange Python-Zeile (z.B. s09-fill mit doppeltem index) die
+/* Ohne min-width:0 zwingt eine lange Python-Zeile (s09-Haupt-Python mit pos(index, index, 3)) die
    Grid-Spur ueber die Kartenbreite hinaus, weil .code pre { overflow-x: auto } den Scrollbalken
    auf einem Nachfahren setzt, nicht auf dem Grid-Item selbst — das Grid-Item bleibt bei
    min-width:auto so breit wie sein Inhalt. Fund Plan 3 Task 11 (Screenshot s09 971px statt 900px,
@@ -97,7 +98,12 @@ summary { cursor: pointer; font-weight: bold; }
 .match-block, .match-line { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; font: inherit; background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 6px 8px; margin: 4px 0; cursor: pointer; }
 .match-block.selected { border-color: var(--accent); }
 .match-block.paired, .match-line.paired { border-style: dashed; }
-.match-block .blockview { max-width: 240px; }
+/* Final-Review-Fix I3: frueher max-width 240px auf einem width=100%-SVG. Breite fill-Bloecke (s08,
+   ~500px natuerlich) schrumpften dadurch auf ~7px hohe Pillen. Jetzt natuerliche Groesse
+   (BlockView natural), nur verkleinert, wenn der Platz fehlt; min-width:0, damit das SVG im
+   Flex-Button schrumpfen darf. Breite Bloecke stapeln die Spalten (.match-cols-stacked). */
+.match-block .blockview { flex: 0 1 auto; min-width: 0; }
+.match-cols.match-cols-stacked { grid-template-columns: 1fr; }
 .match-lines { list-style: none; padding: 0; margin: 0; }
 .match-lines li { display: flex; align-items: center; gap: 8px; margin: 4px 0; unicode-bidi: normal; }
 .match-num, .match-badge { display: inline-block; min-width: 22px; text-align: center; border-radius: 11px; background: var(--accent); color: var(--accent-ink); font-weight: bold; }
@@ -115,8 +121,9 @@ summary { cursor: pointer; font-weight: bold; }
 .findbug-line { display: block; width: 100%; text-align: left; font: inherit; background: #fff; border: 2px solid var(--line); border-radius: 8px; padding: 6px 10px; margin: 4px 0; cursor: pointer; }
 .findbug-line.selected { border-color: var(--accent); }
 /* pre-wrap statt pre (Fund Plan 3 Task 11): die Eisen-Fehlersuchzeilen sind laenger als die aus
-   Holz/Stein (z.B. s09 mit doppeltem index-Parameter, ~99 Zeichen) und sprengten bei 750px
-   Iframe-Breite die Buttonbreite -- Seiten-Scroll nach rechts, kein overflow-x wie bei .code pre.
+   Holz/Stein (z.B. s09 mit pos(index, stufen, 3), ~92 Zeichen) und haetten bei 750px
+   Iframe-Breite die Buttonbreite gesprengt -- kein overflow-x wie bei .code pre. Den gemessenen
+   Seiten-Scroll loeste die s09-Hauptzeile im .side-by-side-Grid aus (siehe oben).
    pre-wrap erhaelt die eingerueckten Leerzeichen, bricht aber bei Bedarf an einer Leerstelle um
    (wie .fill-code, das dasselbe Problem schon so loest). */
 .findbug-line code { white-space: pre-wrap; unicode-bidi: normal; direction: ltr; }

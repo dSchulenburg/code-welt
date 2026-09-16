@@ -22,3 +22,13 @@ test('falsche Zeile gewaehlt → findbugRight + Erklaerung; richtige Zeile gewae
   expect(screen.getByRole('status').textContent).toBe('Richtig!');
   expect(screen.getByTestId('findbug-explain').textContent).toBe('stufen statt index.');
 });
+
+test('Pruefen ist gesperrt, bis eine Zeile gewaehlt ist, und zeigt vorher kein Feedback', () => {
+  render(<FindBug exercise={exercise} prompt="Finde den Fehler." explain="stufen statt index." ui={ui} showSupport={false} />);
+  const btn = screen.getByTestId('findbug-check');
+  expect(btn).toBeDisabled();
+  fireEvent.click(btn);
+  expect(screen.queryByRole('status')).toBeNull();
+  fireEvent.click(screen.getByTestId('findbug-line-0'));
+  expect(btn).not.toBeDisabled();
+});

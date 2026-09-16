@@ -44,3 +44,19 @@ test('eine Zeile kann nur einem Block gehoeren: neue Zuordnung loest die alte', 
   expect(screen.getByTestId('match-block-0').getAttribute('data-paired')).toBe('');
   expect(screen.getByTestId('match-block-1').getAttribute('data-paired')).toBe('2');
 });
+
+test('breite fill-Bloecke: Spalten gestapelt, SVG in natuerlicher Breite statt 100 %', () => {
+  const wideEx = { type: 'match', pairs: [
+    { block: { kind: 'fill', block: 'planks_oak', from: { pos: [0, -1, 1] }, to: { pos: [4, -1, 7] }, op: 'replace' }, python: 'blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)' },
+    { block: { kind: 'fill', block: 'stone', from: { pos: [0, -1, 1] }, to: { pos: [4, -1, 7] }, op: 'replace' }, python: 'blocks.fill(STONE, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)' },
+  ] };
+  const { container } = render(<MatchBlocksPython exercise={wideEx} prompt="Ordne zu." ui={ui} showSupport={false} seed={7} />);
+  expect(container.querySelector('.match-cols').getAttribute('data-stacked')).toBe('true');
+  const w = container.querySelector('.match-block svg').getAttribute('width');
+  expect(Number(w)).toBeGreaterThan(300);
+});
+
+test('schmale Bloecke (s07): Spalten nebeneinander', () => {
+  const { container } = setup();
+  expect(container.querySelector('.match-cols').getAttribute('data-stacked')).toBe('false');
+});

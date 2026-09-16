@@ -1,13 +1,18 @@
 import { useState } from 'react';
-import BlockView from './BlockView.jsx';
+import BlockView, { blockViewWidth } from './BlockView.jsx';
 import Support from './Support.jsx';
 import { shuffleDeterministic } from '../lib/parsons.js';
 
 // Zuordnung Block ↔ Python-Zeile. Links die Bloecke in Datenreihenfolge, rechts die Zeilen
 // deterministisch gemischt (gleicher Seed wie Parsons: Snapshot-stabil). Ein Paar entsteht durch
 // Klick auf Block, dann Zeile; eine Zeile gehoert immer nur einem Block.
+// Ab dieser natuerlichen Blockbreite (px) stehen Bloecke und Zeilen untereinander statt
+// nebeneinander: eine halbe Spalte im 750px-Iframe ist rund 330px breit, s08-fill-Bloecke ~500px.
+const WIDE_BLOCK = 300;
+
 export default function MatchBlocksPython({ exercise, prompt, supportPrompt, ui, showSupport, seed = 7 }) {
   const pairs = exercise.pairs;
+  const wide = pairs.some((p) => blockViewWidth([p.block]) > WIDE_BLOCK);
   const [order] = useState(() => shuffleDeterministic(pairs.map((_, i) => i), seed));
   const [selected, setSelected] = useState(null);      // Index des angeklickten Blocks
   const [assign, setAssign] = useState({});            // blockIndex -> lineIndex (Original)
@@ -28,12 +33,12 @@ export default function MatchBlocksPython({ exercise, prompt, supportPrompt, ui,
       <p className="prompt">{ui.matchPrompt}</p>
       <p>{prompt}</p>
       <Support show={showSupport}>{supportPrompt}</Support>
-      <div className="match-cols">
+      <div className={`match-cols${wide ? ' match-cols-stacked' : ''}`} data-stacked={wide ? 'true' : 'false'}>
         <div className="match-blocks">
           {pairs.map((p, i) => (
             <button type="button" key={i} className={`match-block${selected === i ? ' selected' : ''}${assign[i] !== undefined ? ' paired' : ''}`}
               data-testid={`match-block-${i}`} data-paired={assign[i] !== undefined ? String(assign[i]) : ''} onClick={() => pick(i)}>
-              <BlockView blocks={[p.block]} />
+              <BlockView blocks={[p.block]} natural />
               {assign[i] !== undefined && <span className="match-badge">{order.indexOf(assign[i]) + 1}</span>}
             </button>
           ))}

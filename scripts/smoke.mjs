@@ -58,10 +58,10 @@ try {
         const scrollHeight = await page.evaluate(() => document.documentElement.scrollHeight);
         const maxHeight = STATIONS[sid].iframeHeight;
         if (scrollHeight > maxHeight) throw new Error(`Hoehe ${scrollHeight}px ueberschreitet iframeHeight ${maxHeight}px`);
-        // Fund Plan 3 Task 11: eine lange Fehlersuch-/Python-Zeile (s09-findbug mit doppeltem
-        // index, s08-findbug knapp darunter) sprengte bei 750px Breite die Seite nach rechts
-        // (fehlendes min-width:0 im .side-by-side-Grid, white-space:pre statt pre-wrap bei
-        // .findbug-line code — beide in src/styles.css behoben). Regressionsschutz: die Seite darf
+        // Fund Plan 3 Task 11: die lange Zeile pos(index, index, 3) im Haupt-Python von s09
+        // (.side-by-side .code pre) sprengte bei 750px Breite die Seite nach rechts (fehlendes
+        // min-width:0 im .side-by-side-Grid); die Fehlersuchzeilen (z.B. s09 pos(index, stufen, 3))
+        // standen dazu mit white-space:pre statt pre-wrap -- beide in src/styles.css behoben. Regressionsschutz: die Seite darf
         // bei der Iframe-Breite nie breiter werden, als sie ist.
         const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
         if (scrollWidth > 750) throw new Error(`Breite ${scrollWidth}px ueberschreitet die Iframe-Breite 750px`);

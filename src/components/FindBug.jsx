@@ -22,7 +22,8 @@ export default function FindBug({ exercise, prompt, supportPrompt, explain, supp
           </li>
         ))}
       </ol>
-      <button type="button" className="btn" data-testid="findbug-check" onClick={check}>{ui.checkButton}</button>
+      {/* Ohne gewaehlte Zeile gaebe "Pruefen" sonst "Nein, diese Zeile ist richtig." aus. */}
+      <button type="button" className="btn" data-testid="findbug-check" onClick={check} disabled={picked === null}>{ui.checkButton}</button>
       {result !== null && <p className={result ? 'ok' : 'nope'} role="status">{result ? ui.findbugRight : ui.findbugWrong}</p>}
       {result === true && explain && <p className="explain" data-testid="findbug-explain">{explain}</p>}
       {result === true && <Support show={showSupport}>{supportExplain}</Support>}
