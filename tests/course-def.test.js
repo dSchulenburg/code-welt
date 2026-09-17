@@ -187,6 +187,16 @@ test('Abschnitt 4 Eisen: drei Stationen, drei Quizze, Boss-Check Eisen direkt na
   expect(boss.intro).toContain('Die zweite Klippe');
 });
 
+test('Abschnitt 5 Gold: drei Stationen, drei Quizze, Boss-Check Gold direkt nach dem Quiz von s12, Name kurz', () => {
+  const gold = def.sections.find((s) => s.num === 5);
+  expect(gold.items.map((i) => i.key)).toEqual(['s10-station', 's10-quiz', 's11-station', 's11-quiz', 's12-station', 's12-quiz', 'boss-gold']);
+  const boss = gold.items.find((i) => i.key === 'boss-gold');
+  expect(boss.type).toBe('assignment');
+  expect(boss.name).toContain('Boss-Check Gold');
+  expect(boss.name.length).toBeLessThanOrEqual(255);
+  expect(boss.intro).toContain('Der unbekannte Parcours');
+});
+
 test('assertNameLengths schlaegt bei einem 40-Zeichen-Boss-Check-Titel in allen sechs Sprachen an (Guard-Nachweis)', () => {
   const stations = { ...STATIONS, s02: { ...STATIONS.s02, bossCheck: { key: 'boss-guard-test', gradeMax: 100 } } };
   const longTitle = 'X'.repeat(40);

@@ -240,5 +240,27 @@ export default {
         'Gerüst: 10 Schritte plus 4 Blöcke. for index in range(___):',
       ],
     },
+    s12: {
+      story: [
+        { who: 'dani', mood: 'nachdenklich', text: 'Diese Bahn ist lang. Muss ich wieder Löcher zählen?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Musst du nicht. while heißt: solange.' },
+        { who: 'dani', mood: 'fragend', text: 'Solange was?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Solange vorn keine Wand ist, macht der Agent weiter.' },
+        { who: 'nour', mood: 'erklaerend', text: 'not dreht die Bedingung um. Aus wahr wird falsch.' },
+        { who: 'dani', mood: 'ueberrascht', text: 'Ohne Zahl? Der Agent weiß selbst, wann Schluss ist!' },
+        { who: 'nour', mood: 'begeistert', text: 'Genau. Die Wand sagt ihm, wann er fertig ist.' },
+      ],
+      concept: [
+        'while wiederholt, solange die Bedingung wahr ist.',
+        'not dreht eine Bedingung um: wahr wird falsch, falsch wird wahr.',
+        'while not agent.detect(AgentDetection.BLOCK, FORWARD) heißt: solange vorn kein Block ist.',
+        'Achtung: Kommt nie eine Wand, läuft das Programm immer weiter.',
+      ],
+      tips: [
+        'Frage: Wann soll der Agent aufhören?',
+        'Richtung: Er macht weiter, solange vorn kein Block ist. Dafür brauchst du not.',
+        'Gerüst: while not agent.detect(AgentDetection.___, ___):',
+      ],
+    },
   },
 };

@@ -131,6 +131,23 @@ export default {
     "zaehler": {
       "term": "عدّاد",
       "short": "الحلقة تعدّ معك: index يساوي 0، 1، 2 …"
+    },
+    // Platzhalter 17.09.2026 (Plan 4 Task 6): deutsche Kopie, Task 9 uebersetzt
+    "bedingung": {
+      "term": "Bedingung",
+      "short": "Eine Frage mit der Antwort wahr oder falsch."
+    },
+    "verzweigung": {
+      "term": "Verzweigung",
+      "short": "if und else: Genau einer von zwei Wegen läuft."
+    },
+    "solange": {
+      "term": "Solange-Schleife",
+      "short": "while wiederholt, solange die Bedingung wahr ist."
+    },
+    "detect": {
+      "term": "detect",
+      "short": "Der Agent prüft, ob neben ihm ein Block ist."
     }
   },
   "etappen": {
@@ -1358,6 +1375,117 @@ export default {
           ]
         }
       ]
+    },
+    // Platzhalter 17.09.2026 (Plan 4 Task 6): deutsche Kopie, Task 9 uebersetzt
+    "s12": {
+      "title": "Solange",
+      "storyShort": "Die lange Bahn hat viele Löcher. Mit while macht der Agent weiter, solange vorn keine Wand ist. Du musst nicht mehr zählen.",
+      "bridge": {
+        "game": "Du tippst ziel. Der Agent läuft, bis vorn eine Wand ist.",
+        "code": "while wiederholt, solange die Bedingung wahr ist. not dreht sie um."
+      },
+      "tasks": [
+        {
+          "kind": "auftrag",
+          "title": "Bis zur Wand",
+          "text": "Stell dich auf den Goldblock der Bahn Ziel. Schau nach Süden. Schreibe ziel. Schalte auf Python: Finde die Zeile mit while."
+        },
+        {
+          "kind": "nochEiner",
+          "title": "Ohne Zählen",
+          "text": "Lauf mit ziel über die Bahn Löcher. Brauchst du dort noch eine Zahl?"
+        },
+        {
+          "kind": "remix",
+          "title": "Deine Bahn",
+          "text": "Bau eine eigene Bahn mit Löchern und einer Wand. Zeig sie deinem Partner oder deiner Partnerin."
+        }
+      ],
+      "tipSolution": "while not agent.detect(AgentDetection.BLOCK, FORWARD): Der Agent macht weiter, solange vorn kein Block ist.",
+      "exercises": [
+        {
+          "prompt": "Der Agent soll auf einem Redstone-Block stehen bleiben. Er prüft den Block unter sich."
+        },
+        {
+          "prompt": "Der Agent läuft gar nicht los. Welche Zeile ist falsch?",
+          "explain": "Das not fehlt. Vorn ist frei, die Bedingung ist falsch. while läuft kein einziges Mal."
+        }
+      ],
+      "quiz": [
+        {
+          "q": "Was heißt while?",
+          "answers": [
+            {
+              "text": "Solange",
+              "correct": true
+            },
+            {
+              "text": "Sonst",
+              "correct": false
+            },
+            {
+              "text": "Wenn",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "q": "Was macht not?",
+          "answers": [
+            {
+              "text": "Es dreht die Bedingung um",
+              "correct": true
+            },
+            {
+              "text": "Es stoppt den Agent",
+              "correct": false
+            },
+            {
+              "text": "Es löscht einen Block",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "q": "Wann hört while not agent.detect(AgentDetection.BLOCK, FORWARD) auf?",
+          "answers": [
+            {
+              "text": "Wenn vorn ein Block ist",
+              "correct": true
+            },
+            {
+              "text": "Nach 20 Durchläufen",
+              "correct": false
+            },
+            {
+              "text": "Nie",
+              "correct": false
+            }
+          ]
+        },
+        {
+          "q": "Was passiert, wenn nie eine Wand kommt?",
+          "answers": [
+            {
+              "text": "Das Programm läuft immer weiter",
+              "correct": true
+            },
+            {
+              "text": "Der Agent baut eine Wand",
+              "correct": false
+            },
+            {
+              "text": "Es hört nach 10 Durchläufen auf",
+              "correct": false
+            }
+          ]
+        }
+      ],
+      "bossCheck": {
+        "title": "Boss-Check Gold",
+        "subtitle": "Der unbekannte Parcours",
+        "task": "Stell dich auf den Goldblock der letzten Bahn. Schau nach Süden. Schreibe ziel. Der Agent läuft am Redstone vorbei. Ändere die Bedingung in Python. Er soll auf dem Redstone stehen bleiben. Schreib drei Sätze: Was prüft deine Bedingung? Warum lief das alte Programm vorbei? Was passiert, wenn kein Redstone kommt?"
+      }
     }
   }
 };

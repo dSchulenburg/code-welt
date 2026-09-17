@@ -4,7 +4,7 @@ export const ETAPPEN = [
   { id: 'holz', emoji: '🪵', stations: ['s01', 's02', 's03'], badge: { key: 'badge-holz', icon: 'holz.png' } },
   { id: 'stein', emoji: '🪨', stations: ['s04', 's05', 's06'], badge: { key: 'badge-stein', icon: 'stein.png' } },
   { id: 'eisen', emoji: '⛏️', stations: ['s07', 's08', 's09'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
-  { id: 'gold', emoji: '🟡', stations: ['s10', 's11'], badge: { key: 'badge-gold', icon: 'gold.png' } },
+  { id: 'gold', emoji: '🟡', stations: ['s10', 's11', 's12'], badge: { key: 'badge-gold', icon: 'gold.png' } },
   { id: 'diamant', emoji: '💎', stations: [], badge: { key: 'badge-diamant', icon: 'diamant.png' } },
   { id: 'netherite', emoji: '🏙️', stations: [], badge: { key: 'badge-netherite', icon: 'netherite.png' } },
   { id: 'enderdrache', emoji: '🐉', stations: [], badge: { key: 'badge-enderdrache', icon: 'enderdrache.png' } },
@@ -458,6 +458,42 @@ player.on_chat("loecher", on_loecher)`,
         '    else:',
         '        agent.place(DOWN)',
       ], wrong: 1 },
+    ],
+  },
+  s12: {
+    etappe: 'gold',
+    ds: 12,
+    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    bossCheck: { key: 'boss-gold', gradeMax: 100 },
+    // Entwurf; Gegenpruefung im Editor: while not als Block, Stopp eines endlosen while im Code Builder.
+    python: `def on_ziel():
+    agent.teleport_to_player()
+    agent.set_item(PLANKS_OAK, 64, 1)
+    while not agent.detect(AgentDetection.BLOCK, FORWARD):
+        if agent.detect(AgentDetection.BLOCK, DOWN):
+            agent.move(FORWARD, 1)
+        else:
+            agent.place(DOWN)
+player.on_chat("ziel", on_ziel)`,
+    blocks: [{ kind: 'onChat', word: 'ziel', body: [
+      { kind: 'agent.teleportToPlayer' },
+      { kind: 'agent.setItem', block: 'planks_oak', count: 64, slot: 1 },
+      { kind: 'while', cond: { not: { kind: 'agent.detect', what: 'block', dir: 'forward' } }, body: [
+        { kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+          body: [{ kind: 'agent.move', dir: 'forward', n: 1 }],
+          elseBody: [{ kind: 'agent.place', dir: 'down' }] },
+      ] },
+    ] }],
+    exercises: [
+      { type: 'type', code: 'while not agent.detect(AgentDetection.___, ___):\n    if agent.detect(AgentDetection.BLOCK, DOWN):\n        agent.move(FORWARD, 1)\n    else:\n        agent.place(DOWN)',
+        gaps: [{ accept: ['REDSTONE'] }, { accept: ['DOWN'] }] },
+      { type: 'findbug', lines: [
+        'while agent.detect(AgentDetection.BLOCK, FORWARD):',
+        '    if agent.detect(AgentDetection.BLOCK, DOWN):',
+        '        agent.move(FORWARD, 1)',
+        '    else:',
+        '        agent.place(DOWN)',
+      ], wrong: 0 },
     ],
   },
 };

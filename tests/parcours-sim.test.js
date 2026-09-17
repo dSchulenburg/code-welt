@@ -107,3 +107,24 @@ test('s11 Fehlersuche: FORWARD statt DOWN laesst den Agent auf der Goldmarke ste
   expect(runStation('loecher', bug).a.z).toBe(56);
   expect(STATIONS.s11.exercises.find((e) => e.type === 'findbug').lines.some((l) => l.includes('AgentDetection.BLOCK, FORWARD'))).toBe(true);
 });
+
+test('s12 (Stationsdaten) laeuft auf der Bahn ziel bis vor die Wand', () => {
+  expect(runStation('ziel', STATIONS.s12.blocks).a.z).toBe(76);
+});
+
+test('Boss-Check Gold: s12 unveraendert laeuft vorbei; die Bedingung aus der Tipp-Luecke stoppt auf dem Redstone', () => {
+  expect(runStation('boss', STATIONS.s12.blocks).a.z).toBe(78);
+  const [what, dir] = STATIONS.s12.exercises.find((e) => e.type === 'type').gaps.map((g) => g.accept[0].toLowerCase());
+  const changed = clone(STATIONS.s12.blocks);
+  findKind(changed, 'while').cond = { not: { kind: 'agent.detect', what, dir } };
+  const { w, a } = runStation('boss', changed);
+  expect(a.z).toBe(68);
+  expect(w.get(a.x, 4, a.z)).toBe('REDSTONE_BLOCK');
+});
+
+test('s12 Fehlersuche: ohne not laeuft der Agent nicht los', () => {
+  const bug = clone(STATIONS.s12.blocks);
+  findKind(bug, 'while').cond = findKind(bug, 'while').cond.not;
+  expect(runStation('ziel', bug).a.z).toBe(56);
+  expect(STATIONS.s12.exercises.find((e) => e.type === 'findbug').lines[0]).toBe('while agent.detect(AgentDetection.BLOCK, FORWARD):');
+});
