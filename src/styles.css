@@ -62,6 +62,7 @@ p, li, h1, h2, h3, h4, strong {
    min-width:auto so breit wie sein Inhalt. Fund Plan 3 Task 11 (Screenshot s09 971px statt 900px,
    im echten 750px-Iframe genauso breit -> horizontaler Seiten-Scroll). */
 .side-by-side > * { min-width: 0; }
+.side-by-side.side-by-side-stacked { grid-template-columns: 1fr; }
 @media (max-width: 700px) { .bridge, .side-by-side { grid-template-columns: 1fr; } }
 figure { margin: 0; }
 figcaption { font-weight: bold; margin-bottom: 6px; }
