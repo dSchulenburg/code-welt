@@ -1,4 +1,4 @@
-import { BLOCK_SPECS, CATEGORY_COLORS, slotText, slotKind, assertKnown } from '../lib/blocks.js';
+import { BLOCK_SPECS, CATEGORY_COLORS, slotText, slotKind, assertKnown, condText } from '../lib/blocks.js';
 
 // Zeichnet eine Blockbeschreibung als SVG im Look des MakeCode-Editors:
 // Hutbloecke (on …), C-Bloecke (repeat/for/if) mit eingerueckter Rumpfspalte,
@@ -14,7 +14,7 @@ function hexPath(w, h) {
 
 function condWidth(c) {
   if (c.not) return 'not'.length * CH + 12 + condWidth(c.not) + COND_H / 2;
-  return `agent detect ${c.what} ${c.dir}`.length * CH + COND_H;
+  return condText(c).length * CH + COND_H;
 }
 
 function Cond({ c, h = COND_H }) {
@@ -33,7 +33,7 @@ function Cond({ c, h = COND_H }) {
   return (
     <g data-cond="agent.detect">
       <path d={hexPath(w, h)} fill={col.fill} stroke={col.stroke} strokeWidth="1.5" />
-      <text x={h / 2} y={h / 2 + 4} fill="#fff">{`agent detect ${c.what} ${c.dir}`}</text>
+      <text x={h / 2} y={h / 2 + 4} fill="#fff">{condText(c)}</text>
     </g>
   );
 }
