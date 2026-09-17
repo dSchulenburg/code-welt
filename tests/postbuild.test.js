@@ -67,24 +67,27 @@ const fakeStations = {
   s07: {},
   s08: {},
   s09: { bossCheck: { key: 'boss-eisen' } },
+  s12: { bossCheck: { key: 'boss-gold' } },
 };
 const fakeEtappen = [
   { id: 'holz', stations: ['s01', 's02'], badge: { key: 'badge-holz', icon: 'holz.png' } },
   { id: 'eisen', stations: ['s07', 's08', 's09'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
-  { id: 'gold', stations: [], badge: { key: 'badge-gold', icon: 'gold.png' } },
+  { id: 'gold', stations: ['s10', 's11', 's12'], badge: { key: 'badge-gold', icon: 'gold.png' } },
 ];
 
 test('badgeSpecsFromEtappen liefert key/icon/cmids je Etappe (Quizze der Stationen + Boss-Check der letzten Station)', () => {
   const items = {
     's01-quiz': { cmid: 10 }, 's02-quiz': { cmid: 11 }, 'boss-holz': { cmid: 12 },
     's07-quiz': { cmid: 20 }, 's08-quiz': { cmid: 21 }, 's09-quiz': { cmid: 22 }, 'boss-eisen': { cmid: 23 },
+    's10-quiz': { cmid: 30 }, 's11-quiz': { cmid: 31 }, 's12-quiz': { cmid: 32 }, 'boss-gold': { cmid: 33 },
   };
   const { specs, skipped } = badgeSpecsFromEtappen(fakeEtappen, fakeStations, items);
   expect(specs).toEqual([
     { etappeId: 'holz', key: 'badge-holz', icon: 'holz.png', cmids: [10, 11, 12] },
     { etappeId: 'eisen', key: 'badge-eisen', icon: 'eisen.png', cmids: [20, 21, 22, 23] },
+    { etappeId: 'gold', key: 'badge-gold', icon: 'gold.png', cmids: [30, 31, 32, 33] },
   ]);
-  expect(skipped).toEqual([{ id: 'gold', reason: 'keine Stationen (noch nicht gebaut)' }]);
+  expect(skipped).toEqual([]);
 });
 
 test('badgeSpecsFromEtappen ueberspringt eine Etappe, wenn eine ihrer Stationen (oder deren Boss-Check) noch keine cmid im Register hat', () => {

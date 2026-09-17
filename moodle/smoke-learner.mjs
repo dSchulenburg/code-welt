@@ -59,7 +59,7 @@ if (!bossKey) {
 
 // Drei-Saetze-Abgabe fuer den Boss-Check, inhaltlich passend zur jeweiligen Aufgabe (s. content/de
 // bzw. src/i18n/de.js stations.<sid>.bossCheck.task). Fuer eine Etappe ohne eigenen Text greift
-// ein generischer, aber sachlich zutreffender Fallback -- vorerst nur Holz/Stein/Eisen gebraucht.
+// ein generischer, aber sachlich zutreffender Fallback -- vorerst nur Holz/Stein/Eisen/Gold gebraucht.
 const BOSS_TEXT = {
   holz: 'Mein Programm legt vier Bloecke geradeaus und dann zwei um die Ecke, so entsteht ein L. '
     + 'Die Reihenfolge ist wichtig, weil der Agent sich sonst an der falschen Stelle dreht und das L verschoben waere. '
@@ -71,6 +71,7 @@ const BOSS_TEXT = {
   eisen: 'Ich habe y unten und oben abgelesen, die Differenz ist 4, also stufen = 4. '
     + 'index zaehlt von 0 bis 3 und ist die Hoehe jeder Stufe. '
     + 'Bei einer hoeheren Klippe setze ich stufen hoeher, sonst aendert sich nichts.',
+  gold: 'Meine Bedingung prueft, ob unter dem Agent ein Redstone-Block liegt. Das alte Programm hat nur auf eine Wand vorn geachtet und lief deshalb am Redstone vorbei. Kommt kein Redstone, laeuft der Agent bis zur Wand und macht dort endlos weiter.',
 };
 const bossText = BOSS_TEXT[etappe.id]
   || `Ich habe die Aufgabe der Etappe ${etappe.id} geloest. Der Share-Link zeigt mein Ergebnis. Am schwersten war der letzte Schritt.`;
