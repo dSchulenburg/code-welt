@@ -15,7 +15,15 @@
 > Schrift (acht Stellen, jetzt mit einem eigenen Test gegen „Агент" abgesichert), und ar s12
 > Imperative statt Verbalnomen; dazu der Boss-Titel-Trenner „: " von Hand in uk/ar s09 und s12.
 > Alle vier Boss-Aufgaben wurden beim letzten Box-Bau neu angelegt, weil der `ui`-Chunk
-> (Tipp-Lücken-Hinweis) neu übersetzt wurde; das war erwartet, kein Fund.
+> (Tipp-Lücken-Hinweis) neu übersetzt wurde; das war erwartet, kein Fund. Das Bauskript
+> `welt-ankunft-bau.py` schreibt die y-Werte des Parcours als Zahlen aus, statt sie aus `GROUND_TOP`
+> zu rechnen (Spec Abschnitt 3): nur so vergleicht `tests/parcours-script.test.js` Skript und
+> `parcours.json` Zeile für Zeile (Begründung im Kopf des Skripts).
+> Final-Review-Fixrunde (17.09.2026, `final-fix-report.md` im Ledger): Löcher einzeln (Löcher
+> 58/60/62/64, Ziel 59/61/63/67/71/73, alle Zahlen gleich), s10-Startsatz „am Anfang der Bahn Ecke"
+> neu übersetzt, Prompt-Regeln für Boss-Titel-Trenner und arabische Imperative, Fehlerbilder in
+> `ds10.md`/`ds11.md` per Simulator belegt, Python-Werte an die Blöcke gebunden, Enter in der
+> Tipp-Lücke prüft.
 >
 > **Offen (DoD-Punkt, nicht erledigt):** Dirks Prüfung nach Nachtrag Plan 4, Abschnitt 5 (sieben
 > Punkte: Wasser/Lava/Luft als Block, Fallverhalten über Löchern, `place(DOWN)` in ein Luftloch,

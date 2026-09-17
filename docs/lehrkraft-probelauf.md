@@ -195,6 +195,10 @@ Abschnitt „Gold" im Kurs, je Station Label → Quiz, wie bei den drei Etappen 
 - **`range(10)` scheitert absichtlich (s11):** die Bahn „Löcher" hat zehn Felder, aber vier davon
   sind Löcher. `range(10)` reicht darum nicht bis zur Wand, das ist die Pointe der Übung „Die
   richtige Zahl" (Antwort: 14). Das ist kein Fehler in der Station.
+- **Zweiter Versuch auf der Bahn „Löcher" (s11):** gefüllte Löcher bleiben gefüllt. Nach dem ersten
+  `range(10)` ist nur noch das Loch bei z=64 offen, dann reichen 11 Durchläufe (mit 10 bis z=65).
+  Für einen fairen zweiten Versuch die Bahn neu bauen (`parcours`) oder erst rechnen, dann neu
+  starten.
 - **Tipp-Lücke meldet „Fast" bei Kleinschreibung:** tippt man `redstone` statt `REDSTONE` oder
   `down` statt `DOWN` in eine Lücke, zeigt die Übung „Fast. Python unterscheidet groß und klein.",
   nicht „Richtig". Das ist Absicht (MakeCode meldet Kleinschreibung im Python-Editor ebenfalls als
@@ -202,8 +206,8 @@ Abschnitt „Gold" im Kurs, je Station Label → Quiz, wie bei den drei Etappen 
 - **Endlosschleife stoppen (s12):** `while not agent.detect(...)` läuft weiter, solange die
   Bedingung nicht eintritt. Kommt das Programm nie an eine Wand, läuft es endlos. Wie man ein
   laufendes Programm im Code Builder stoppt, ist einer der offenen Editor-Prüfpunkte unten.
-- **Redstone-Erkennung (Boss-Bahn):** die Boss-Bahn endet an einem Redstone-Block, nicht an einer
-  Wand. Ob `AgentDetection.REDSTONE` wirklich einen Redstone-**Block** erkennt oder nur
+- **Redstone-Erkennung (Boss-Bahn):** der Redstone-Block liegt mitten in der Boss-Bahn bei z=68
+  (bündig im Boden), die Bahn selbst endet an der Sicherheitswand bei z=79. Ob `AgentDetection.REDSTONE` wirklich einen Redstone-**Block** erkennt oder nur
   Redstone-**Staub**, ist ebenfalls einer der offenen Editor-Prüfpunkte (siehe unten); erkennt der
   Editor nur Staub, muss das Ziel der Boss-Bahn neu entschieden werden.
 

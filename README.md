@@ -192,6 +192,9 @@ Charakter-Posen, die it/es-Korrekturen aus Plan 3.
 - Welt „ankunft" um den Parcours erweitern (Bauplan + Bauskript-Befehl `parcours` liegen bereit),
   Schilder setzen, danach komplett neu als `.mcworld` exportieren (weiterhin auch das
   Erkundungsgebiet aus Plan 3 offen, siehe unten).
+- **Bahn „Löcher" zurücksetzen:** gefüllte Löcher bleiben nach einem Lauf gefüllt, ein zweiter
+  Versuch braucht dann weniger Durchläufe. Entscheiden, wie SuS die Bahn neu bauen: Ist der Befehl
+  `parcours` in der exportierten Welt für sie verfügbar, oder setzt die Lehrkraft zurück?
 - **Probelauf Gold** in der Box (Abschnitt „Etappe Gold" in `docs/lehrkraft-probelauf.md`),
   ausdrücklich noch nicht durchgeführt.
 - Python im Editor gegenprüfen — Stationen s01–s09 sowie `scripts/minecraft/welt-ankunft-bau.py`

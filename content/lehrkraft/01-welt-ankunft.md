@@ -167,7 +167,7 @@ solange die eigene Treppe noch nicht steht.
 Vier parallele Bahnen südlich der Klippen (deren Steinquader bei z=49 endet, 7 Felder Abstand)
 tragen die Stationen DS 10–12 und den Boss-Check Gold. Befehl `parcours` im Bauskript
 (`scripts/minecraft/welt-ankunft-bau.py`); additiv, auch auf einer gebauten Welt. Die Zahlen
-stehen in `scripts/minecraft/parcours.json`, ein Test (`tests/parcours-sim.test.js`) hält Skript
+stehen in `scripts/minecraft/parcours.json`, ein Test (`tests/parcours-script.test.js`) hält Skript
 und Datei gleich.
 
 | Bahn | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild-Text (drei oder vier Zeilen) | Schild-Position |
