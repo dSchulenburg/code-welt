@@ -99,3 +99,34 @@ test('ein einzelner Statement-Block ohne Hut wird gezeichnet (Zuordnungs-Uebung)
   expect(container.querySelector('[data-kind="setVar"] path')).not.toBeNull();
   expect(container.textContent).toMatch(/set/);
 });
+
+// Plan 4 Task 1: Bedingungen, not, else.
+test('if mit Bedingung und else: Sechseck in Agent-Farbe, else-Zeile, beide Rumpfbloecke', () => {
+  const tree = [{ kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+    body: [{ kind: 'agent.move', dir: 'forward', n: 1 }], elseBody: [{ kind: 'agent.place', dir: 'down' }] }];
+  const { container } = render(<BlockView blocks={tree} />);
+  const cond = container.querySelector('[data-kind="if"] [data-slot="cond"] [data-cond="agent.detect"]');
+  expect(cond.querySelector(':scope > path').getAttribute('fill')).toBe('#d83b01');
+  expect(cond.textContent).toBe('agent detect block down');
+  expect(container.querySelectorAll('[data-else="true"]')).toHaveLength(1);
+  expect(container.querySelector('[data-else="true"]').textContent).toBe('else');
+  expect(container.querySelector('[data-kind="agent.move"]')).not.toBeNull();
+  expect(container.querySelector('[data-kind="agent.place"]')).not.toBeNull();
+});
+
+test('while not: Logik-Sechseck umschliesst die detect-Bedingung', () => {
+  const tree = [{ kind: 'while', cond: { not: { kind: 'agent.detect', what: 'block', dir: 'forward' } }, body: [] }];
+  const { container } = render(<BlockView blocks={tree} />);
+  const not = container.querySelector('[data-slot="cond"] [data-cond="not"]');
+  expect(not.querySelector(':scope > path').getAttribute('fill')).toBe('#459197');
+  expect(not.querySelector('[data-cond="agent.detect"]').textContent).toBe('agent detect block forward');
+});
+
+test('die else-Zeile schiebt den else-Rumpf unter den if-Rumpf (keine Ueberlappung)', () => {
+  const tree = [{ kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+    body: [{ kind: 'agent.move', dir: 'forward', n: 1 }], elseBody: [{ kind: 'agent.place', dir: 'down' }] }];
+  const { container } = render(<BlockView blocks={tree} />);
+  const yOf = (sel) => Number(container.querySelector(sel).getAttribute('transform').match(/,([\d.]+)\)/)[1]);
+  expect(yOf('[data-else="true"]')).toBeGreaterThan(yOf('[data-kind="agent.move"]'));
+  expect(yOf('[data-kind="agent.place"]')).toBeGreaterThan(yOf('[data-else="true"]'));
+});

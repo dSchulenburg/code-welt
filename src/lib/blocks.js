@@ -23,8 +23,8 @@ export const BLOCK_SPECS = {
   'agent.detect':          { cat: 'agent', label: ['agent detect', { slot: 'what', kind: 'dropdown' }, { slot: 'dir', kind: 'dropdown' }] },
   repeat:                  { cat: 'loops', c: true, label: ['repeat', { slot: 'n', kind: 'number' }, 'times'] },
   for:                     { cat: 'loops', c: true, label: ['for', { slot: 'varName', kind: 'var' }, 'from 0 to', { slot: 'to', kind: 'number' }] },
-  while:                   { cat: 'loops', c: true, label: ['while', { slot: 'cond', kind: 'text' }] },
-  if:                      { cat: 'logic', c: true, label: ['if', { slot: 'cond', kind: 'text' }, 'then'] },
+  while:                   { cat: 'loops', c: true, label: ['while', { slot: 'cond', kind: 'cond' }, 'do'] },
+  if:                      { cat: 'logic', c: true, label: ['if', { slot: 'cond', kind: 'cond' }, 'then'] },
   setVar:                  { cat: 'variables', label: ['set', { slot: 'varName', kind: 'var' }, 'to', { slot: 'value', kind: 'number' }] },
   changeVar:               { cat: 'variables', label: ['change', { slot: 'varName', kind: 'var' }, 'by', { slot: 'value', kind: 'number' }] },
   fill:                    { cat: 'blocks', label: ['fill with', { slot: 'block', kind: 'dropdown' }, 'from', { slot: 'from', kind: 'pos' }, 'to', { slot: 'to', kind: 'pos' }, { slot: 'op', kind: 'dropdown' }] },
@@ -36,11 +36,20 @@ export function assertKnown(b) {
   if (!BLOCK_SPECS[b.kind]) throw new Error(`Unbekannte Blockart: ${b.kind}`);
 }
 
+// Bedingung im Editor-Wortlaut (Nachtrag Plan 4, Entscheidung 27). Die Dropdown-Werte stehen
+// klein wie im Blocks-Editor ("block", "forward"), im Python gross (BLOCK, FORWARD).
+export function condText(c) {
+  if (c && c.not) return `not ${condText(c.not)}`;
+  if (c && c.kind === 'agent.detect') return `agent detect ${c.what} ${c.dir}`;
+  throw new Error(`Unbekannte Bedingung: ${JSON.stringify(c)}`);
+}
+
 export function flattenBlocks(tree, depth = 0, out = []) {
   for (const b of tree) {
     assertKnown(b);
     out.push({ kind: b.kind, depth });
     if (b.body) flattenBlocks(b.body, depth + 1, out);
+    if (b.elseBody) flattenBlocks(b.elseBody, depth + 1, out);
   }
   return out;
 }
@@ -62,7 +71,9 @@ function resolveCount(v, vars) {
 export function blocksToProgram(tree, out = [], vars = {}) {
   for (const b of tree) {
     assertKnown(b);
-    if (b.kind === 'setVar') {
+    if (b.kind === 'if' || b.kind === 'while') {
+      throw new Error(`blocksToProgram kennt keine Bedingungen (${b.kind})`);
+    } else if (b.kind === 'setVar') {
       vars[b.varName] = b.value;
     } else if (b.kind === 'agent.move' && (b.dir === 'forward' || b.dir === 'back')) {
       out.push(`${b.dir === 'forward' ? 'forward' : 'back'} ${b.n ?? 1}`);
@@ -84,6 +95,7 @@ export function blocksToProgram(tree, out = [], vars = {}) {
 // Slot-Anzeige im Editor-Wortlaut.
 export function slotText(b, slot) {
   const v = b[slot.slot];
+  if (slot.kind === 'cond') return condText(v);
   if (slot.slot === 'word' || slot.slot === 'name') return `"${v}"`;
   if (slot.slot === 'op') return String(v ?? 'replace');
   if (v && typeof v === 'object' && Array.isArray(v.minus)) return `${v.minus[0]} - ${v.minus[1]}`;
@@ -96,6 +108,7 @@ export function slotText(b, slot) {
 //   'dropdown'/'number'/'text'/'var' sonst wie im Spec.
 export function slotKind(b, slot) {
   const v = b[slot.slot];
+  if (slot.kind === 'cond') return 'cond';
   if (slot.kind === 'pos') return 'pos';
   if (v && typeof v === 'object' && Array.isArray(v.minus)) return 'math';
   if (slot.kind === 'number' && typeof v === 'string') return 'var';

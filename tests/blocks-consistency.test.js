@@ -28,11 +28,13 @@ const KIND_TO_PY = {
   'agent.detect': 'agent.detect(',
   for: 'for ',
   repeat: 'for ',
+  if: 'if ',
+  while: 'while ',
   fill: 'blocks.fill(',
   setVar: (b) => `${b.varName} = `,
 };
 const prefixOf = (b) => { const p = KIND_TO_PY[b.kind]; return typeof p === 'function' ? p(b) : p; };
-const PY_PREFIXES = [...new Set(Object.values(KIND_TO_PY).filter((p) => typeof p === 'string'))];
+const PY_PREFIXES = [...new Set([...Object.values(KIND_TO_PY).filter((p) => typeof p === 'string'), 'else:'])];
 
 // Eine Stufe Python-Einrueckung. MakeCode schreibt mit vier Leerzeichen aus.
 const INDENT = 4;
@@ -46,6 +48,9 @@ function blockSteps(body, depth = 0, out = []) {
     if (prefix) out.push({ py: prefix, depth });
     // Nur ein Block mit eigener Python-Zeile (for/repeat) macht seinen Rumpf eine Stufe tiefer.
     if (b.body) blockSteps(b.body, prefix ? depth + 1 : depth, out);
+    // else: liegt auf der Tiefe des if, sein Rumpf eine Stufe tiefer — genau wie die
+    // Python-Einrueckung.
+    if (b.elseBody) { out.push({ py: 'else:', depth }); blockSteps(b.elseBody, depth + 1, out); }
   }
   return out;
 }
@@ -147,4 +152,18 @@ test('setVar und fill werden in Reihenfolge und Tiefe mit dem Python verglichen'
     python: 'def on_t():\n    stufen = 6\n    for index in range(stufen):\n        blocks.fill(COBBLESTONE, pos(0, 0, 1), pos(0, 0, 3), FillOperation.REPLACE)\nplayer.on_chat("t", on_t)' };
   expect(blockOrder(s.blocks[0].body)).toEqual(['stufen = ', 'for ', 'blocks.fill(']);
   expect(pythonSteps(s.python)[0].map((x) => x.py)).toEqual(['stufen = ', 'for ', 'blocks.fill(']);
+});
+
+// Plan 4 Task 1: Bedingungen, not, else.
+test('if, else: und while werden in Reihenfolge und Tiefe mit dem Python verglichen', () => {
+  const s = { blocks: [{ kind: 'onChat', word: 't', body: [
+    { kind: 'while', cond: { not: { kind: 'agent.detect', what: 'block', dir: 'forward' } }, body: [
+      { kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+        body: [{ kind: 'agent.move', dir: 'forward', n: 1 }], elseBody: [{ kind: 'agent.place', dir: 'down' }] },
+    ] },
+  ] }],
+  python: 'def on_t():\n    while not agent.detect(AgentDetection.BLOCK, FORWARD):\n        if agent.detect(AgentDetection.BLOCK, DOWN):\n            agent.move(FORWARD, 1)\n        else:\n            agent.place(DOWN)\nplayer.on_chat("t", on_t)' };
+  const want = [['while ', 0], ['if ', 1], ['agent.move(', 2], ['else:', 1], ['agent.place(', 2]];
+  expect(blockSteps(s.blocks[0].body).map((x) => [x.py, x.depth])).toEqual(want);
+  expect(pythonSteps(s.python)[0].map((x) => [x.py, x.depth])).toEqual(want);
 });

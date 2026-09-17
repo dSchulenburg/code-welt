@@ -1,4 +1,4 @@
-import { BLOCK_SPECS, CATEGORY_COLORS, flattenBlocks, blocksToProgram, slotText } from '../src/lib/blocks.js';
+import { BLOCK_SPECS, CATEGORY_COLORS, flattenBlocks, blocksToProgram, slotText, slotKind, condText } from '../src/lib/blocks.js';
 
 const tree = [{ kind: 'onChat', word: 'weg', body: [
   { kind: 'agent.teleportToPlayer' },
@@ -58,4 +58,29 @@ test('blocksToProgram versteht for … to stufen - 1', () => {
 
 test('blocksToProgram wirft bei unbekannter Variable', () => {
   expect(() => blocksToProgram([{ kind: 'repeat', n: 'nix', body: [] }])).toThrow(/Unbekannte Variable: nix/);
+});
+
+// Plan 4 Task 1: Bedingungen, not, else.
+test('condText schreibt Bedingungen im Editor-Wortlaut, not verschachtelt', () => {
+  expect(condText({ kind: 'agent.detect', what: 'block', dir: 'forward' })).toBe('agent detect block forward');
+  expect(condText({ not: { kind: 'agent.detect', what: 'redstone', dir: 'down' } })).toBe('not agent detect redstone down');
+  expect(() => condText({ kind: 'agent.move' })).toThrow(/Unbekannte Bedingung/);
+});
+
+test('if und while haben einen cond-Slot', () => {
+  const ifCond = BLOCK_SPECS.if.label.find((p) => typeof p === 'object');
+  expect(ifCond).toEqual({ slot: 'cond', kind: 'cond' });
+  const b = { kind: 'while', cond: { not: { kind: 'agent.detect', what: 'block', dir: 'forward' } }, body: [] };
+  expect(slotText(b, { slot: 'cond', kind: 'cond' })).toBe('not agent detect block forward');
+  expect(slotKind(b, { slot: 'cond', kind: 'cond' })).toBe('cond');
+});
+
+test('flattenBlocks laeuft durch elseBody auf der Tiefe des Rumpfs', () => {
+  const tree = [{ kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+    body: [{ kind: 'agent.move', dir: 'forward', n: 1 }], elseBody: [{ kind: 'agent.place', dir: 'down' }] }];
+  expect(flattenBlocks(tree).map((b) => `${b.kind}@${b.depth}`)).toEqual(['if@0', 'agent.move@1', 'agent.place@1']);
+});
+
+test('blocksToProgram wirft bei Bedingungen statt still falsch zu entrollen', () => {
+  expect(() => blocksToProgram([{ kind: 'while', cond: { kind: 'agent.detect', what: 'block', dir: 'forward' }, body: [] }])).toThrow(/keine Bedingungen \(while\)/);
 });
