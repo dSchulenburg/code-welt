@@ -48,6 +48,11 @@
 # aendert, aendert sie auch dort. Ab hier nutzt world(x, y, z) statt agent.teleport/move: die
 # Bauten (Fluss, Schlucht, Klippen) sind reine Quader, die Stationsprogramme (bruecke, plattform,
 # treppe) laufen erst spaeter im Editor der Lernenden.
+#
+# Dritter Befehl "parcours" (Etappe Gold, Plan 4 Task 4): baut additiv vier Bahnen suedlich der
+# Klippen, ab z=56. Die Zahlen stammen aus scripts/minecraft/parcours.json; tests/parcours-script.test.js
+# vergleicht beide Zeile fuer Zeile — wer eine Zahl aendert, aendert sie in beiden. Schilder setzt
+# die Lehrkraft von Hand, Goldmarken und der Redstone-Block kommen aus dem Skript.
 
 def bau_plattform():
     # Startplattform 20x20 aus Stein, sie fuellt y=4 (Startzone bei 0/4/0 laut Bauplan).
@@ -164,3 +169,51 @@ def on_erkunden():
     bau_schlucht()
     bau_klippen()
 player.on_chat("erkunden", on_erkunden)
+
+# --- parcours start ---
+def bau_parcours_ecke():
+    # Gang 1 breit, knickt nach Osten ab (links bei Blick nach Sueden). 20 Durchlaeufe von ecke
+    # enden ueber der zweiten Goldmarke (Simulator-Test).
+    blocks.fill(STONE, world(-22, 5, 56), world(-10, 6, 67), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-21, 5, 56), world(-21, 6, 66), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-20, 5, 66), world(-11, 6, 66), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(-21, 4, 56))
+    blocks.place(GOLD_BLOCK, world(-11, 4, 66))
+
+def bau_parcours_loecher():
+    # 10 Felder, 4 Loecher je 2 tief, Wand bei z=67. loecher braucht 14 Durchlaeufe.
+    blocks.fill(STONE, world(-5, 5, 56), world(-3, 6, 67), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 5, 56), world(-4, 6, 66), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 3, 58), world(-4, 4, 58), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 3, 60), world(-4, 4, 61), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 3, 64), world(-4, 4, 64), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(-4, 4, 56))
+
+def bau_parcours_ziel():
+    # 20 Felder, 6 Loecher, Wand bei z=77. ziel laeuft bis z=76.
+    blocks.fill(STONE, world(3, 5, 56), world(5, 6, 77), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 5, 56), world(4, 6, 76), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 59), world(4, 4, 59), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 62), world(4, 4, 63), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 67), world(4, 4, 67), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 71), world(4, 4, 72), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(4, 4, 56))
+
+def bau_parcours_boss():
+    # Boss-Check Gold: Redstone-Block bei z=68, Sicherheitswand bei z=79. Kein Schild mit Zahlen.
+    blocks.fill(STONE, world(11, 5, 56), world(13, 6, 79), FillOperation.REPLACE)
+    blocks.fill(AIR, world(12, 5, 56), world(12, 6, 78), FillOperation.REPLACE)
+    blocks.fill(AIR, world(12, 3, 58), world(12, 4, 58), FillOperation.REPLACE)
+    blocks.fill(AIR, world(12, 3, 61), world(12, 4, 61), FillOperation.REPLACE)
+    blocks.fill(AIR, world(12, 3, 65), world(12, 4, 65), FillOperation.REPLACE)
+    blocks.fill(AIR, world(12, 3, 71), world(12, 4, 71), FillOperation.REPLACE)
+    blocks.place(GOLD_BLOCK, world(12, 4, 56))
+    blocks.place(REDSTONE_BLOCK, world(12, 4, 68))
+
+def on_parcours():
+    bau_parcours_ecke()
+    bau_parcours_loecher()
+    bau_parcours_ziel()
+    bau_parcours_boss()
+player.on_chat("parcours", on_parcours)
+# --- parcours ende ---

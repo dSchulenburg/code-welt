@@ -1,0 +1,52 @@
+{
+  "axes": "+x = Osten, +z = Sueden. Mit Blick nach Sueden fuehrt LEFT_TURN nach Osten.",
+  "groundTop": 4,
+  "lanes": [
+    { "id": "ecke", "start": [-21, 4, 56], "facing": "S",
+      "fills": [
+        { "block": "STONE", "from": [-22, 5, 56], "to": [-10, 6, 67] },
+        { "block": "AIR", "from": [-21, 5, 56], "to": [-21, 6, 66] },
+        { "block": "AIR", "from": [-20, 5, 66], "to": [-11, 6, 66] }
+      ],
+      "places": [
+        { "block": "GOLD_BLOCK", "at": [-21, 4, 56] },
+        { "block": "GOLD_BLOCK", "at": [-11, 4, 66] }
+      ] },
+    { "id": "loecher", "start": [-4, 4, 56], "facing": "S",
+      "fills": [
+        { "block": "STONE", "from": [-5, 5, 56], "to": [-3, 6, 67] },
+        { "block": "AIR", "from": [-4, 5, 56], "to": [-4, 6, 66] },
+        { "block": "AIR", "from": [-4, 3, 58], "to": [-4, 4, 58] },
+        { "block": "AIR", "from": [-4, 3, 60], "to": [-4, 4, 61] },
+        { "block": "AIR", "from": [-4, 3, 64], "to": [-4, 4, 64] }
+      ],
+      "places": [
+        { "block": "GOLD_BLOCK", "at": [-4, 4, 56] }
+      ] },
+    { "id": "ziel", "start": [4, 4, 56], "facing": "S",
+      "fills": [
+        { "block": "STONE", "from": [3, 5, 56], "to": [5, 6, 77] },
+        { "block": "AIR", "from": [4, 5, 56], "to": [4, 6, 76] },
+        { "block": "AIR", "from": [4, 3, 59], "to": [4, 4, 59] },
+        { "block": "AIR", "from": [4, 3, 62], "to": [4, 4, 63] },
+        { "block": "AIR", "from": [4, 3, 67], "to": [4, 4, 67] },
+        { "block": "AIR", "from": [4, 3, 71], "to": [4, 4, 72] }
+      ],
+      "places": [
+        { "block": "GOLD_BLOCK", "at": [4, 4, 56] }
+      ] },
+    { "id": "boss", "start": [12, 4, 56], "facing": "S",
+      "fills": [
+        { "block": "STONE", "from": [11, 5, 56], "to": [13, 6, 79] },
+        { "block": "AIR", "from": [12, 5, 56], "to": [12, 6, 78] },
+        { "block": "AIR", "from": [12, 3, 58], "to": [12, 4, 58] },
+        { "block": "AIR", "from": [12, 3, 61], "to": [12, 4, 61] },
+        { "block": "AIR", "from": [12, 3, 65], "to": [12, 4, 65] },
+        { "block": "AIR", "from": [12, 3, 71], "to": [12, 4, 71] }
+      ],
+      "places": [
+        { "block": "GOLD_BLOCK", "at": [12, 4, 56] },
+        { "block": "REDSTONE_BLOCK", "at": [12, 4, 68] }
+      ] }
+  ]
+}
