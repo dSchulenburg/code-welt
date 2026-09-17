@@ -62,7 +62,7 @@ try {
   // bei Luecken laut FAILen statt einen verkuerzten (und damit trivial erfuellten) Vergleich zu
   // fahren.
   const contentsText = await callTool('moodle_get_course_contents', { courseId: reg.courseId });
-  for (const [label, num] of [['Holz', 2], ['Stein', 3], ['Eisen', 4]]) {
+  for (const [label, num] of [['Holz', 2], ['Stein', 3], ['Eisen', 4], ['Gold', 5]]) {
     const section = def.sections.find((s) => s.num === num);
     const missing = section.items.filter((item) => typeof reg.items[item.key]?.cmid !== 'number').map((item) => item.key);
     if (missing.length > 0) {
@@ -115,6 +115,17 @@ try {
     check('Boss-Check-Aufgabe Eisen auf uk', bossEisenBody.includes(uk.stations.s09.bossCheck.title), `erwartet "${uk.stations.s09.bossCheck.title}"`);
   }
 
+  // Boss-Check-Aufgabe Gold (Abschnitt 5, Station s12) auf Ukrainisch -- gleicher Aufbau wie
+  // boss-eisen oben (Task 10).
+  const bossGoldCmid = reg.items['boss-gold']?.cmid;
+  if (typeof bossGoldCmid !== 'number') {
+    check('Boss-Check-Aufgabe Gold auf uk', false, 'boss-gold fehlt im Register');
+  } else {
+    await page.goto(`${M}/mod/assign/view.php?id=${bossGoldCmid}&lang=uk`, { waitUntil: 'networkidle' });
+    const bossGoldBody = await page.locator('body').innerText();
+    check('Boss-Check-Aufgabe Gold auf uk', bossGoldBody.includes(uk.stations.s12.bossCheck.title), `erwartet "${uk.stations.s12.bossCheck.title}"`);
+  }
+
   // Quiz: Versuch starten, Frage lesen
   const quiz = reg.items['s02-quiz'];
   await page.goto(`${M}/mod/quiz/view.php?id=${quiz.cmid}&lang=uk`, { waitUntil: 'networkidle' });
@@ -140,16 +151,17 @@ try {
   // im Kursindex, wenn der irgendwo mitgerendert wird), sondern gezielt auf die Badge-Namenslinks
   // der Liste ("#region-main a[href*=overview.php]", je Badge genau einer, per Snapshot der echten
   // Seite verifiziert -- der reportbuilder-Renderer von index.php erzeugt denselben Link) -- und
-  // zusaetzlich die Anzahl dieser Links gegen 3 pruefen (Task 10: Eisen kommt dazu), damit weder
-  // "Badge fehlt" noch "es sind auf einmal vier" unbemerkt bliebe.
+  // zusaetzlich die Anzahl dieser Links gegen 4 pruefen (Task 10: Gold kommt dazu), damit weder
+  // "Badge fehlt" noch "es sind auf einmal fuenf" unbemerkt bliebe.
   await page.goto(`${M}/badges/index.php?type=2&id=${reg.courseId}&lang=de`, { waitUntil: 'networkidle' });
   const badgeLinks = page.locator('#region-main a[href*="overview.php"]');
   const badgeCount = await badgeLinks.count();
   const badgeText = (await badgeLinks.allTextContents()).join(' | ');
-  const badgeExtra = `Badge-Eintraege: ${badgeCount} (erwartet 3), Namen: [${badgeText}]`;
-  check('Badge Holz auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.holz.badge.name), badgeExtra);
-  check('Badge Stein auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.stein.badge.name), badgeExtra);
-  check('Badge Eisen auf Badge-Seite', badgeCount === 3 && badgeText.includes(de.etappen.eisen.badge.name), badgeExtra);
+  const badgeExtra = `Badge-Eintraege: ${badgeCount} (erwartet 4), Namen: [${badgeText}]`;
+  check('Badge Holz auf Badge-Seite', badgeCount === 4 && badgeText.includes(de.etappen.holz.badge.name), badgeExtra);
+  check('Badge Stein auf Badge-Seite', badgeCount === 4 && badgeText.includes(de.etappen.stein.badge.name), badgeExtra);
+  check('Badge Eisen auf Badge-Seite', badgeCount === 4 && badgeText.includes(de.etappen.eisen.badge.name), badgeExtra);
+  check('Badge Gold auf Badge-Seite', badgeCount === 4 && badgeText.includes(de.etappen.gold.badge.name), badgeExtra);
 
   // Zurueck auf Deutsch, damit die Session sauber bleibt
   await page.goto(`${M}/course/view.php?id=${reg.courseId}&lang=de`);

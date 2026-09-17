@@ -10,7 +10,7 @@ import de from '../src/i18n/de.js';
 // Uebungstypen, die als eigene Komponente im DOM landen muessen, wenn STATIONS[sid].exercises
 // einen Eintrag mit diesem type traegt (Task 10) -- 'predict' hat keine eigene .exercise-Klasse
 // (AgentGrid) und bleibt darum aussen vor.
-const EXERCISE_TYPES = ['parsons', 'match', 'fill', 'findbug'];
+const EXERCISE_TYPES = ['parsons', 'match', 'fill', 'findbug', 'type'];
 
 const PORT = 4173;
 const BASE = `http://localhost:${PORT}/code-welt/`;
@@ -105,6 +105,31 @@ try {
           const status = await page.locator('[role="status"]').first().textContent();
           if (!status || !status.includes(de.ui.matchRight)) {
             throw new Error(`role=status "${status}" enthält nicht ui.matchRight "${de.ui.matchRight}"`);
+          }
+        }
+        // s11/s12: Tipp-Durchlauf der Tipp-Luecke (TypeGap) -- wie beim s07-Durchlauf beweist das
+        // echte Tippen+Klicken im Browser die Interaktion, nicht nur die statischen Daten. Feedback
+        // ist wie bei match auch hier in jeder Sprache Deutsch (Plan-2-Entscheidung 2, bilingual.js:
+        // StationView.jsx reicht Uebungs-Komponenten nur `ui = de.ui` durch), darum kein Filter auf
+        // code === 'de'.
+        if (sid === 's11') {
+          const typeExercise = STATIONS.s11.exercises.find((e) => e.type === 'type');
+          await page.locator('[data-testid="type-gap-0"]').fill(typeExercise.gaps[0].accept[0]);
+          await page.locator('[data-testid="type-check"]').click();
+          const status = await page.locator('.exercise.type [role="status"]').first().textContent();
+          if (!status || !status.includes(de.ui.typeRight)) {
+            throw new Error(`role=status "${status}" enthält nicht ui.typeRight "${de.ui.typeRight}"`);
+          }
+        }
+        if (sid === 's12') {
+          // Absichtlich klein/falsche Schreibung: judgeGap() wertet das als 'case', nicht 'right'
+          // (MakeCode meldet REDSTONE/redstone ebenfalls als Fehler) -- beweist den zweiten Verdict-Pfad.
+          await page.locator('[data-testid="type-gap-0"]').fill('redstone');
+          await page.locator('[data-testid="type-gap-1"]').fill('DOWN');
+          await page.locator('[data-testid="type-check"]').click();
+          const status = await page.locator('.exercise.type [role="status"]').first().textContent();
+          if (!status || !status.includes(de.ui.typeCase)) {
+            throw new Error(`role=status "${status}" enthält nicht ui.typeCase "${de.ui.typeCase}"`);
           }
         }
         if (errors.length) throw new Error(errors.join(' | '));
