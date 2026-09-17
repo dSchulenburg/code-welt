@@ -58,6 +58,12 @@ export default {
     "findbugPrompt": "سطر واحد خطأ. أي سطر؟",
     "findbugRight": "صحيح! هذا هو الخطأ.",
     "findbugWrong": "لا، هذا السطر صحيح. انظر مرة أخرى.",
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    "typePrompt": "اكتب في كل فراغ الرقم أو الكلمة الصحيحة.",
+    "typeRight": "صحيح! هكذا يعمل الكود.",
+    "typeWrong": "ليس بعد. اقرأ السطر مرة أخرى.",
+    "typeCase": "تقريبًا. Python يفرّق بين الأحرف الكبيرة والصغيرة.",
+    "typeGapLabel": "فراغ",
     "spielstandHeading": "حالة التقدّم",
     // Vermerk 2026-09-04 (Plan 3 Task 9, Fix-Runde 1): ar: Imperative bleiben maskulin
     // (Plan-2-Entscheidung, Registerwechsel ist Dirks offener Entscheid). Der Wortlaut kommt

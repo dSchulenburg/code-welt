@@ -58,6 +58,12 @@ export default {
     "findbugPrompt": "Один рядок неправильний. Який?",
     "findbugRight": "Правильно! Це помилка.",
     "findbugWrong": "Ні, цей рядок правильний. Подивись ще раз.",
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    "typePrompt": "Впиши в кожен пропуск правильне число або слово.",
+    "typeRight": "Правильно! Ось так працює код.",
+    "typeWrong": "Ще ні. Прочитай рядок ще раз.",
+    "typeCase": "Майже. Python розрізняє великі й малі літери.",
+    "typeGapLabel": "Пропуск",
     "spielstandHeading": "Мій результат",
     "spielstandPrompt": "Що ти вмієш тепер? Напиши три короткі речення.",
     "spielstandSave": "Зберегти",

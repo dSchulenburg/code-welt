@@ -55,6 +55,12 @@ export default {
     "findbugPrompt": "Una riga è sbagliata. Quale?",
     "findbugRight": "Giusto! Questo è l'errore.",
     "findbugWrong": "No, questa riga è giusta. Guarda di nuovo.",
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    "typePrompt": "Scrivi in ogni spazio vuoto il numero o la parola giusta.",
+    "typeRight": "Giusto! Così funziona il codice.",
+    "typeWrong": "Non ancora. Leggi di nuovo la riga.",
+    "typeCase": "Quasi. Python distingue tra maiuscole e minuscole.",
+    "typeGapLabel": "Spazio vuoto",
     "spielstandHeading": "Punto della partita",
     "spielstandPrompt": "Che cosa sai fare adesso? Scrivi tre frasi brevi.",
     "spielstandSave": "Salva",

@@ -56,6 +56,12 @@ export default {
     "findbugPrompt": "Una línea está mal. ¿Cuál?",
     "findbugRight": "¡Correcto! Ese es el error.",
     "findbugWrong": "No, esta línea está bien. Mira otra vez.",
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    "typePrompt": "Escribe en cada hueco el número o la palabra correcta.",
+    "typeRight": "¡Correcto! Así funciona el código.",
+    "typeWrong": "Todavía no. Lee la línea otra vez.",
+    "typeCase": "Casi. Python distingue mayúsculas y minúsculas.",
+    "typeGapLabel": "Hueco",
     // Handkorrektur 2026-09-04 (Plan 3 Task 9): Zwischenstand, nicht Startpunkt — dieselbe Korrektur
     // wie am 03.09. (Review T9); der neue ui-Lauf hatte "Punto de partida" wieder eingesetzt.
     "spielstandHeading": "Tu progreso",

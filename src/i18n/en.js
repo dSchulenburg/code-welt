@@ -49,6 +49,12 @@ export default {
     "findbugPrompt": "One line is wrong. Which one?",
     "findbugRight": "Correct! That is the mistake.",
     "findbugWrong": "No, this line is right. Look again.",
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    "typePrompt": "Type the right number or word into each gap.",
+    "typeRight": "Correct! That is how the code runs.",
+    "typeWrong": "Not yet. Read the line again.",
+    "typeCase": "Almost. Python tells capital and small letters apart.",
+    "typeGapLabel": "Gap",
     "spielstandHeading": "Save point",
     "spielstandPrompt": "What can you do now? Write three short sentences.",
     "spielstandSave": "Save",

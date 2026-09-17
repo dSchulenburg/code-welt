@@ -14,6 +14,7 @@ import ParsonsPuzzle from './ParsonsPuzzle.jsx';
 import MatchBlocksPython from './MatchBlocksPython.jsx';
 import FillCode from './FillCode.jsx';
 import FindBug from './FindBug.jsx';
+import TypeGap from './TypeGap.jsx';
 import Spielstand from './Spielstand.jsx';
 
 const BLOCK_IMAGES = import.meta.glob('../assets/blocks/*.png', { eager: true, import: 'default' });
@@ -68,6 +69,7 @@ export default function StationView({ id, lang }) {
           if (ex.type === 'match') return <MatchBlocksPython key={`${id}-${i}`} {...props} />;
           if (ex.type === 'fill') return <FillCode key={`${id}-${i}`} {...props} />;
           if (ex.type === 'findbug') return <FindBug key={`${id}-${i}`} {...props} />;
+          if (ex.type === 'type') return <TypeGap key={`${id}-${i}`} {...props} />;
           return null;
         })}
       </section>

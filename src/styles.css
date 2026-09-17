@@ -114,6 +114,10 @@ summary { cursor: pointer; font-weight: bold; }
 .chip.selected { border-color: var(--accent); background: #444; }
 .chip.ok { border-color: #1f7a2e; }
 .chip.nope { border-color: #9b2c2c; }
+.type-gap { font: inherit; background: #333; color: #eee; border: 2px solid #888; border-radius: 6px; padding: 1px 6px; margin: 0 2px; direction: ltr; }
+.type-gap:focus { outline: none; border-color: var(--accent); }
+.type-gap.ok { border-color: #1f7a2e; }
+.type-gap.nope { border-color: #9b2c2c; }
 .findbug-list { list-style: none; padding: 0; direction: ltr; text-align: left; }
 /* Wie .match-lines li (Final-Review-Fix C): li faellt sonst unter die globale
    unicode-bidi: plaintext-Regel und verliert unter dir="rtl" seine feste LTR-Ordnung. */

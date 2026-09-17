@@ -47,6 +47,12 @@ export default {
     findbugPrompt: 'Eine Zeile ist falsch. Welche?',
     findbugRight: 'Richtig! Das ist der Fehler.',
     findbugWrong: 'Nein, diese Zeile ist richtig. Schau noch mal.',
+    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
+    typePrompt: 'Tippe in jede Lücke die richtige Zahl oder das richtige Wort.',
+    typeRight: 'Richtig! So läuft der Code.',
+    typeWrong: 'Noch nicht. Lies die Zeile noch einmal.',
+    typeCase: 'Fast. Python unterscheidet groß und klein.',
+    typeGapLabel: 'Lücke',
     spielstandHeading: 'Spielstand',
     spielstandPrompt: 'Was kannst du jetzt? Schreib drei kurze Sätze.',
     spielstandSave: 'Speichern',

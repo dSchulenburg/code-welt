@@ -114,7 +114,7 @@ test('story-mood ist, wenn gesetzt, aus der erlaubten Menge; mindestens eine Zei
 });
 
 test('Uebungstypen sind bekannt und formal vollstaendig', () => {
-  const TYPES = ['predict', 'parsons', 'match', 'fill', 'findbug'];
+  const TYPES = ['predict', 'parsons', 'match', 'fill', 'findbug', 'type'];
   for (const [id, s] of Object.entries(STATIONS)) {
     s.exercises.forEach((ex, i) => {
       expect(TYPES, `${id}[${i}]`).toContain(ex.type);
@@ -123,6 +123,13 @@ test('Uebungstypen sind bekannt und formal vollstaendig', () => {
       if (ex.type === 'match') { expect(ex.pairs.length).toBeGreaterThanOrEqual(3); for (const p of ex.pairs) { assertKnown(p.block); expect(p.python.trim().length).toBeGreaterThan(0); } }
       if (ex.type === 'fill') { expect((ex.code.match(/___/g) || []).length).toBe(ex.gaps.length); for (const g of ex.gaps) expect(g.options).toContain(g.correct); }
       if (ex.type === 'findbug') { expect(ex.wrong).toBeGreaterThanOrEqual(0); expect(ex.wrong).toBeLessThan(ex.lines.length); expect(typeof t.explain, `${id}[${i}].explain`).toBe('string'); }
+      if (ex.type === 'type') {
+        expect((ex.code.match(/___/g) || []).length, `${id}[${i}] Luecken`).toBe(ex.gaps.length);
+        for (const g of ex.gaps) {
+          expect(Array.isArray(g.accept) && g.accept.length > 0, `${id}[${i}] accept`).toBe(true);
+          for (const a of g.accept) expect(a.trim().length).toBeGreaterThan(0);
+        }
+      }
     });
   }
 });
