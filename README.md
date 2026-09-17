@@ -188,7 +188,9 @@ Charakter-Posen, die it/es-Korrekturen aus Plan 3.
 - **Weiterhin offen: Offener DoD-Punkt Plan 3** (Editor-Prüfung s07–s09, s. Plan-3-Abschnitt
   unten).
 - Ändert die Prüfung Python oder Stütztexte von s10–s12, diese Chunks neu übersetzen
-  (`npm run translate -- --lang all --chunk stations.s10,stations.s11,stations.s12`).
+  (`npm run translate -- --lang all --chunk stations.s10,stations.s11,stations.s12`). Danach die
+  Handkorrekturen prüfen: Prompt-Regeln schützen Boss-Titel-Trenner und arabische Imperative, der
+  ar-Titel von s10 („إذا، عندها" statt „إذا، فـ") hat keine Regel und keinen Test.
 - Welt „ankunft" um den Parcours erweitern (Bauplan + Bauskript-Befehl `parcours` liegen bereit),
   Schilder setzen, danach komplett neu als `.mcworld` exportieren (weiterhin auch das
   Erkundungsgebiet aus Plan 3 offen, siehe unten).
@@ -209,7 +211,9 @@ Charakter-Posen, die it/es-Korrekturen aus Plan 3.
   als `.mcworld` exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
 - uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen (Eisen und Gold kommen dazu; die
   arabische Register-Frage aus Task 9, Imperative bleiben maskulin, ist eine eigene, noch offene
-  Entscheidung).
+  Entscheidung). Beim uk-Gegenlesen s10 ansehen: „коридор із двома рогами" (besser
+  „поворотами"), „Склади" in der Zuordnungsaufgabe (gemeint „Зістав"), Quizantwort
+  „правдиве/неправдиве" passt nicht zur Frage im Instrumental.
 - Probelauf Eisen in der Box (Abschnitt „Etappe Eisen" in `docs/lehrkraft-probelauf.md`).
 
 Nächster Schritt: Dirks Prüflisten (Plan 3 und Plan 4, je Abschnitt 5) und die Probeläufe Eisen
