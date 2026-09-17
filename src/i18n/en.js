@@ -135,7 +135,7 @@ export default {
     },
     "detect": {
       "term": "detect",
-      "short": "Der Agent prüft, ob neben ihm ein Block ist."
+      "short": "Der Agent prüft, ob vor oder unter ihm ein Block ist."
     }
   },
   "etappen": {
@@ -1481,7 +1481,7 @@ export default {
       "bossCheck": {
         "title": "Boss-Check Gold",
         "subtitle": "Der unbekannte Parcours",
-        "task": "Stell dich auf den Goldblock der letzten Bahn. Schau nach Süden. Schreibe ziel. Der Agent läuft am Redstone vorbei. Ändere die Bedingung in Python. Er soll auf dem Redstone stehen bleiben. Schreib drei Sätze: Was prüft deine Bedingung? Warum lief das alte Programm vorbei? Was passiert, wenn kein Redstone kommt?"
+        "task": "Stell dich auf den Goldblock der letzten Bahn. Schau nach Süden. Schreibe ziel. Der Agent läuft am Redstone vorbei. Ändere die Bedingung in Python. Er soll auf dem Redstone stehen bleiben. Schreib drei Sätze: Was prüft deine Bedingung? Warum läuft das alte Programm am Redstone vorbei? Was passiert, wenn kein Redstone kommt?"
       }
     }
   }
