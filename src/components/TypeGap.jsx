@@ -9,7 +9,10 @@ export default function TypeGap({ exercise, prompt, supportPrompt, ui, showSuppo
   const [inputs, setInputs] = useState(() => exercise.gaps.map(() => ''));
   const [result, setResult] = useState(null);
   const type = (g, value) => { const next = [...inputs]; next[g] = value; setInputs(next); setResult(null); };
+  const empty = inputs.every((v) => v.trim() === '');
   const check = () => setResult(judgeAll(inputs, exercise.gaps));
+  // Enter im Feld prueft wie der Knopf; solange alles leer ist, passiert nichts (Knopf gesperrt).
+  const onKeyDown = (e) => { if (e.key === 'Enter') { e.preventDefault(); if (!empty) check(); } };
   const message = result && (result.overall === 'right' ? ui.typeRight : result.overall === 'case' ? ui.typeCase : ui.typeWrong);
 
   return (
@@ -28,13 +31,13 @@ export default function TypeGap({ exercise, prompt, supportPrompt, ui, showSuppo
                 size={exercise.gaps[g].hint === 'number' ? 4 : 12}
                 inputMode={exercise.gaps[g].hint === 'number' ? 'numeric' : 'text'}
                 dir="ltr" spellCheck={false} autoCapitalize="off" autoComplete="off" autoCorrect="off"
-                onChange={(e) => type(g, e.target.value)} />
+                onChange={(e) => type(g, e.target.value)} onKeyDown={onKeyDown} />
             )}
           </span>
         ))}
       </code></pre>
       <button type="button" className="btn" data-testid="type-check" onClick={check}
-        disabled={inputs.every((v) => v.trim() === '')}>{ui.checkButton}</button>
+        disabled={empty}>{ui.checkButton}</button>
       {message && <p className={result.overall === 'right' ? 'ok' : 'nope'} role="status">{message}</p>}
     </section>
   );

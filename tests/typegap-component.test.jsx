@@ -47,3 +47,15 @@ test('hint number setzt die Zifferntastatur', () => {
   render(<TypeGap exercise={ex} prompt="x" ui={ui} showSupport={false} />);
   expect(screen.getByTestId('type-gap-0').getAttribute('inputmode')).toBe('numeric');
 });
+
+test('Enter im Feld prueft wie der Knopf, bei leeren Feldern passiert nichts', () => {
+  render(<TypeGap exercise={exercise} prompt="x" ui={ui} showSupport={false} />);
+  fireEvent.keyDown(screen.getByTestId('type-gap-0'), { key: 'Enter' });
+  expect(screen.queryByRole('status')).toBeNull();
+  fireEvent.change(screen.getByTestId('type-gap-0'), { target: { value: 'REDSTONE' } });
+  fireEvent.keyDown(screen.getByTestId('type-gap-0'), { key: 'a' });
+  expect(screen.queryByRole('status')).toBeNull();
+  fireEvent.change(screen.getByTestId('type-gap-1'), { target: { value: 'DOWN' } });
+  fireEvent.keyDown(screen.getByTestId('type-gap-1'), { key: 'Enter' });
+  expect(screen.getByRole('status').textContent).toBe('Richtig!');
+});
