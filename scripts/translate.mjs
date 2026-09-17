@@ -151,14 +151,15 @@ const GLOSSARY_CANON = {
 // hatte "haus" zu "casa" uebersetzt; damit ist die Aufgabe im Spiel unloesbar.
 // tests/i18n-complete.test.js prueft sie pfadgenau gegen de.js.
 // Plan 3 (Eisen, 04.09.2026): plattform (s08) und treppe (s09) kommen dazu.
-const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke', 'plattform', 'treppe'];
+// Plan 4 (Gold, 17.09.2026): ecke, loecher, ziel; if, else, while, not, detect.
+const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke', 'plattform', 'treppe', 'ecke', 'loecher', 'ziel'];
 // Bezeichner aus dem Kurs-Code. Sie stehen in de.js mitten in der Prosa ("laenge steht einmal
 // oben", "index zaehlt 0, 1, 2 …") und meinen dort dieselbe Zeile im Editor, die die SuS vor
 // sich haben. Uebersetzt eine Sprache sie, findet niemand die Zeile wieder. Anders als die
 // Zauberwoerter sind sie keine Chat-Eingabe, sondern Namen im Programm — deshalb eine eigene
 // Regel und ein eigener Test (tests/i18n-complete.test.js). `fill` ist zusaetzlich ein
 // Glossarbegriff und bleibt auch dort als glossary.fill.term stehen.
-const IDENT_CANON = ['laenge', 'stufen', 'index', 'pos', 'fill'];
+const IDENT_CANON = ['laenge', 'stufen', 'index', 'pos', 'fill', 'if', 'else', 'while', 'not', 'detect'];
 // Schreibweise des Minecraft-Roboters. es/it beugen den Artikel davor, nicht den Namen
 // ("El Agente", "L'Agente"); en/uk/ar halten ihn lateinisch und unflektiert, ar zusaetzlich ohne
 // Artikel — der Lauf lieferte gemischt "الـ Agent", geklebtes "الAgent" und blankes "Agent".
@@ -203,7 +204,7 @@ function systemPrompt(lang) {
     `You translate a German learning app for a coding course (Minecraft Education, MakeCode, Python) into ${NAMES[lang]}.`,
     `Audience: vocational-school students aged 16-18 who are learning German (A2-B1) and speak ${NAMES[lang]} at home. The German stays visible next to your text; yours is the SUPPORT layer. Use short, plain sentences, informal "du"-register equivalent, no jargon beyond the coding terms.`,
     `HARD RULES:`,
-    `1. Code words stay byte-identical: anything like agent.move(FORWARD, 3), agent.turn(LEFT_TURN), agent.place(BACK), player.on_chat, GRASS, FORWARD, LEFT_TURN, BACK, Python, MakeCode, Minecraft, Code Builder. The magic words count as code too — they are the chat commands the students type into Minecraft: ${MAGIC_WORDS.join(', ')}. Never translate them, never capitalize them, never inflect them: "haus" stays "haus", not "casa" and not "Haus". Careful: the capitalized German nouns Weg, Turm, Mauer, Wand, Haus in the same sentence are ordinary words and ARE translated; only the lowercase chat word stays. A word only counts as a magic word where the sentence is about typing it into the chat ("Schreibe treppe", "Du tippst plattform"). The same letters used as an ordinary German word are translated normally — "Weit weg" means "far away" and has nothing to do with the command weg.`,
+    `1. Code words stay byte-identical: anything like agent.move(FORWARD, 3), agent.turn(LEFT_TURN), agent.place(BACK), player.on_chat, GRASS, FORWARD, LEFT_TURN, BACK, Python, MakeCode, Minecraft, Code Builder. The magic words count as code too — they are the chat commands the students type into Minecraft: ${MAGIC_WORDS.join(', ')}. Never translate them, never capitalize them, never inflect them: "haus" stays "haus", not "casa" and not "Haus". Careful: the capitalized German nouns Weg, Turm, Mauer, Wand, Haus in the same sentence are ordinary words and ARE translated; only the lowercase chat word stays. A word only counts as a magic word where the sentence is about typing it into the chat ("Schreibe treppe", "Du tippst plattform"). The same letters used as an ordinary German word are translated normally — "Weit weg" means "far away" and has nothing to do with the command weg. "ziel" is a chat command only where the sentence is about typing it; the German noun Ziel is translated normally.`,
     `2. Placeholders in curly braces like {n}, {done}, {total} stay verbatim.`,
     agentLine,
     `4. JSON keys are never translated; only string values. Booleans and numbers unchanged. Same shape, same array order, no added or removed keys.`,

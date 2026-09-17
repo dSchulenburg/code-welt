@@ -11,6 +11,9 @@ import uk from '../src/i18n/uk.js';
 // 04.09.2026 (Plan 3 Task 9): die vier Eisen-Begriffe kommen dazu, Werte aus dem Lauf.
 // `fill` bleibt `fill` — das ist der Minecraft-Befehl, den die SuS tippen, kein Wort zum
 // Uebersetzen (steht deshalb auch in IDENT_CANON in scripts/translate.mjs).
+// 17.09.2026 (Plan 4 Task 9): die drei Gold-Begriffe (bedingung, verzweigung, solange) und
+// detect kommen dazu, Werte aus dem Lauf. `detect` bleibt `detect` — derselbe Grund wie bei
+// `fill` (Minecraft-/Python-Bezeichner, steht auch in IDENT_CANON).
 const EXPECTED = {
   es: {
     befehl: 'Orden',
@@ -23,6 +26,10 @@ const EXPECTED = {
     koordinaten: 'Coordenadas',
     fill: 'fill',
     zaehler: 'Contador',
+    bedingung: 'Condición',
+    verzweigung: 'Bifurcación',
+    solange: 'Bucle mientras',
+    detect: 'detect',
   },
   uk: {
     befehl: 'Команда',
@@ -35,6 +42,10 @@ const EXPECTED = {
     koordinaten: 'Координати',
     fill: 'fill',
     zaehler: 'Лічильник',
+    bedingung: 'Умова',
+    verzweigung: 'Розгалуження',
+    solange: 'Цикл «поки»',
+    detect: 'detect',
   },
 };
 

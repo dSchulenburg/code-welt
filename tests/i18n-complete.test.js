@@ -33,7 +33,8 @@ const want = paths(de);
 // Gross-/Kleinschreibung zaehlt — "Weg", "Turm", "Mauer", "Wand", "Haus" sind im Deutschen die
 // normalen Substantive und werden sehr wohl uebersetzt; nur das kleingeschriebene Chat-Wort nicht.
 // Plan 3 (Eisen, 04.09.2026): plattform (s08) und treppe (s09) kommen dazu.
-const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke', 'plattform', 'treppe'];
+// Plan 4 (Gold, 17.09.2026): ecke, loecher, ziel; if, else, while, not, detect.
+const MAGIC_WORDS = ['hi', 'hallo', 'weg', 'turm', 'mauer', 'wand', 'haus', 'bruecke', 'plattform', 'treppe', 'ecke', 'loecher', 'ziel'];
 const MAGIC_RE = new RegExp(`\\b(?:${MAGIC_WORDS.join('|')})\\b`, 'g');
 
 // Bezeichner aus dem Kurs-Code (Kanon IDENT_CANON in scripts/translate.mjs, Prompt-Regel 12).
@@ -41,7 +42,7 @@ const MAGIC_RE = new RegExp(`\\b(?:${MAGIC_WORDS.join('|')})\\b`, 'g');
 // und meinen dieselbe Zeile, die die SuS im Editor vor sich haben: uebersetzt eine Sprache sie,
 // findet niemand die Zeile wieder. Gross-/Kleinschreibung zaehlt wie bei den Zauberwoertern —
 // "Stufen", "Länge", "Position" sind normale Substantive und werden sehr wohl uebersetzt.
-const IDENT_CANON = ['laenge', 'stufen', 'index', 'pos', 'fill'];
+const IDENT_CANON = ['laenge', 'stufen', 'index', 'pos', 'fill', 'if', 'else', 'while', 'not', 'detect'];
 const IDENT_RE = new RegExp(`\\b(?:${IDENT_CANON.join('|')})\\b`, 'g');
 
 // Ausnahme 04.09.2026 (Plan 3 Task 9, Station s08): In "Weit weg" ist "weg" das gewoehnliche

@@ -31,12 +31,6 @@ const CANON = {
 // Station -> Etappe, deren Abschluss sie ist.
 const ABSCHLUESSE = { s03: 'holz', s06: 'stein', s09: 'eisen', s12: 'gold' };
 
-// s12 (Gold) ist seit Plan 4 Task 6 in den fuenf uebersetzten Buendeln noch eine deutsche Kopie
-// (Kommentar "Platzhalter ... Task 9 uebersetzt" in den Bundle-Dateien) -- der Titel heisst dort
-// noch "Boss-Check Gold" statt z. B. "Boss-Check Oro". Die Formatpruefung greift fuer s12 deshalb
-// erst wieder, sobald Task 9 den Titel wirklich uebersetzt (title weicht dann vom deutschen ab).
-const PLATZHALTER_BOSSCHECKS = { s12: ['en', 'uk', 'ar', 'es', 'it'] };
-
 const BUNDLES = { de, en, uk, ar, es, it };
 
 for (const [code, bundle] of Object.entries(BUNDLES)) {
@@ -48,10 +42,8 @@ for (const [code, bundle] of Object.entries(BUNDLES)) {
 
   test(`${code}: die vier Boss-Check-Titel nutzen Begriff und Trennzeichen gleich`, () => {
     // Der Etappenname kommt aus dem Buendel selbst — er ist in tests/etappen-names.test.js
-    // gepinnt, hier geht es nur um Begriff und Trennzeichen davor. Noch platzhaltrige Stationen
-    // (siehe PLATZHALTER_BOSSCHECKS) sind hier aussen vor, sie tauchen aber in der Abdeckungs-
-    // pruefung unten weiter vollstaendig auf.
-    const sids = Object.keys(ABSCHLUESSE).filter((sid) => !(PLATZHALTER_BOSSCHECKS[sid] || []).includes(code));
+    // gepinnt, hier geht es nur um Begriff und Trennzeichen davor.
+    const sids = Object.keys(ABSCHLUESSE);
     const erwartet = Object.fromEntries(
       sids.map((sid) => [sid, `${term}${sep}${bundle.etappen[ABSCHLUESSE[sid]].name}`])
     );
