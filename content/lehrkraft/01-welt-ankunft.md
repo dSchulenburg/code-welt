@@ -162,6 +162,39 @@ solange die eigene Treppe noch nicht steht.
 - Koordinatenanzeige der Welt einschalten (siehe Setup, Abschnitt „Koordinaten anzeigen") — ohne
   sie können die SuS in DS 8 die abgelesenen x/y/z nicht mit der Tabelle oben vergleichen.
 
+## Parcours (Etappe Gold, ab z=56)
+
+Vier parallele Bahnen südlich der Klippen (deren Steinquader bei z=49 endet, 7 Felder Abstand)
+tragen die Stationen DS 10–12 und den Boss-Check Gold. Befehl `parcours` im Bauskript
+(`scripts/minecraft/welt-ankunft-bau.py`); additiv, auch auf einer gebauten Welt. Die Zahlen
+stehen in `scripts/minecraft/parcours.json`, ein Test (`tests/parcours-sim.test.js`) hält Skript
+und Datei gleich.
+
+| Bahn | Quader (`world`) | Material | Goldmarke (bündig y=4) | Schild-Text (drei oder vier Zeilen) | Schild-Position |
+|---|---|---|---|---|---|
+| Ecke (DS 10) | (-22, 5, 56) → (-10, 6, 67) | STONE (Wände) | (-21, 4, 56) | „DS 10<br>ecke<br>Blick nach Süden" | (-22, 5, 55) |
+| Löcher (DS 11) | (-5, 5, 56) → (-3, 6, 67) | STONE (Wände) | (-4, 4, 56) | „DS 11<br>loecher<br>Blick nach Süden" | (-5, 5, 55) |
+| Ziel (DS 12) | (3, 5, 56) → (5, 6, 77) | STONE (Wände) | (4, 4, 56) | „DS 12<br>ziel<br>Blick nach Süden" | (3, 5, 55) |
+| Boss-Check | (11, 5, 56) → (13, 6, 79) | STONE (Wände) | (12, 4, 56) | „Boss-Check<br>Blick nach Süden" | (11, 5, 55) |
+
+Die Boss-Bahn trägt zusätzlich einen **REDSTONE_BLOCK** bei (12, 4, 68) — bündig wie die
+Goldmarke, das eigentliche Ziel des Boss-Checks. Die Bahn Ecke trägt eine zweite Goldmarke bei
+(-11, 4, 66): das Ende des Knicks.
+
+**Rechenprobe** (belegt durch `tests/parcours-sim.test.js`): Ecke — zehn Schritte nach Süden, an
+der Wand eine Drehung nach Osten (Blick Süden, `LEFT_TURN`), dann zehn weitere Schritte, zusammen
+**20 Durchläufe**; der Agent endet genau über der zweiten Goldmarke bei (-11, 4, 66). Löcher — die
+Bahn hat 10 Felder und 4 Löcher, macht **14 Durchläufe**; mit der Stationszahl `range(10)` kommt
+der Agent nur bis z=63, das Loch bei z=64 bleibt offen. Ziel — `while not
+agent.detect(AgentDetection.BLOCK, FORWARD)` braucht keine Zahl und endet bei **z=76**, direkt vor
+der Wand bei z=77, alle sechs Löcher gefüllt. Boss — mit der unveränderten Bedingung aus `ziel`
+läuft der Agent am Redstone-Block vorbei bis **z=78**, direkt vor die Sicherheitswand bei z=79;
+erst die geänderte Bedingung `while not agent.detect(AgentDetection.REDSTONE, DOWN)` stoppt ihn
+auf dem Redstone-Block bei **z=68**.
+
+**Hinweis:** Die Bahnen haben keine Decke; wer über die Wand springt, verlässt die Bahn. Der Agent
+fällt über Löchern nicht (**im Spiel prüfen**, Nachtrag Abschnitt 5 Punkt 2).
+
 ## Export und Upload
 
 1. Welt im Spiel speichern.
