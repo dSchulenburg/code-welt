@@ -24,6 +24,8 @@ export const ETAPPEN = [
 // unveraendert (bleiben unter 500, Regressionsschutz in tests/conceptcard.test.jsx). s10-s12 neu
 // gemessen (bleiben nebeneinander, data-stacked=false, in der Praxis bestaetigt): s10 4950,
 // s11 4750, s12 4750 (ersetzen den vorlaeufigen Wert 5200 aus Task 5/6).
+// Nachgemessen 17.09.2026 (Plan 4 Final-Review) nach dem Neulauf von stations.s10: s10 4950->5000
+// (uk max 4357, eine Zeile mehr), s01-s09, s11, s12 unveraendert.
 export const STATIONS = {
   s01: {
     etappe: 'holz',
@@ -400,7 +402,7 @@ player.on_chat("treppe", on_treppe)`,
   s10: {
     etappe: 'gold',
     ds: 10,
-    iframeHeight: 4950, // gemessen 17.09.2026 (Plan 4 Task 11)
+    iframeHeight: 5000, // gemessen 17.09.2026 (Plan 4 Final-Review, nach Neulauf s10)
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Editor steht aus (Nachtrag Plan 4,
     // Abschnitt 5: detect, repeat statt for bei ungenutztem index, if-Block).
     python: `def on_ecke():

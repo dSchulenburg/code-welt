@@ -146,7 +146,7 @@
       },
       "s10-station": {
         "cmid": 588,
-        "hash": "e3842d367e6b"
+        "hash": "08ea6a785355"
       },
       "s11-station": {
         "cmid": 590,
@@ -155,22 +155,6 @@
       "s12-station": {
         "cmid": 592,
         "hash": "83d77da5da0e"
-      },
-      "page-01-welt-ankunft": {
-        "cmid": 595,
-        "hash": "8cdc1d79d189"
-      },
-      "page-ds10": {
-        "cmid": 596,
-        "hash": "0dc6652632e3"
-      },
-      "page-ds11": {
-        "cmid": 597,
-        "hash": "c5bb4ce133a2"
-      },
-      "page-ds12": {
-        "cmid": 598,
-        "hash": "c87788b01a35"
       },
       "boss-holz": {
         "cmid": 599,
@@ -183,12 +167,6 @@
       "boss-eisen": {
         "cmid": 601,
         "hash": "9f1f6d8dfe4d"
-      },
-      "s10-quiz": {
-        "cmid": 602,
-        "quizId": 57,
-        "questions": 4,
-        "hash": "40b21285c734"
       },
       "s11-quiz": {
         "cmid": 603,
@@ -205,9 +183,31 @@
       "boss-gold": {
         "cmid": 605,
         "hash": "98ded3a3ea7d"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 606,
+        "hash": "5435f695999f"
+      },
+      "page-ds10": {
+        "cmid": 607,
+        "hash": "d10ede94bf01"
+      },
+      "page-ds11": {
+        "cmid": 608,
+        "hash": "2209bcefc1cb"
+      },
+      "page-ds12": {
+        "cmid": 609,
+        "hash": "4a7f832cce60"
+      },
+      "s10-quiz": {
+        "cmid": 610,
+        "quizId": 60,
+        "questions": 4,
+        "hash": "0036a173ce15"
       }
     },
-    "criteriaCmids": "129,130,131,132,133,134,154,158,207,599,600,601,602,603,604,605",
+    "criteriaCmids": "129,130,131,132,133,134,154,158,207,599,600,601,603,604,605,610",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2,
