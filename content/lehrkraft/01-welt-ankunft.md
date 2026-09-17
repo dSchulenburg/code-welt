@@ -192,8 +192,9 @@ läuft der Agent am Redstone-Block vorbei bis **z=78**, direkt vor die Sicherhei
 erst die geänderte Bedingung `while not agent.detect(AgentDetection.REDSTONE, DOWN)` stoppt ihn
 auf dem Redstone-Block bei **z=68**.
 
-**Hinweis:** Die Bahnen haben keine Decke; wer über die Wand springt, verlässt die Bahn. Der Agent
-fällt über Löchern nicht (**im Spiel prüfen**, Nachtrag Abschnitt 5 Punkt 2).
+**Hinweis:** Die Bahnen haben keine Decke; wer über die Wand springt, verlässt die Bahn. Ob der
+Agent über einem Loch fällt oder schwebt, ist noch offen (**im Spiel prüfen**, Nachtrag
+Abschnitt 5 Punkt 2). Die Programme setzen voraus, dass er schwebt.
 
 ## Export und Upload
 
