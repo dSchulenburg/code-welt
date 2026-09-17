@@ -68,14 +68,19 @@ wieder mit den aktuellen CMIDs verknüpfen, falls seitdem ein Quiz neu angelegt 
 Plan 1) — die App zeichnet die Block-Ansicht aller sechs Stationen live aus `src/data/stations.js`,
 diese Datei wird nicht mehr gebraucht und nicht mehr gepflegt.
 
-## Screenshots (Stand 16.09.2026)
+## Screenshots (Stand 17.09.2026)
 
 Deutsch, 900px Breite, volle Seite (`scripts/measure-heights.mjs` erzeugt die Werte, die
 Screenshots selbst entstehen mit einem Wegwerf-Playwright-Skript nach demselben Verfahren, siehe
 Final-Review-Fix A):
 
 - `docs/station-s01.png` … `docs/station-s06.png`: je eine Station komplett (Holz, Stein).
-- `docs/station-s07.png` … `docs/station-s09.png`: je eine Station komplett (Eisen).
+- `docs/station-s07.png`: Station komplett (Eisen, Block und Python nebeneinander).
+- `docs/station-s08.png`, `docs/station-s09.png`: Station komplett (Eisen). Neu aufgenommen
+  17.09.2026 (Plan 4, Task 11): beide stapeln seit Task 3 Block-Ansicht und Python
+  untereinander (`blockViewWidth` über `WIDE_MAIN = 500`).
+- `docs/station-s10.png` … `docs/station-s12.png`: je eine Station komplett (Gold, Block und
+  Python nebeneinander, beide bleiben unter `WIDE_MAIN`).
 - `docs/blockview-s02.png` — Block-Ansicht und Python nebeneinander (Station s02, `.side-by-side`).
 
 ## Stand
@@ -135,11 +140,60 @@ um), `scripts/smoke.mjs` prüft seitdem zusätzlich `scrollWidth <= 750`.
 Nicht in Plan 3: Gold (Plan 4), Audio, Cheat-Sheets, Glossar-Vollausbau über die vier Einträge
 hinaus, Deploy (Phase 6), Hour-of-Code-Verweise, neue Charakter-Posen.
 
+**Plan 4 (Gold) fertig:** drei Stationen (DS 10–12) in sechs Sprachen mit `if`, `if/else` und
+`while not`. Block-Ansicht um Sechseck-Bedingungen erweitert (`agent.detect` in Agent-Farbe, `not`
+in Logik-Farbe, verschachtelbar), dazu eine `else`-Zeile; Konsistenztest deckt jetzt `if `,
+`else:` und `while ` gegen das Python ab. Neuer Übungstyp „Tipp-Lücke" (`TypeGap`, eigene
+Prüflogik `judgeGap`/`judgeAll`, meldet „Fast" bei falscher Groß-/Kleinschreibung statt einfach
+„falsch"). Die Hauptansicht stapelt jetzt breite Blöcke über den Python-Code statt sie
+nebeneinander zu quetschen (`WIDE_MAIN = 500`, `ConceptCard.jsx`). Das trifft s08 und s09 (Eisen,
+`fill`-Blöcke); Gold bleibt nebeneinander. Ein Parcours (`scripts/minecraft/parcours.json`, vier
+Bahnen: Ecke, Löcher, Ziel, Boss) mit eigenem Simulator (`parcours-sim.mjs`, Achsen-Mutationsprobe,
+Bindung an `STATIONS` und die Tipp-Lücken-Antworten) und Skript-Abgleich gegen
+`welt-ankunft-bau.py`. Boss-Check Gold als Aufgabe, Badge Gold mit Icon, Verleihung über den
+echten Lernpfad nachgewiesen (`npm run moodle:smoke:learner -- --etappe gold`). Übersetzung der
+drei Stationen, der `ui`-Schlüssel der Tipp-Lücke und vier neuer Glossarbegriffe in fünf Sprachen:
+1,331 USD (unter dem 3-USD-Deckel).
+
+`iframeHeight` für s10–s12 gemessen (Task 11, 17.09.2026): 4950, 4750, 4750 (ersetzen den
+vorläufigen Wert 5200). Dabei fiel auf, dass s08 und s09 durch das Stapeln aus Task 3 spürbar
+höher geworden sind: 4850→4950 bzw. 4500→4700, neu vermessen und neu geschossen. s01–s07 bleiben
+unverändert. Box neu gebaut (`moodle:build` ×2: Labels s08–s12 beim ersten Lauf in-place
+aktualisiert, cmid unverändert; zweiter Lauf ohne Änderungen), `apply-completion.sh`,
+`moodle:postbuild` ×2 (keine Quiz-Neuanlage, `reset-badges.php` darum nicht nötig). App-Smoke
+(72 Checks) und Box-Smoke (19 Checks) je dreimal hintereinander grün; Lernenden-Pfade Gold, Eisen
+und Holz alle grün (Eisen/Holz unverändert gegenüber Plan 2/3).
+
+Abweichungen gegenüber dem Plan (Details je Task-Report, Ledger
+`.superpowers/sdd/2026-09-17-code-welt-04-gold/progress.md`): das Bauskript setzt Goldmarken und
+Redstone-Block selbst statt sie Dirk von Hand setzen zu lassen; die s11-Fehlersuche prüft
+`FORWARD` statt `DOWN`; die Stapel-Schwelle der Hauptansicht liegt bei 500 px statt einer halben
+Spalte; der Boss-Text steht im Präsens; ds12 bekam ein 60/80/100-Punkteraster wie ds09. Zwei
+Handkorrekturen nach der maschinellen Übersetzung: uk s11 „Agent" in lateinischer statt
+kyrillischer Schrift (jetzt mit eigenem Test gegen „Агент" abgesichert), ar s12 Imperative statt
+Verbalnomen; dazu der Boss-Titel-Trenner „: " in uk/ar s09 und s12. Ob der Agent über Löchern
+fällt, ist weiterhin offen (Prüfliste unten). Alle vier Boss-Aufgaben wurden beim letzten Box-Bau
+neu angelegt, weil der `ui`-Chunk (Tipp-Lücken-Hinweis) neu übersetzt wurde (erwartet, kein Fund).
+
+Nicht in Plan 4: Diamant, Audio, Cheat-Sheets, Deploy (Phase 6), Hour-of-Code-Verweise, neue
+Charakter-Posen, die it/es-Korrekturen aus Plan 3.
+
 **Offen für Dirk** (Details: `docs/lehrkraft-probelauf.md`):
-- **Offener DoD-Punkt Plan 3:** Die Editor-Prüfung (Nachtrag Plan 3, Abschnitt 5) sollte laut Spec
-  vor dem Übersetzen liegen. Übersetzt ist schon. Ändert die Prüfung Python oder Stütztexte von
-  s07–s09, müssen diese Chunks neu übersetzt werden
-  (`npm run translate -- --lang all --chunk stations.s07,stations.s08,stations.s09`).
+- **Offener DoD-Punkt Plan 4:** Prüfliste „Im Editor und im Spiel zu prüfen" (Nachtrag Plan 4,
+  Abschnitt 5, sieben Punkte: zählt `agent.detect(BLOCK)` Wasser/Lava/Luft als Block, fällt der
+  Agent über einem Loch, füllt `agent.place(DOWN)` ein Luftloch, erkennt `REDSTONE` einen Block
+  oder nur Staub, schaut der Agent nach `teleport_to_player()` in Blickrichtung und dreht
+  `LEFT_TURN` bei Süden nach Osten, wie zeigt der Editor `if/else`/`while not`/`repeat` an, wie
+  stoppt man ein endloses `while` im Code Builder) steht noch aus.
+- **Weiterhin offen: Offener DoD-Punkt Plan 3** (Editor-Prüfung s07–s09, s. Plan-3-Abschnitt
+  unten).
+- Ändert die Prüfung Python oder Stütztexte von s10–s12, diese Chunks neu übersetzen
+  (`npm run translate -- --lang all --chunk stations.s10,stations.s11,stations.s12`).
+- Welt „ankunft" um den Parcours erweitern (Bauplan + Bauskript-Befehl `parcours` liegen bereit),
+  Schilder setzen, danach komplett neu als `.mcworld` exportieren (weiterhin auch das
+  Erkundungsgebiet aus Plan 3 offen, siehe unten).
+- **Probelauf Gold** in der Box (Abschnitt „Etappe Gold" in `docs/lehrkraft-probelauf.md`),
+  ausdrücklich noch nicht durchgeführt.
 - Python im Editor gegenprüfen — Stationen s01–s09 sowie `scripts/minecraft/welt-ankunft-bau.py`
   (`agent.teleport(world(...), SOUTH)`-Signatur, Nachtrag Plan 3 Abschnitt 5: Brücke über Wasser,
   `FillOperation.REPLACE`-Syntax, `for … to`-Rendering im Editor, Variable als erste Zeile im
@@ -150,9 +204,10 @@ hinaus, Deploy (Phase 6), Hour-of-Code-Verweise, neue Charakter-Posen.
 - Ring-Tür-Hypothese (Boss-Check Stein): im Spiel nachzählen, ob der Ring 19 oder 20 Blöcke hat.
 - Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit, inkl. Erkundungsgebiet),
   als `.mcworld` exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
-- uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen (Eisen kommt dazu; die
+- uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen (Eisen und Gold kommen dazu; die
   arabische Register-Frage aus Task 9, Imperative bleiben maskulin, ist eine eigene, noch offene
   Entscheidung).
 - Probelauf Eisen in der Box (Abschnitt „Etappe Eisen" in `docs/lehrkraft-probelauf.md`).
 
-Nächster Schritt: Plan 4 (Gold), danach Phase 5/6.
+Nächster Schritt: Dirks Prüflisten (Plan 3 und Plan 4, je Abschnitt 5) und die Probeläufe Eisen
+und Gold in der Box, danach Plan 5 (Diamant) bzw. Phase 5/6.

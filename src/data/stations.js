@@ -18,6 +18,12 @@ export const ETAPPEN = [
 // mit echten Werten statt dem vorlaeufigen 5200 aus Task 5/6. Nachgemessen 16.09.2026 nach dem
 // Final-Review-Fix I3 (Zuordnung in natuerlicher Blockgroesse, s08 gestapelt): s07 4650, s08 4850,
 // s09 4500, s01-s06 unveraendert.
+// Nachgemessen 17.09.2026 (Plan 4, Task 11) nach Task 1-3 (Bedingungs-Bloecke, Tipp-Luecke,
+// gestapelte Hauptansicht): s08 und s09 stapeln jetzt (blockViewWidth 522 bzw. 624, ueber
+// WIDE_MAIN=500) und sind dadurch deutlich hoeher: s08 4850->4950, s09 4500->4700. s01-s07
+// unveraendert (bleiben unter 500, Regressionsschutz in tests/conceptcard.test.jsx). s10-s12 neu
+// gemessen (bleiben nebeneinander, data-stacked=false, in der Praxis bestaetigt): s10 4950,
+// s11 4750, s12 4750 (ersetzen den vorlaeufigen Wert 5200 aus Task 5/6).
 export const STATIONS = {
   s01: {
     etappe: 'holz',
@@ -343,7 +349,7 @@ player.on_chat("bruecke", on_bruecke)`,
   s08: {
     etappe: 'eisen',
     ds: 8,
-    iframeHeight: 4850, // gemessen 16.09.2026 (nach Final-Review-Fix I3)
+    iframeHeight: 4950, // gemessen 17.09.2026 (Plan 4 Task 11, nach dem Stapeln jetzt hoeher)
     // Entwurf; Gegenpruefung im Editor: FillOperation.REPLACE in Python, pos() relativ (Fuesse = 0).
     python: `def on_plattform():
     blocks.fill(PLANKS_OAK, pos(0, -1, 1), pos(4, -1, 7), FillOperation.REPLACE)
@@ -367,7 +373,7 @@ player.on_chat("plattform", on_plattform)`,
   s09: {
     etappe: 'eisen',
     ds: 9,
-    iframeHeight: 4500, // gemessen 16.09.2026 (nach Final-Review-Fix I3 unveraendert)
+    iframeHeight: 4700, // gemessen 17.09.2026 (Plan 4 Task 11, nach dem Stapeln jetzt hoeher)
     bossCheck: { key: 'boss-eisen', gradeMax: 100 },
     // Entwurf; Gegenpruefung im Editor: zeigt der Block-Editor "for index from 0 to stufen - 1"?
     python: `def on_treppe():
@@ -394,7 +400,7 @@ player.on_chat("treppe", on_treppe)`,
   s10: {
     etappe: 'gold',
     ds: 10,
-    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    iframeHeight: 4950, // gemessen 17.09.2026 (Plan 4 Task 11)
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Editor steht aus (Nachtrag Plan 4,
     // Abschnitt 5: detect, repeat statt for bei ungenutztem index, if-Block).
     python: `def on_ecke():
@@ -427,7 +433,7 @@ player.on_chat("ecke", on_ecke)`,
   s11: {
     etappe: 'gold',
     ds: 11,
-    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    iframeHeight: 4750, // gemessen 17.09.2026 (Plan 4 Task 11)
     // Entwurf; Gegenpruefung im Editor: if/else-Block, place(DOWN) in ein Luftloch, der Agent faellt nicht.
     // range(10) ist Absicht: 10 Felder, aber jedes Loch kostet einen Durchlauf mehr (Auftrag "Die richtige Zahl").
     python: `def on_loecher():
@@ -463,7 +469,7 @@ player.on_chat("loecher", on_loecher)`,
   s12: {
     etappe: 'gold',
     ds: 12,
-    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    iframeHeight: 4750, // gemessen 17.09.2026 (Plan 4 Task 11)
     bossCheck: { key: 'boss-gold', gradeMax: 100 },
     // Entwurf; Gegenpruefung im Editor: while not als Block, Stopp eines endlosen while im Code Builder.
     python: `def on_ziel():

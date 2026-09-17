@@ -1,10 +1,10 @@
-# Probelauf für Dirk — Etappen Holz, Stein und Eisen in der Box
+# Probelauf für Dirk — Etappen Holz, Stein, Eisen und Gold in der Box
 
 Schritt-für-Schritt-Anleitung für den ersten eigenen Durchlauf durch Plan 2 (sechs Stationen,
 zwei Boss-Checks, zwei Badges, Forum, Lehrkraft-Abschnitt) in der lokalen Kurs-in-a-Box. Dauer
-für den vollständigen Durchlauf: ca. 30–45 Minuten. Plan 3 (Eisen, DS 7–9) hat einen eigenen,
-kürzeren Abschnitt weiter unten, „Etappe Eisen". Er baut auf den Grundlagen hier auf (Login,
-Reset, Badge-Ansicht) und wiederholt sie nicht.
+für den vollständigen Durchlauf: ca. 30–45 Minuten. Plan 3 (Eisen, DS 7–9) und Plan 4 (Gold, DS
+10–12) haben je einen eigenen, kürzeren Abschnitt weiter unten, „Etappe Eisen" und „Etappe Gold".
+Beide bauen auf den Grundlagen hier auf (Login, Reset, Badge-Ansicht) und wiederholen sie nicht.
 
 ## 1. Box starten
 
@@ -162,13 +162,66 @@ per MCP, kein Klicken nötig).
 
 ---
 
+## Etappe Gold (DS 10–12)
+
+Plan 4: drei neue Stationen mit Bedingungen (`if`, `if/else`, `while not`) statt reiner
+Abfolge. Neuer Übungstyp „Tipp-Lücke" (Zahl oder Wort selbst eintippen statt auswählen), dazu ein
+Parcours in der Welt „ankunft" (vier Bahnen: Ecke, Löcher, Ziel, Boss), Boss-Check und Badge
+Gold.
+
+### Reset vor dem Durchlauf
+
+Derselbe Befehl wie bei Holz, Stein und Eisen (Punkt 4 oben): er setzt `schueler1` in **allen
+vier** Etappen zurück, nicht nur in Gold.
+
+    bash moodle/apply-php.sh php/reset-test-student.php 10 schueler1
+    npm run moodle:postbuild
+
+### Reihenfolge
+
+Abschnitt „Gold" im Kurs, je Station Label → Quiz, wie bei den drei Etappen davor:
+
+1. **s10 „Wenn, dann":** `if` und `agent.detect`, um die Ecke im Gang.
+2. **s11 „Sonst":** `if/else`, Löcher füllen statt hineinzufallen.
+3. **s12 „Solange":** `while not`, bis zur Wand laufen.
+4. **Boss-Check Gold** (letztes Element im Abschnitt): als `schueler1` einen Text abgeben, wie
+   bei den drei Boss-Checks davor (Schritt 7 oben).
+
+### Worauf achten
+
+- **Blick nach Süden:** alle drei Bahnen (und der Boss) starten auf einer Goldmarke mit Blick
+  nach Süden (`+z`). `LEFT_TURN` dreht von dort nach Osten. Steht die Person beim Start falsch
+  herum, laufen `ecke`, `loecher` und `ziel` in die falsche Richtung.
+- **`range(10)` scheitert absichtlich (s11):** die Bahn „Löcher" hat zehn Felder, aber vier davon
+  sind Löcher. `range(10)` reicht darum nicht bis zur Wand, das ist die Pointe der Übung „Die
+  richtige Zahl" (Antwort: 14). Das ist kein Fehler in der Station.
+- **Tipp-Lücke meldet „Fast" bei Kleinschreibung:** tippt man `redstone` statt `REDSTONE` oder
+  `down` statt `DOWN` in eine Lücke, zeigt die Übung „Fast. Python unterscheidet groß und klein.",
+  nicht „Richtig". Das ist Absicht (MakeCode meldet Kleinschreibung im Python-Editor ebenfalls als
+  Fehler).
+- **Endlosschleife stoppen (s12):** `while not agent.detect(...)` läuft weiter, solange die
+  Bedingung nicht eintritt. Kommt das Programm nie an eine Wand, läuft es endlos. Wie man ein
+  laufendes Programm im Code Builder stoppt, ist einer der offenen Editor-Prüfpunkte unten.
+- **Redstone-Erkennung (Boss-Bahn):** die Boss-Bahn endet an einem Redstone-Block, nicht an einer
+  Wand. Ob `AgentDetection.REDSTONE` wirklich einen Redstone-**Block** erkennt oder nur
+  Redstone-**Staub**, ist ebenfalls einer der offenen Editor-Prüfpunkte (siehe unten); erkennt der
+  Editor nur Staub, muss das Ziel der Boss-Bahn neu entschieden werden.
+
+### Badge sehen
+
+Wie bei den drei Etappen davor: Badge-Übersicht `http://localhost:8080/badges/index.php?type=2&id=10`,
+oder automatisch per `npm run moodle:smoke:learner -- --etappe gold` (echter Lernpfad,
+Badge-Nachweis per MCP, kein Klicken nötig).
+
+---
+
 ## Rückmeldeliste
 
 Bitte beim Durchlauf auf diese Punkte achten und zurückmelden:
 
 - [ ] **Sprache A2/B1:** Sind die deutschen Texte für die Zielgruppe verständlich? Zu schwer,
       zu kindlich, Fachbegriffe ungeklärt?
-- [ ] **Python im Editor:** Stimmen die Codezeilen aus den Stationen (s01–s09) tatsächlich mit
+- [ ] **Python im Editor:** Stimmen die Codezeilen aus den Stationen (s01–s12) tatsächlich mit
       dem, was MakeCode im Editor anbietet, überein? (Noch nicht im Spiel geprüft, siehe unten.)
 - [ ] **Reihenfolge:** Ergibt der Aufbau innerhalb einer Station Sinn (Dialog → Konzept →
       Aufgabe → Tipp-Leiter → Übungen → Quiz)? Wirkt eine Station zu lang oder zu kurz?
@@ -193,14 +246,25 @@ Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Ed
   rendert (s09, betrifft die Minus-Ausdruck-Pille in der Block-Ansicht), ob eine Variable als erste
   Zeile im Chat-Handler landet oder in `on start` (s07), und der Name der Koordinatenanzeige in der
   deutschen und englischen Spiel-UI (für `00-setup.md`).
+- **Editor- und Spiel-Prüfpunkte Gold (Nachtrag Plan 4, Abschnitt 5, sieben Punkte,
+  `docs/specs/2026-09-17-code-welt-plan4-nachtrag.md`):** zählen Wasser, Lava und Luft bei
+  `agent.detect(AgentDetection.BLOCK, ...)` als Block; fällt der Agent, wenn er über ein Loch
+  läuft, oder schwebt er; füllt `agent.place(DOWN)` wirklich ein Luftloch; erkennt
+  `AgentDetection.REDSTONE` einen Redstone-**Block** oder nur Redstone-**Staub** (falls nur Staub,
+  muss das Ziel der Boss-Bahn neu entschieden werden, samt Bahndaten, Simulator und Boss-Text);
+  schaut der Agent nach `agent.teleport_to_player()` in die Blickrichtung der Person, und dreht
+  `LEFT_TURN` bei Blick nach Süden nach Osten; wie wandelt der Editor `if … else` und `while not
+  …` zwischen Blöcken und Python, zeigt er `for index in range(20)` mit ungenutztem `index` als
+  `repeat 20`; wie stoppt man ein endlos laufendes `while` im Code Builder (für `ds12.md`).
 - **Ring-Tür-Hypothese (Boss-Check Stein, „Der Zaun"):** Der Agent endet vermutlich auf seinem
   Startfeld, das schon einen Block trägt — dann fehlt der letzte Block und der Ring hat von
   selbst eine Lücke. Einmal `haus` bauen lassen und nachzählen: **19 oder 20 Blöcke?** (Details
   und beide Fälle: `content/lehrkraft/ds06.md`.)
 - **Weltdatei „ankunft":** Bauplan (`content/lehrkraft/01-welt-ankunft.md`), Bauskript
-  (`scripts/minecraft/welt-ankunft-bau.py`) und seit Plan 3 der Chat-Befehl `erkunden` für das
-  Erkundungsgebiet liegen bereit. Welt im Editor um `erkunden` erweitern, dann komplett als
-  `.mcworld` neu exportieren, in den Lehrkraft-Ordner „Weltdateien" (Abschnitt 1) hochladen.
+  (`scripts/minecraft/welt-ankunft-bau.py`) und die Chat-Befehle `erkunden` (Plan 3) und
+  `parcours` (Plan 4, vier Bahnen: Ecke, Löcher, Ziel, Boss) liegen bereit. Welt im Editor um
+  beide Befehle erweitern, Schilder setzen, dann komplett als `.mcworld` neu exportieren, in den
+  Lehrkraft-Ordner „Weltdateien" (Abschnitt 1) hochladen.
 - **Blickrichtung der Schilder** DS 1–6 (vom Spawn aus lesbar, Schriftseite nach Süden) — im
   Spiel prüfen.
 - **Achsen und Blickrichtung (vor `bau` und `erkunden`):** Laut Doku ist +x Osten und +z Süden.
@@ -221,8 +285,8 @@ Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Ed
 
 Ukrainisch und Arabisch sind maschinell übersetzt und automatisiert gegen Zauberwörter, Zahlen,
 Etappennamen und Glossarbegriffe geprüft (`npm test`), aber noch nicht von Muttersprachler:innen
-gegengelesen. Bitte für uk und ar je eine Stichprobe (z. B. eine ganze Station) von einer
-kundigen Person lesen lassen — insbesondere die arabische Register-Frage aus Task 9 ist eine
+gegengelesen. Bitte für uk und ar je eine Stichprobe (z. B. eine ganze Station, Holz bis Gold) von
+einer kundigen Person lesen lassen. Die arabische Register-Frage aus Task 9 ist dabei eine
 bewusste, aber ungeklärte Entscheidung: alle Imperative im Kurs sind maskulin, eine neutrale
 Form gäbe es nur über einen kompletten Registerwechsel (Verbalnomen statt Imperativ). Wenn das
 störend wirkt, ist das ein eigener kleiner Task.

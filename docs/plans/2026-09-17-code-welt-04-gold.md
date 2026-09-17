@@ -1,5 +1,32 @@
 # Code-Welt · Plan 4 von 6: Gold (DS 10–12) — Implementation Plan
 
+> **Stand 17.09.2026: umgesetzt bis auf Dirks Prüfliste (siehe „Offen" unten).** Abweichungen
+> gegenüber diesem Plan (Details je Task-Report, Ledger
+> `.superpowers/sdd/2026-09-17-code-welt-04-gold/progress.md`): Das Bauskript setzt Goldmarken und
+> Redstone-Block in der Welt selbst statt sie Dirk von Hand setzen zu lassen. Die s11-Fehlersuche
+> prüft `FORWARD` statt `DOWN` (vertauschte Zweige hätten zwei falsche Zeilen ergeben, FindBug
+> verlangt genau eine). Die Stapel-Schwelle der Hauptansicht liegt bei 500 px statt einer halben
+> Spalte (330 hätte auch Holz und Stein verändert, was der DoD „unverändert" widerspricht). Der
+> Boss-Text steht im Präsens statt im ursprünglichen Wortlaut aus Plan/Spec. `ds12.md` bekam ein
+> 60/80/100-Punkteraster wie `ds09.md` (der Brief nannte nur „bestanden"). Ob der Agent über
+> Löchern fällt oder schwebt, ist als offene Frage formuliert statt als Aussage, weil das nur im
+> Spiel zu klären ist (Prüfliste unten, Punkt 2). Zwei Handkorrekturen nach der maschinellen
+> Übersetzung statt eines teuren Chunk-Neulaufs: uk s11 „Agent" in lateinischer statt kyrillischer
+> Schrift (acht Stellen, jetzt mit einem eigenen Test gegen „Агент" abgesichert), und ar s12
+> Imperative statt Verbalnomen; dazu der Boss-Titel-Trenner „: " von Hand in uk/ar s09 und s12.
+> Alle vier Boss-Aufgaben wurden beim letzten Box-Bau neu angelegt, weil der `ui`-Chunk
+> (Tipp-Lücken-Hinweis) neu übersetzt wurde; das war erwartet, kein Fund.
+>
+> **Offen (DoD-Punkt, nicht erledigt):** Dirks Prüfung nach Nachtrag Plan 4, Abschnitt 5 (sieben
+> Punkte: Wasser/Lava/Luft als Block, Fallverhalten über Löchern, `place(DOWN)` in ein Luftloch,
+> `REDSTONE`-Erkennung Block oder Staub, Blickrichtung nach `teleport_to_player()`, `if/else` und
+> `while not` im Editor, Stopp eines endlosen `while`). Die Prüfung von Plan 3 (Nachtrag Plan 3,
+> Abschnitt 5) steht ebenfalls noch aus, beide Listen lassen sich in einer Sitzung abarbeiten.
+> Ändert eine der beiden Prüfungen Python oder Stütztexte von s10–s12, müssen diese Chunks neu
+> übersetzt werden (`npm run translate -- --lang all --chunk stations.s10,stations.s11,stations.s12`).
+> Ebenfalls offen: die Welt „ankunft" um den Parcours-Befehl erweitern, Schilder setzen und neu als
+> `.mcworld` exportieren, sowie der Probelauf Gold selbst.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Die Etappe Gold komplett: drei Stationen (DS 10–12) in sechs Sprachen mit `if`, `if/else` und `while not`, der neue Übungstyp Tipp-Lücke, Bedingungs-Blöcke in der Block-Ansicht, ein Parcours in der Welt `ankunft` mit Simulator-Test, Boss-Check und Badge Gold, Lehrkraft-Seiten, erweiterte Smokes, bereit für Dirks Probelauf Gold in der Box.
