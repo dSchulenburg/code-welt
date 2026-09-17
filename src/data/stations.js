@@ -4,7 +4,7 @@ export const ETAPPEN = [
   { id: 'holz', emoji: '🪵', stations: ['s01', 's02', 's03'], badge: { key: 'badge-holz', icon: 'holz.png' } },
   { id: 'stein', emoji: '🪨', stations: ['s04', 's05', 's06'], badge: { key: 'badge-stein', icon: 'stein.png' } },
   { id: 'eisen', emoji: '⛏️', stations: ['s07', 's08', 's09'], badge: { key: 'badge-eisen', icon: 'eisen.png' } },
-  { id: 'gold', emoji: '🟡', stations: [], badge: { key: 'badge-gold', icon: 'gold.png' } },
+  { id: 'gold', emoji: '🟡', stations: ['s10', 's11'], badge: { key: 'badge-gold', icon: 'gold.png' } },
   { id: 'diamant', emoji: '💎', stations: [], badge: { key: 'badge-diamant', icon: 'diamant.png' } },
   { id: 'netherite', emoji: '🏙️', stations: [], badge: { key: 'badge-netherite', icon: 'netherite.png' } },
   { id: 'enderdrache', emoji: '🐉', stations: [], badge: { key: 'badge-enderdrache', icon: 'enderdrache.png' } },
@@ -389,6 +389,75 @@ player.on_chat("treppe", on_treppe)`,
         'for index in range(stufen):',
         '    blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, stufen, 3), FillOperation.REPLACE)',
       ], wrong: 2 },
+    ],
+  },
+  s10: {
+    etappe: 'gold',
+    ds: 10,
+    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Editor steht aus (Nachtrag Plan 4,
+    // Abschnitt 5: detect, repeat statt for bei ungenutztem index, if-Block).
+    python: `def on_ecke():
+    agent.teleport_to_player()
+    for index in range(20):
+        if agent.detect(AgentDetection.BLOCK, FORWARD):
+            agent.turn(LEFT_TURN)
+        agent.move(FORWARD, 1)
+player.on_chat("ecke", on_ecke)`,
+    blocks: [{ kind: 'onChat', word: 'ecke', body: [
+      { kind: 'agent.teleportToPlayer' },
+      { kind: 'repeat', n: 20, body: [
+        { kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'forward' }, body: [
+          { kind: 'agent.turn', dir: 'left' },
+        ] },
+        { kind: 'agent.move', dir: 'forward', n: 1 },
+      ] },
+    ] }],
+    exercises: [
+      { type: 'match', pairs: [
+        { block: { kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'forward' }, body: [] }, python: 'if agent.detect(AgentDetection.BLOCK, FORWARD):' },
+        { block: { kind: 'agent.turn', dir: 'left' }, python: 'agent.turn(LEFT_TURN)' },
+        { block: { kind: 'repeat', n: 20, body: [] }, python: 'for index in range(20):' },
+        { block: { kind: 'agent.move', dir: 'forward', n: 1 }, python: 'agent.move(FORWARD, 1)' },
+      ] },
+      { type: 'fill', code: 'for index in range(20):\n    if agent.detect(AgentDetection.BLOCK, ___):\n        agent.turn(___)\n    agent.move(FORWARD, 1)',
+        gaps: [{ options: ['FORWARD', 'DOWN', 'UP'], correct: 'FORWARD' }, { options: ['LEFT_TURN', 'RIGHT_TURN'], correct: 'LEFT_TURN' }] },
+    ],
+  },
+  s11: {
+    etappe: 'gold',
+    ds: 11,
+    iframeHeight: 5200, // vorlaeufig, Task 11 misst
+    // Entwurf; Gegenpruefung im Editor: if/else-Block, place(DOWN) in ein Luftloch, der Agent faellt nicht.
+    // range(10) ist Absicht: 10 Felder, aber jedes Loch kostet einen Durchlauf mehr (Auftrag "Die richtige Zahl").
+    python: `def on_loecher():
+    agent.teleport_to_player()
+    agent.set_item(PLANKS_OAK, 64, 1)
+    for index in range(10):
+        if agent.detect(AgentDetection.BLOCK, DOWN):
+            agent.move(FORWARD, 1)
+        else:
+            agent.place(DOWN)
+player.on_chat("loecher", on_loecher)`,
+    blocks: [{ kind: 'onChat', word: 'loecher', body: [
+      { kind: 'agent.teleportToPlayer' },
+      { kind: 'agent.setItem', block: 'planks_oak', count: 64, slot: 1 },
+      { kind: 'repeat', n: 10, body: [
+        { kind: 'if', cond: { kind: 'agent.detect', what: 'block', dir: 'down' },
+          body: [{ kind: 'agent.move', dir: 'forward', n: 1 }],
+          elseBody: [{ kind: 'agent.place', dir: 'down' }] },
+      ] },
+    ] }],
+    exercises: [
+      { type: 'type', code: 'for index in range(___):\n    if agent.detect(AgentDetection.BLOCK, DOWN):\n        agent.move(FORWARD, 1)\n    else:\n        agent.place(DOWN)',
+        gaps: [{ accept: ['14'], hint: 'number' }] },
+      { type: 'findbug', lines: [
+        'for index in range(14):',
+        '    if agent.detect(AgentDetection.BLOCK, FORWARD):',
+        '        agent.move(FORWARD, 1)',
+        '    else:',
+        '        agent.place(DOWN)',
+      ], wrong: 1 },
     ],
   },
 };

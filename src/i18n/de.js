@@ -590,5 +590,109 @@ export default {
         task: 'Stell dich auf den Goldblock vor der zweiten Klippe. Lies y unten ab. Geh die Leiter hoch und lies y oben ab. Setze stufen. Bau die Treppe. Schreib drei Sätze: Woher kommt deine Zahl? Was macht index? Was änderst du bei einer höheren Klippe?',
       },
     },
+    s10: {
+      title: 'Wenn, dann',
+      storyShort: 'Der Gang im Parcours knickt ab. Der Agent prüft mit detect, ob vorn ein Block ist. Mit if dreht er sich nur dann.',
+      bridge: {
+        game: 'Du tippst ecke. Der Agent läuft durch den Gang und biegt an der Wand ab.',
+        code: 'if prüft eine Bedingung. Nur wenn sie wahr ist, dreht sich der Agent.',
+      },
+      tasks: [
+        { kind: 'auftrag', title: 'Um die Ecke', text: 'Stell dich auf den Goldblock am Gang Ecke. Schau nach Süden. Schreibe ecke. Der Agent stoppt über dem zweiten Goldblock. Schalte auf Python: Finde die Zeile mit if.' },
+        { kind: 'nochEiner', title: 'Rechts herum', text: 'Bau einen kurzen Gang, der nach rechts abknickt. Ändere eine Zeile im Programm.' },
+        { kind: 'remix', title: 'Dein Gang', text: 'Bau einen Gang mit zwei Ecken. Reichen 20 Durchläufe? Zeig es deinem Partner oder deiner Partnerin.' },
+      ],
+      tipSolution: 'Unter if agent.detect(AgentDetection.BLOCK, FORWARD): steht agent.turn(LEFT_TURN). agent.move(FORWARD, 1) steht außerhalb von if und läuft jedes Mal.',
+      exercises: [
+        { prompt: 'Ordne jeden Block seiner Python-Zeile zu.' },
+        { prompt: 'Der Agent soll prüfen, was vor ihm ist. Dann dreht er sich nach links.' },
+      ],
+      quiz: [
+        {
+          q: 'Was ist eine Bedingung?',
+          answers: [
+            { text: 'Etwas, das wahr oder falsch ist', correct: true },
+            { text: 'Ein Block', correct: false },
+            { text: 'Ein Zauberwort', correct: false },
+          ],
+        },
+        {
+          q: 'Vor dem Agent ist eine Wand. Was ist agent.detect(AgentDetection.BLOCK, FORWARD)?',
+          answers: [
+            { text: 'wahr', correct: true },
+            { text: 'falsch', correct: false },
+            { text: '20', correct: false },
+          ],
+        },
+        {
+          q: 'Wann läuft die Zeile unter if?',
+          answers: [
+            { text: 'Nur wenn die Bedingung wahr ist', correct: true },
+            { text: 'Immer', correct: false },
+            { text: 'Nie', correct: false },
+          ],
+        },
+        {
+          q: 'Warum steht agent.move außerhalb von if?',
+          answers: [
+            { text: 'Der Agent soll jedes Mal gehen', correct: true },
+            { text: 'Sonst dreht er sich nicht', correct: false },
+            { text: 'Das ist egal', correct: false },
+          ],
+        },
+      ],
+    },
+    s11: {
+      title: 'Sonst',
+      storyShort: 'Auf der Bahn sind Löcher. Mit if und else entscheidet der Agent: Boden, also gehen. Sonst legt er einen Block. Die Zahl der Durchläufe änderst du in Python.',
+      bridge: {
+        game: 'Du tippst loecher. Der Agent füllt die Löcher und läuft bis zur Wand.',
+        code: 'else heißt sonst. In jedem Durchlauf läuft genau einer der zwei Wege.',
+      },
+      tasks: [
+        { kind: 'auftrag', title: 'Die Löcher', text: 'Stell dich auf den Goldblock der Bahn Löcher. Schau nach Süden. Schreibe loecher. Wo bleibt der Agent stehen?' },
+        { kind: 'nochEiner', title: 'Die richtige Zahl', text: 'Schalte auf Python. Ändere die Zahl in range. Der Agent soll bis zur Wand kommen.' },
+        { kind: 'remix', title: 'Andere Blöcke', text: 'Füll die Löcher mit einem anderen Block. Zeig es deinem Partner oder deiner Partnerin.' },
+      ],
+      tipSolution: 'Die Bahn hat 10 Felder und 4 Löcher. 10 Schritte und 4 Blöcke sind 14 Durchläufe: for index in range(14):',
+      exercises: [
+        { prompt: 'Die Bahn hat 10 Felder und 4 Löcher. Wie viele Durchläufe braucht der Agent bis zum letzten Feld?' },
+        { prompt: 'Der Agent bleibt auf dem Goldblock stehen. Welche Zeile ist falsch?', explain: 'Die Bedingung prüft FORWARD statt DOWN. Vorn ist frei, also legt er immer einen Block. Er geht nie los.' },
+      ],
+      quiz: [
+        {
+          q: 'Was heißt else?',
+          answers: [
+            { text: 'Sonst', correct: true },
+            { text: 'Solange', correct: false },
+            { text: 'Wiederhole', correct: false },
+          ],
+        },
+        {
+          q: 'Unter dem Agent ist ein Loch. Was tut er?',
+          answers: [
+            { text: 'Er legt einen Block', correct: true },
+            { text: 'Er geht einen Schritt', correct: false },
+            { text: 'Er dreht sich', correct: false },
+          ],
+        },
+        {
+          q: 'Die Bahn hat 10 Felder und 2 Löcher. Wie viele Durchläufe braucht der Agent?',
+          answers: [
+            { text: '12', correct: true },
+            { text: '10', correct: false },
+            { text: '8', correct: false },
+          ],
+        },
+        {
+          q: 'Wie viele der zwei Wege laufen in einem Durchlauf?',
+          answers: [
+            { text: 'Genau einer', correct: true },
+            { text: 'Beide', correct: false },
+            { text: 'Keiner', correct: false },
+          ],
+        },
+      ],
+    },
   },
 };

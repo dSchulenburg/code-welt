@@ -196,5 +196,49 @@ export default {
         'Gerüst: blocks.fill(COBBLESTONE, pos(index, 0, 1), pos(index, ___, 3), FillOperation.REPLACE).',
       ],
     },
+    s10: {
+      story: [
+        { who: 'dani', mood: 'ueberrascht', text: 'Hinter den Klippen ist ein Parcours!' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Der Gang knickt ab. Aber wo? Ich sehe es nicht.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Der Agent kann nachsehen. detect prüft den Block vor ihm.' },
+        { who: 'dani', mood: 'fragend', text: 'Und was macht er dann?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Mit if sagst du: Wenn vorn ein Block ist, dreh dich.' },
+        { who: 'nour', mood: 'begeistert', text: 'Der Agent entscheidet jedes Mal neu.' },
+        { who: 'dani', mood: 'begeistert', text: 'Er findet den Weg um die Ecke!' },
+      ],
+      concept: [
+        'Eine Bedingung ist wahr oder falsch.',
+        'agent.detect(AgentDetection.BLOCK, FORWARD) ist wahr, wenn vorn ein Block ist.',
+        'if führt die eingerückten Zeilen nur aus, wenn die Bedingung wahr ist.',
+        'Die Schleife läuft 20-mal. Jedes Mal prüft if neu.',
+      ],
+      tips: [
+        'Frage: Was tut der Agent, wenn vorn kein Block ist?',
+        'Richtung: Die Drehung steht unter if. Der Schritt steht außerhalb von if.',
+        'Gerüst: if agent.detect(AgentDetection.BLOCK, ___): und darunter agent.turn(LEFT_TURN).',
+      ],
+    },
+    s11: {
+      story: [
+        { who: 'dani', mood: 'ueberrascht', text: 'Auf dieser Bahn sind Löcher!' },
+        { who: 'dani', mood: 'fragend', text: 'Soll der Agent gehen oder einen Block legen?' },
+        { who: 'nour', mood: 'erklaerend', text: 'Beides, aber nie zugleich. Mit else sagst du: sonst.' },
+        { who: 'nour', mood: 'erklaerend', text: 'Ist unten Boden, geht er. Sonst legt er einen Block.' },
+        { who: 'dani', mood: 'nachdenklich', text: 'Die Bahn hat 10 Felder. Also range(10)?' },
+        { who: 'nour', mood: 'nachdenklich', text: 'Probier es aus. Jedes Loch kostet einen Durchlauf mehr.' },
+        { who: 'dani', mood: 'begeistert', text: 'Ich ändere die Zahl in Python. Jetzt kommt er an!' },
+      ],
+      concept: [
+        'if und else sind zwei Wege. In jedem Durchlauf läuft genau einer.',
+        'agent.detect(AgentDetection.BLOCK, DOWN) prüft den Block unter dem Agent.',
+        'Ein Durchlauf ist ein Schritt oder ein Block, nie beides.',
+        'Du änderst die Zahl direkt in Python. Die Blöcke ändern sich mit.',
+      ],
+      tips: [
+        'Frage: Wie viele Schritte braucht der Agent? Wie viele Löcher gibt es?',
+        'Richtung: Ein Loch braucht zwei Durchläufe: einen Block und einen Schritt.',
+        'Gerüst: 10 Schritte plus 4 Blöcke. for index in range(___):',
+      ],
+    },
   },
 };

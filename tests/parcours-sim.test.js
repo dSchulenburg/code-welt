@@ -63,3 +63,47 @@ test('Endlosschleife wird erkannt statt zu haengen', () => {
 test('unbekannte Blockart wirft', () => {
   expect(() => run('ziel', [{ kind: 'agent.destroy', dir: 'forward' }])).toThrow(/Simulator kennt agent\.destroy nicht/);
 });
+
+import { STATIONS } from '../src/data/stations.js';
+import de from '../src/i18n/de.js';
+
+// Tiefe Kopie mit geaenderter Stelle: die Tests pruefen genau das Programm, das die App zeigt.
+const clone = (x) => JSON.parse(JSON.stringify(x));
+function findKind(tree, kind) {
+  for (const b of tree) {
+    if (b.kind === kind) return b;
+    const inner = findKind([...(b.body || []), ...(b.elseBody || [])], kind);
+    if (inner) return inner;
+  }
+  return null;
+}
+const runStation = (id, blocks) => { const l = lane(id); const w = buildWorld(l, parcours.groundTop); return { w, a: runProgram(w, l, blocks) }; };
+
+test('s10 (Stationsdaten) endet auf der Bahn ecke ueber der zweiten Goldmarke', () => {
+  const { w, a } = runStation('ecke', STATIONS.s10.blocks);
+  expect([a.x, a.z]).toEqual([-11, 66]);
+  expect(w.get(a.x, 4, a.z)).toBe('GOLD_BLOCK');
+});
+
+test('s11: die Zahl der Station reicht nicht, die Zahl der Tipp-Luecke erreicht das letzte Feld', () => {
+  const stationRun = runStation('loecher', STATIONS.s11.blocks);
+  expect(stationRun.a.z).toBeLessThan(66);
+  const accept = STATIONS.s11.exercises.find((e) => e.type === 'type').gaps[0].accept[0];
+  const fixed = clone(STATIONS.s11.blocks);
+  findKind(fixed, 'repeat').n = Number(accept);
+  const fixedRun = runStation('loecher', fixed);
+  expect(fixedRun.a.z).toBe(66);
+  for (const z of [58, 60, 61, 64]) expect(fixedRun.w.get(-4, 4, z)).toBe('PLANKS_OAK');
+  const oneLess = clone(STATIONS.s11.blocks);
+  findKind(oneLess, 'repeat').n = Number(accept) - 1;
+  expect(runStation('loecher', oneLess).a.z).toBeLessThan(66);
+  expect(de.stations.s11.tipSolution).toContain(`range(${accept})`);
+});
+
+test('s11 Fehlersuche: FORWARD statt DOWN laesst den Agent auf der Goldmarke stehen', () => {
+  const bug = clone(STATIONS.s11.blocks);
+  findKind(bug, 'repeat').n = 14;
+  findKind(bug, 'if').cond.dir = 'forward';
+  expect(runStation('loecher', bug).a.z).toBe(56);
+  expect(STATIONS.s11.exercises.find((e) => e.type === 'findbug').lines.some((l) => l.includes('AgentDetection.BLOCK, FORWARD'))).toBe(true);
+});
