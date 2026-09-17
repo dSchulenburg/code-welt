@@ -185,7 +185,8 @@ def bau_parcours_loecher():
     blocks.fill(STONE, world(-5, 5, 56), world(-3, 6, 67), FillOperation.REPLACE)
     blocks.fill(AIR, world(-4, 5, 56), world(-4, 6, 66), FillOperation.REPLACE)
     blocks.fill(AIR, world(-4, 3, 58), world(-4, 4, 58), FillOperation.REPLACE)
-    blocks.fill(AIR, world(-4, 3, 60), world(-4, 4, 61), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 3, 60), world(-4, 4, 60), FillOperation.REPLACE)
+    blocks.fill(AIR, world(-4, 3, 62), world(-4, 4, 62), FillOperation.REPLACE)
     blocks.fill(AIR, world(-4, 3, 64), world(-4, 4, 64), FillOperation.REPLACE)
     blocks.place(GOLD_BLOCK, world(-4, 4, 56))
 
@@ -194,9 +195,11 @@ def bau_parcours_ziel():
     blocks.fill(STONE, world(3, 5, 56), world(5, 6, 77), FillOperation.REPLACE)
     blocks.fill(AIR, world(4, 5, 56), world(4, 6, 76), FillOperation.REPLACE)
     blocks.fill(AIR, world(4, 3, 59), world(4, 4, 59), FillOperation.REPLACE)
-    blocks.fill(AIR, world(4, 3, 62), world(4, 4, 63), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 61), world(4, 4, 61), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 63), world(4, 4, 63), FillOperation.REPLACE)
     blocks.fill(AIR, world(4, 3, 67), world(4, 4, 67), FillOperation.REPLACE)
-    blocks.fill(AIR, world(4, 3, 71), world(4, 4, 72), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 71), world(4, 4, 71), FillOperation.REPLACE)
+    blocks.fill(AIR, world(4, 3, 73), world(4, 4, 73), FillOperation.REPLACE)
     blocks.place(GOLD_BLOCK, world(4, 4, 56))
 
 def bau_parcours_boss():

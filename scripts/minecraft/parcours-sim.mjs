@@ -3,7 +3,9 @@
 // Achsen wie in Minecraft und MakeCode (minecraft.makecode.com/reference/positions/pos):
 // +x = Osten, +z = Sueden. Mit Blick nach Sueden fuehrt LEFT_TURN nach Osten.
 // Annahmen, die Dirk im Spiel prueft (Nachtrag Abschnitt 5): Der Agent faellt nicht, wenn er
-// ueber ein Loch geht; agent.place(DOWN) fuellt nur Luft; detect(BLOCK) ist fuer Luft falsch.
+// ueber ein Loch geht; agent.place(DOWN) fuellt nur Luft; detect(BLOCK) ist fuer Luft falsch;
+// REDSTONE erkennt einen Redstone-*Block* (Punkt 4); Teleport uebernimmt die Blickrichtung des
+// Spielers (Punkt 5, hier: die Blickrichtung der Bahn).
 const STEP = { S: [0, 1], E: [1, 0], N: [0, -1], W: [-1, 0] };
 const LEFT = { S: 'E', E: 'N', N: 'W', W: 'S' };
 const RIGHT = { S: 'W', W: 'N', N: 'E', E: 'S' };

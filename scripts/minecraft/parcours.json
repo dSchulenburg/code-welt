@@ -17,7 +17,8 @@
         { "block": "STONE", "from": [-5, 5, 56], "to": [-3, 6, 67] },
         { "block": "AIR", "from": [-4, 5, 56], "to": [-4, 6, 66] },
         { "block": "AIR", "from": [-4, 3, 58], "to": [-4, 4, 58] },
-        { "block": "AIR", "from": [-4, 3, 60], "to": [-4, 4, 61] },
+        { "block": "AIR", "from": [-4, 3, 60], "to": [-4, 4, 60] },
+        { "block": "AIR", "from": [-4, 3, 62], "to": [-4, 4, 62] },
         { "block": "AIR", "from": [-4, 3, 64], "to": [-4, 4, 64] }
       ],
       "places": [
@@ -28,9 +29,11 @@
         { "block": "STONE", "from": [3, 5, 56], "to": [5, 6, 77] },
         { "block": "AIR", "from": [4, 5, 56], "to": [4, 6, 76] },
         { "block": "AIR", "from": [4, 3, 59], "to": [4, 4, 59] },
-        { "block": "AIR", "from": [4, 3, 62], "to": [4, 4, 63] },
+        { "block": "AIR", "from": [4, 3, 61], "to": [4, 4, 61] },
+        { "block": "AIR", "from": [4, 3, 63], "to": [4, 4, 63] },
         { "block": "AIR", "from": [4, 3, 67], "to": [4, 4, 67] },
-        { "block": "AIR", "from": [4, 3, 71], "to": [4, 4, 72] }
+        { "block": "AIR", "from": [4, 3, 71], "to": [4, 4, 71] },
+        { "block": "AIR", "from": [4, 3, 73], "to": [4, 4, 73] }
       ],
       "places": [
         { "block": "GOLD_BLOCK", "at": [4, 4, 56] }

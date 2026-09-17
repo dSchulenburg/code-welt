@@ -32,14 +32,14 @@ test('loecher: 10 Durchlaeufe reichen nicht, 13 fuellen alle Loecher, erst 14 er
   expect(run('loecher', prog(13)).a.z).toBe(65);
   const fourteen = run('loecher', prog(14));
   expect(fourteen.a.z).toBe(66);
-  for (const z of [58, 60, 61, 64]) expect(fourteen.w.get(-4, 4, z)).toBe('PLANKS_OAK');
+  for (const z of [58, 60, 62, 64]) expect(fourteen.w.get(-4, 4, z)).toBe('PLANKS_OAK');
 });
 
 test('ziel: while not detect forward endet vor der Wand, alle Loecher gefuellt', () => {
   const { w, a } = run('ziel', [{ kind: 'agent.teleportToPlayer' }, { kind: 'agent.setItem', block: 'planks_oak', count: 64, slot: 1 },
     { kind: 'while', cond: { not: detect('block', 'forward') }, body: [pave] }]);
   expect(a.z).toBe(76);
-  for (const z of [59, 62, 63, 67, 71, 72]) expect(w.get(4, 4, z)).toBe('PLANKS_OAK');
+  for (const z of [59, 61, 63, 67, 71, 73]) expect(w.get(4, 4, z)).toBe('PLANKS_OAK');
 });
 
 test('boss: das alte Programm laeuft am Redstone vorbei bis zur Sicherheitswand, das geaenderte stoppt darauf', () => {
@@ -93,7 +93,7 @@ test('s11: die Zahl der Station reicht nicht, die Zahl der Tipp-Luecke erreicht 
   findKind(fixed, 'repeat').n = Number(accept);
   const fixedRun = runStation('loecher', fixed);
   expect(fixedRun.a.z).toBe(66);
-  for (const z of [58, 60, 61, 64]) expect(fixedRun.w.get(-4, 4, z)).toBe('PLANKS_OAK');
+  for (const z of [58, 60, 62, 64]) expect(fixedRun.w.get(-4, 4, z)).toBe('PLANKS_OAK');
   const oneLess = clone(STATIONS.s11.blocks);
   findKind(oneLess, 'repeat').n = Number(accept) - 1;
   expect(runStation('loecher', oneLess).a.z).toBeLessThan(66);
@@ -127,4 +127,79 @@ test('s12 Fehlersuche: ohne not laeuft der Agent nicht los', () => {
   findKind(bug, 'while').cond = findKind(bug, 'while').cond.not;
   expect(runStation('ziel', bug).a.z).toBe(56);
   expect(STATIONS.s12.exercises.find((e) => e.type === 'findbug').lines[0]).toBe('while agent.detect(AgentDetection.BLOCK, FORWARD):');
+});
+
+// Final-Review Plan 4 (17.09.2026): Jedes Loch ist ein einzelnes Feld, damit die Zahl der Loecher,
+// die die SuS sehen, die Zahl ist, mit der sie rechnen ("10 Felder und 4 Loecher").
+test('Loecher liegen einzeln: kein Loch ist laenger als ein Feld, keine zwei Loecher grenzen aneinander', () => {
+  const erwartet = { loecher: [58, 60, 62, 64], ziel: [59, 61, 63, 67, 71, 73], boss: [58, 61, 65, 71] };
+  for (const [id, zs] of Object.entries(erwartet)) {
+    const holes = lane(id).fills.filter((f) => f.block === 'AIR' && f.from[1] < parcours.groundTop + 1);
+    for (const f of holes) expect(f.from[2], `${id}: Loch ${f.from[2]} ist ein Feld lang`).toBe(f.to[2]);
+    const z = holes.map((f) => f.from[2]).sort((a, b) => a - b);
+    expect(z, id).toEqual(zs);
+    for (let i = 1; i < z.length; i++) expect(z[i] - z[i - 1], `${id}: ${z[i - 1]} und ${z[i]}`).toBeGreaterThan(1);
+  }
+});
+
+// Fehlerbilder aus content/lehrkraft/ds10.md und ds11.md (Final-Review Plan 4): Jeder Satz dort
+// ueber das Verhalten des Agent ist hier gemessen.
+test('ds10 Fehlerbild: DOWN statt FORWARD ist fast immer wahr, der Agent dreht sich jedes Mal und endet vor der Bahn', () => {
+  const bug = clone(STATIONS.s10.blocks);
+  findKind(bug, 'if').cond.dir = 'down';
+  const { a } = runStation('ecke', bug);
+  expect([a.x, a.z]).toEqual([-22, 55]);
+  expect(a.z).toBeLessThan(lane('ecke').start[2]);
+});
+
+test('ds10 Fehlerbild: agent.move unter if eingerueckt, der Agent bleibt auf dem Goldblock', () => {
+  const bug = clone(STATIONS.s10.blocks);
+  const loop = findKind(bug, 'repeat');
+  loop.body[0].body.push(loop.body.pop());
+  const { w, a } = runStation('ecke', bug);
+  expect([a.x, a.z]).toEqual([-21, 56]);
+  expect(w.get(a.x, 4, a.z)).toBe('GOLD_BLOCK');
+});
+
+test('ds10 Fehlerbild: Start mit Blick nach Norden oder Osten laeuft nach Norden aus der Bahn, nach Westen kommt zufaellig an', () => {
+  // Annahme wie im Simulator-Kopf: teleport_to_player uebernimmt die Blickrichtung des Spielers.
+  for (const facing of ['N', 'E']) {
+    const l = { ...lane('ecke'), facing };
+    const a = runProgram(buildWorld(l, parcours.groundTop), l, STATIONS.s10.blocks);
+    expect(a.facing, facing).toBe('N');
+    expect([a.x, a.z], facing).toEqual([-21, 36]);
+  }
+  // Mit Blick nach Westen steht vorn die Wand, LEFT_TURN fuehrt nach Sueden: zufaellig richtig.
+  const west = { ...lane('ecke'), facing: 'W' };
+  expect((({ x, z }) => [x, z])(runProgram(buildWorld(west, parcours.groundTop), west, STATIONS.s10.blocks))).toEqual([-11, 66]);
+});
+
+test('ds11 Fehlerbild: if und else vertauscht, place(DOWN) auf den Goldblock tut nichts, der Agent geht nie los', () => {
+  const bug = clone(STATIONS.s11.blocks);
+  const branch = findKind(bug, 'if');
+  [branch.body, branch.elseBody] = [branch.elseBody, branch.body];
+  for (const n of [10, 14]) {
+    findKind(bug, 'repeat').n = n;
+    const { w, a } = runStation('loecher', bug);
+    expect(a.z, `range(${n})`).toBe(56);
+    expect(w.get(-4, 4, 58), `range(${n})`).toBe('AIR');
+  }
+});
+
+test('ds11 zweiter Lauf: gefuellte Loecher bleiben gefuellt, danach reichen weniger Durchlaeufe', () => {
+  const l = lane('loecher');
+  const mit = (n) => { const b = clone(STATIONS.s11.blocks); findKind(b, 'repeat').n = n; return b; };
+  // Erster Lauf mit der Stationszahl range(10); dieselbe Welt geht in den zweiten Lauf.
+  const nachErstemLauf = () => {
+    const w = buildWorld(l, parcours.groundTop);
+    expect(runProgram(w, l, STATIONS.s11.blocks).z).toBe(63);
+    return w;
+  };
+  const w = nachErstemLauf();
+  for (const z of [58, 60, 62]) expect(w.get(-4, 4, z)).toBe('PLANKS_OAK');
+  expect(w.get(-4, 4, 64)).toBe('AIR');
+  expect(runProgram(w, l, mit(10)).z).toBe(65);
+  expect(runProgram(nachErstemLauf(), l, mit(11)).z).toBe(66);
+  // Gegenprobe: auf einer frisch gebauten Bahn braucht es weiter 14.
+  expect(runProgram(buildWorld(l, parcours.groundTop), l, mit(13)).z).toBe(65);
 });
