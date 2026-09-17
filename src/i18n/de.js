@@ -47,7 +47,6 @@ export default {
     findbugPrompt: 'Eine Zeile ist falsch. Welche?',
     findbugRight: 'Richtig! Das ist der Fehler.',
     findbugWrong: 'Nein, diese Zeile ist richtig. Schau noch mal.',
-    // Handübersetzung 17.09.2026 (Plan 4 Task 2), Task 9 ersetzt sie
     typePrompt: 'Tippe in jede Lücke die richtige Zahl oder das richtige Wort.',
     typeRight: 'Richtig! So läuft der Code.',
     typeWrong: 'Noch nicht. Lies die Zeile noch einmal.',
@@ -602,7 +601,7 @@ export default {
         code: 'if prüft eine Bedingung. Nur wenn sie wahr ist, dreht sich der Agent.',
       },
       tasks: [
-        { kind: 'auftrag', title: 'Um die Ecke', text: 'Stell dich auf den Goldblock am Gang Ecke. Schau nach Süden. Schreibe ecke. Der Agent stoppt über dem zweiten Goldblock. Schalte auf Python: Finde die Zeile mit if.' },
+        { kind: 'auftrag', title: 'Um die Ecke', text: 'Stell dich auf den Goldblock am Anfang der Bahn Ecke. Schau nach Süden. Schreibe ecke. Der Agent stoppt über dem zweiten Goldblock. Schalte auf Python: Finde die Zeile mit if.' },
         { kind: 'nochEiner', title: 'Rechts herum', text: 'Bau einen kurzen Gang, der nach rechts abknickt. Ändere eine Zeile im Programm.' },
         { kind: 'remix', title: 'Dein Gang', text: 'Bau einen Gang mit zwei Ecken. Reichen 20 Durchläufe? Zeig es deinem Partner oder deiner Partnerin.' },
       ],

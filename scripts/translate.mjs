@@ -175,6 +175,11 @@ const BLOCKS_CANON = { ar: 'مكعبات' };
 // eine eigene Variante ("Boss check", "Control final", "Prova del boss") — die Badges stammten aus
 // dem Chunk-Cache und sagten weiter "Boss-Check", also stand beides nebeneinander in der App.
 const BOSSCHECK_CANON = { en: 'Boss-Check', uk: 'Бос-перевірка', ar: 'اختبار الزعيم', es: 'Boss-Check', it: 'Boss-Check' };
+// Handkorrektur 2026-09-17 (Plan 4 Final-Review): Trennzeichen zwischen Begriff und Etappenname im
+// Titel. en/es/it wie im Deutschen ein Leerzeichen ("Boss-Check Gold"), uk/ar ein Doppelpunkt
+// ("اختبار الزعيم: ذهب"). Die Laeufe liessen ihn in uk/ar s09/s12 weg, beide Male von Hand
+// korrigiert. Spiegel: CANON in tests/bosscheck-titles.test.js.
+const BOSSCHECK_SEP = { en: ' ', uk: ': ', ar: ': ', es: ' ', it: ' ' };
 // "Deutsch" als Sprachname. Der Agent versteht kein Deutsch — das Modell ersetzte den Sprachnamen
 // mehrfach durch die Zielsprache ("does not understand English", "No entiende español").
 const GERMAN_CANON = { en: 'German', uk: 'німецька', ar: 'الألمانية', es: 'alemán', it: 'tedesco' };
@@ -197,6 +202,15 @@ function systemPrompt(lang) {
   const bossLine = BOSSCHECK_CANON[lang]
     ? `13. "Boss-Check" is the fixed name of the task that closes a stage — it appears as the heading ui.bossCheckHeading, in the titles "Boss-Check <stage>" and in the badge texts. In ${NAMES[lang]} it is exactly "${BOSSCHECK_CANON[lang]}"${['en', 'es', 'it'].includes(lang) ? ' — the German-English coinage stays as it is, with the hyphen and both capitals' : ' — inflect it grammatically where the sentence needs it, but keep this wording'}. Never invent a variant such as "Boss check", "Control final" or "Prova del boss": headings, titles and badges must read the same.`
     : '';
+  // Handkorrektur 2026-09-17 (Plan 4 Final-Review): Titel-Trennzeichen (BOSSCHECK_SEP) und im
+  // Arabischen direkte Ansprache. Ohne diese Regeln reisst der in README.md angekuendigte Neulauf
+  // von s10-s12 die Handkorrekturen in uk/ar s09/s12 (Doppelpunkt) und ar s12 (Imperativ) wieder ein.
+  const sepLine = BOSSCHECK_CANON[lang] && BOSSCHECK_SEP[lang]
+    ? `14. In a stage title the separator between "${BOSSCHECK_CANON[lang]}" and the stage name is exactly ${BOSSCHECK_SEP[lang] === ' ' ? 'one space, as in German ("Boss-Check Gold"): no colon, no dash' : `a colon and one space ("${BOSSCHECK_CANON[lang]}${BOSSCHECK_SEP[lang]}<stage>"), never only a space and never a dash, even though the German title has no colon`}. All four stage titles use the same form.`
+    : '';
+  const imperativeLine = lang === 'ar'
+    ? `15. Tasks, instructions and questions address the student directly with the singular imperative (قف، انظر، اكتب، بدّل، ابحث، ابنِ، غيّر), as the German "du" does. Never write an instruction as a verbal noun (masdar) such as "الوقوف", "النظر", "كتابة", "التحويل" — rule 10 does not turn an imperative into a masdar.`
+    : '';
   const germanLine = GERMAN_CANON[lang]
     ? `8. "Deutsch" as the name of the German language stays the name of German: "${GERMAN_CANON[lang]}". The students are learning German, so "the Agent does not understand German" must never turn into "does not understand ${NAMES[lang]}".`
     : '';
@@ -217,6 +231,8 @@ function systemPrompt(lang) {
     `11. Respond with ONLY the JSON object.`,
     `12. Identifiers from the code stay byte-identical also in prose: ${IDENT_CANON.join(', ')}. They are the names of variables and functions the students see in their own Python code, written lowercase in running text ("laenge steht einmal oben", "index zaehlt 0, 1, 2"). Never translate, capitalize or inflect them — if the sentence needs a word for the concept, add your own word next to the identifier and leave the identifier itself untouched. The capitalized German nouns in the same sentences (Stufen, Position, Länge) are ordinary words and ARE translated.`,
     bossLine,
+    sepLine,
+    imperativeLine,
   ].filter(Boolean).join('\n');
 }
 

@@ -232,7 +232,7 @@ export default {
         'if und else sind zwei Wege. In jedem Durchlauf läuft genau einer.',
         'agent.detect(AgentDetection.BLOCK, DOWN) prüft den Block unter dem Agent.',
         'Ein Durchlauf ist ein Schritt oder ein Block, nie beides.',
-        'Du änderst die Zahl direkt in Python. Die Blöcke ändern sich mit.',
+        'Du änderst die Zahl direkt in Python. Prüfe dann die Blöcke.',
       ],
       tips: [
         'Frage: Wie viele Schritte braucht der Agent? Wie viele Löcher gibt es?',
