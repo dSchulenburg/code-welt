@@ -1374,17 +1374,21 @@ export default {
         {
           "kind": "auftrag",
           "title": "حتى الجدار",
-          "text": "الوقوف على مكعب الذهب في مسار الهدف. النظر نحو الجنوب. كتابة ziel. التحويل إلى Python: البحث عن السطر الذي فيه while."
+          // Handkorrektur 2026-09-17 (Plan 4 Task 9 Review): Imperativ statt Verbalnomen (Masdar),
+          // wie in s10/s11 derselben Datei (z. B. Zeile 1168 "قف على ... انظر ... اكتب ecke ...").
+          // Der Lauf hatte hier "الوقوف/النظر/كتابة/التحويل/البحث" geschrieben — Verbalnomen statt
+          // direkter Ansprache der Lernenden.
+          "text": "قف على مكعب الذهب في مسار الهدف. انظر نحو الجنوب. اكتب ziel. بدّل إلى Python: ابحث عن السطر الذي فيه while."
         },
         {
           "kind": "nochEiner",
           "title": "بدون عد",
-          "text": "السير بـ ziel فوق مسار الثقوب. هل يلزم رقم هناك؟"
+          "text": "سِر بـ ziel فوق مسار الثقوب. هل يلزم رقم هناك؟"
         },
         {
           "kind": "remix",
           "title": "مسارك",
-          "text": "بناء مسار خاص فيه ثقوب وجدار. عرضه على الشريك أو الشريكة."
+          "text": "ابنِ مسارًا خاصًا فيه ثقوب وجدار. اعرضه على الشريك أو الشريكة."
         }
       ],
       "tipSolution": "while not agent.detect(AgentDetection.BLOCK, FORWARD): يستمر Agent ما دام لا يوجد مكعب في الأمام.",
@@ -1474,7 +1478,9 @@ export default {
         // schon bei s09 am 04.09.2026.
         "title": "اختبار الزعيم: ذهب",
         "subtitle": "المسار المجهول",
-        "task": "الوقوف على مكعب الذهب في المسار الأخير. النظر نحو الجنوب. كتابة ziel. يمر Agent من عند الريدستون ولا يتوقف. تغيير الشرط في Python. يجب أن يتوقف على الريدستون. كتابة ثلاث جمل: ماذا يفحص شرطك؟ لماذا يمر البرنامج القديم من عند الريدستون؟ ماذا يحدث إذا لم يأتِ ريدستون؟"
+        // Handkorrektur 2026-09-17 (Plan 4 Task 9 Review): Imperativ statt Verbalnomen, wie in
+        // s09 derselben Datei (Zeile 1154 "قف على ... اقرأ ... اضبط ... ابنِ ... اكتب ثلاث جمل").
+        "task": "قف على مكعب الذهب في المسار الأخير. انظر نحو الجنوب. اكتب ziel. يمر Agent من عند الريدستون ولا يتوقف. غيّر الشرط في Python. يجب أن يتوقف على الريدستون. اكتب ثلاث جمل: ماذا يفحص شرطك؟ لماذا يمر البرنامج القديم من عند الريدستون؟ ماذا يحدث إذا لم يأتِ ريدستون؟"
       }
     }
   }

@@ -101,3 +101,14 @@ test('ar: nur lateinische Ziffern, keine arabisch-indischen', () => {
   const treffer = stringEntries(ar).filter(([, v]) => /[٠-٩۰-۹]/.test(v)).map(([p, v]) => `${p}: ${v}`);
   expect(treffer).toEqual([]);
 });
+
+// AGENT_CANON.uk = 'Agent' (scripts/translate.mjs, Prompt-Regel 3): der Roboter-Name bleibt
+// lateinisch, auch flektiert ("Агентом", "Агенту") darf das kyrillische Wort nicht auftauchen.
+// Anlass (Review Fix-Runde 1 zu Task 9, 17.09.2026): der Lauf hatte in s11 an acht Stellen
+// "Агент"/"Агенту"/"Агентом" geschrieben, von Hand auf "Agent" korrigiert. Laeuft ueber die
+// Bundle-Werte (stringEntries), nicht den Dateitext — sonst zaehlten Kommentare mit, die "Агент"
+// nur nennen, um genau diesen Fix zu erklaeren (z. B. Zeile 7 und die neue Zeile bei s11).
+test('uk: kyrillisches "Агент" kommt in keinem uebersetzten String vor', () => {
+  const treffer = stringEntries(uk).filter(([, v]) => /Агент/.test(v)).map(([p, v]) => `${p}: ${v}`);
+  expect(treffer).toEqual([]);
+});
