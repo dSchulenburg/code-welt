@@ -371,7 +371,7 @@ export default {
       title: 'Das Haus',
       storyShort: 'Ein Haus hat vier Wände. Du kopierst die Wand nicht viermal. Du legst eine Schleife außen herum. Nach jeder Seite dreht sich der Agent.',
       bridge: {
-        game: 'Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Seiten.',
+        game: 'Du tippst haus in den Chat. Der Agent baut einen Ring aus vier Seiten. Er rechnet 20 Blöcke, aber baut nur 19: Der letzte Platz ist schon besetzt, so bleibt eine Lücke wie eine Tür.',
         code: 'Die äußere Schleife läuft viermal. Nach jeder Seite dreht der Agent um die Ecke.',
       },
       tasks: [
