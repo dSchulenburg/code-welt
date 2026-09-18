@@ -735,11 +735,17 @@ export default {
           "text": "Кільце має бути 3 блоки висотою. Для цього тобі потрібен третій цикл."
         },
         {
+          // Handkorrektur 2026-09-18 (Neuübersetzung s06 Ring-Tür): Praeposition zurueck auf
+          // "на" (nicht "в") — wiederholt die Korrektur vom 04.09.2026 (Welle C); ein
+          // Chunk-Neulauf von stations.s06 kippt sie sonst wieder um.
           "kind": "remix",
           "title": "Двері",
-          "text": "Залиш в одній стороні проміжок як двері. Покажи свій будинок партнерові або партнерці."
+          "text": "Залиш на одній стороні проміжок як двері. Покажи свій будинок партнерові або партнерці."
         }
       ],
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach. Reconfirmed 2026-09-18 nach dem
+      // s06-Chunk-Neulauf (Formulierung geaendert, Platzierung weiterhin korrekt).
       "tipSolution": "Напиши for index3 in range(3): у самому зовнішньому рядку. Усе кільце стоїть із відступом усередині. agent.move(UP, 1) теж стоїть там, одразу після кільця. Перелічи: три цикли, один в одному.",
       "exercises": [
         {

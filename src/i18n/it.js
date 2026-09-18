@@ -741,11 +741,17 @@ export default {
           "text": "L'anello deve diventare alto 3 blocchi. Per questo ti serve un terzo ciclo."
         },
         {
+          // Handkorrektur 2026-09-18 (Neuübersetzung s06 Ring-Tür): Praeposition zurueck auf
+          // "su" (nicht "in") — wiederholt die Korrektur vom 04.09.2026 (Welle C); ein
+          // Chunk-Neulauf von stations.s06 kippt sie sonst wieder um.
           "kind": "remix",
           "title": "La porta",
-          "text": "Lascia un buco in un lato come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
+          "text": "Lascia un buco su un lato come porta. Mostra la tua casa al tuo compagno o alla tua compagna."
         }
       ],
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach. Reconfirmed 2026-09-18 nach dem
+      // s06-Chunk-Neulauf (Formulierung geaendert, Platzierung weiterhin korrekt).
       "tipSolution": "Scrivi for index3 in range(3): tutto all'esterno. Tutto l'anello sta dentro, rientrato. Anche agent.move(UP, 1) sta dentro, subito dopo l'anello. Conta: tre cicli, uno dentro l'altro.",
       "exercises": [
         {
@@ -826,9 +832,12 @@ export default {
         }
       ],
       "bossCheck": {
+        // Handkorrektur 2026-09-18 (Neuübersetzung s06 Ring-Tür): Zaun-Substantiv zurueck auf
+        // "staccionata" (nicht "recinto") in subtitle und task — dieselbe Wortwahl wie vor der
+        // Korrektur, die bei einem Chunk-Neulauf von stations.s06 sonst verloren geht.
         "title": "Boss-Check Pietra",
-        "subtitle": "Il recinto",
-        "task": "Costruisci un recinto intorno a te. L'anello ha 8 blocchi per lato. Che cosa ti fa risparmiare il ciclo? Quanti comandi sarebbero senza ciclo?"
+        "subtitle": "La staccionata",
+        "task": "Costruisci una staccionata intorno a te. L'anello ha 8 blocchi per lato. Che cosa ti fa risparmiare il ciclo? Quanti comandi sarebbero senza ciclo?"
       }
     },
     "s07": {

@@ -194,6 +194,14 @@ Charakter-Posen, die it/es-Korrekturen aus Plan 3.
   (`npm run translate -- --lang all --chunk stations.s10,stations.s11,stations.s12`). Danach die
   Handkorrekturen prüfen: Prompt-Regeln schützen Boss-Titel-Trenner und arabische Imperative, der
   ar-Titel von s10 („إذا، عندها" statt „إذا، فـ") hat keine Regel und keinen Test.
+- **Ändert sich stations.s06 und wird neu übersetzt** (letzter Neulauf 18.09.2026, Ring-Tür-Satz):
+  die Präposition im Remix-Task „Die Tür"/„Двері"/„La porta" hat keine Regel und keinen Test — en
+  („on", nicht „in"), uk („на", nicht „в") und it („su", nicht „in") sind zu spezifisch für eine
+  allgemeine Prompt-Regel (die Präposition hängt vom Satz ab, eine feste Regel würde andere Sätze
+  mit „in"/„в" falsch umbiegen), fielen deshalb beim Lauf vom 18.09.2026 auf die ungeprüfte
+  KI-Variante zurück und wurden von Hand zurückgesetzt. Das Zaun-Substantiv in it („staccionata",
+  nicht „recinto") ist seither durch Prompt-Regel 16 (`FENCE_CANON`) geschützt und braucht keine
+  manuelle Prüfung mehr.
 - Welt „ankunft" um den Parcours erweitern (Bauplan + Bauskript-Befehl `parcours` liegen bereit),
   Schilder setzen, danach komplett neu als `.mcworld` exportieren (weiterhin auch das
   Erkundungsgebiet aus Plan 3 offen, siehe unten).

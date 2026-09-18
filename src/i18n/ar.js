@@ -745,6 +745,9 @@ export default {
           "text": "اترك فجوة في إحدى الجهات لتكون باباً. اعرض بيتك على زميلك أو زميلتك."
         }
       ],
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach. Reconfirmed 2026-09-18 nach dem
+      // s06-Chunk-Neulauf (Formulierung geaendert, Platzierung weiterhin korrekt).
       "tipSolution": "اكتب for index3 in range(3): في أقصى الخارج. كل الحلقة تقف بداخلها مع إزاحة. وكذلك agent.move(UP, 1) يقف بداخلها، مباشرة بعد الحلقة. عُدّ: ثلاث حلقات، واحدة داخل الأخرى.",
       "exercises": [
         {

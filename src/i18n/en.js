@@ -741,11 +741,17 @@ export default {
           "text": "The ring should be 3 blocks high. For that you need a third loop."
         },
         {
+          // Handkorrektur 2026-09-18 (Neuübersetzung s06 Ring-Tür): Praeposition zurueck auf
+          // "on" (nicht "in") — wiederholt die Korrektur vom 04.09.2026 (Welle C); ein
+          // Chunk-Neulauf von stations.s06 kippt sie sonst wieder um.
           "kind": "remix",
           "title": "The Door",
-          "text": "Leave a gap in one side as a door. Show your house to your partner."
+          "text": "Leave a gap on one side as a door. Show your house to your partner."
         }
       ],
+      // Handkorrektur 2026-09-04 (Final Review): matches de.js — agent.move(UP, 1) sits inside
+      // the third loop, right after the ring, not after the whole block. Reconfirmed 2026-09-18
+      // after the s06 chunk re-run (wording changed, placement still correct).
       "tipSolution": "Write for index3 in range(3): all the way on the outside. The whole ring sits indented inside it. agent.move(UP, 1) also sits inside it, right after the ring. Count them: three loops, one inside the other.",
       "exercises": [
         {

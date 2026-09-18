@@ -183,6 +183,12 @@ const BOSSCHECK_SEP = { en: ' ', uk: ': ', ar: ': ', es: ' ', it: ' ' };
 // "Deutsch" als Sprachname. Der Agent versteht kein Deutsch — das Modell ersetzte den Sprachnamen
 // mehrfach durch die Zielsprache ("does not understand English", "No entiende español").
 const GERMAN_CANON = { en: 'German', uk: 'німецька', ar: 'الألمانية', es: 'alemán', it: 'tedesco' };
+// "Zaun" im Boss-Check-Remix "Der Zaun" (stations.s06.bossCheck.subtitle und .task) ist im
+// Italienischen fest "staccionata" (Handkorrektur 2026-09-04, Welle C). Ein Chunk-Neulauf von
+// stations.s06 am 18.09.2026 ersetzte es durch das gleichbedeutende, aber nicht gewaehlte
+// "recinto" und musste von Hand zurueckgesetzt werden. Andere Sprachen behielten ihre Wortwahl
+// (en "fence", uk "паркан", ar "السياج", es "valla") ohne Kanon-Regel — nur it driftete.
+const FENCE_CANON = { it: 'staccionata' };
 function canonLine(canon) {
   return canon ? Object.entries(canon).map(([k, v]) => `${k}→"${v}"`).join(', ') : '';
 }
@@ -211,6 +217,12 @@ function systemPrompt(lang) {
   const imperativeLine = lang === 'ar'
     ? `15. Tasks, instructions and questions address the student directly with the singular imperative (قف، انظر، اكتب، بدّل، ابحث، ابنِ، غيّر), as the German "du" does. Never write an instruction as a verbal noun (masdar) such as "الوقوف", "النظر", "كتابة", "التحويل" — rule 10 does not turn an imperative into a masdar.`
     : '';
+  // Handkorrektur 2026-09-18 (Neuübersetzung s06 Ring-Tür): ohne diese Regel ersetzte ein
+  // Chunk-Neulauf von stations.s06 "staccionata" durch "recinto" (beides "Zaun", aber nicht die
+  // gewaehlte Uebersetzung).
+  const fenceLine = FENCE_CANON[lang]
+    ? `16. The German "Zaun" (fence) in station s06's Boss-Check task "Der Zaun" (bossCheck.subtitle and bossCheck.task) is always "${FENCE_CANON[lang]}" in ${NAMES[lang]}. Never switch to a synonym such as "recinto".`
+    : '';
   const germanLine = GERMAN_CANON[lang]
     ? `8. "Deutsch" as the name of the German language stays the name of German: "${GERMAN_CANON[lang]}". The students are learning German, so "the Agent does not understand German" must never turn into "does not understand ${NAMES[lang]}".`
     : '';
@@ -233,6 +245,7 @@ function systemPrompt(lang) {
     bossLine,
     sepLine,
     imperativeLine,
+    fenceLine,
   ].filter(Boolean).join('\n');
 }
 

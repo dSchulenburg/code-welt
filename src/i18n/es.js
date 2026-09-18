@@ -745,6 +745,9 @@ export default {
           "text": "Deja un hueco en un lado como puerta. Enseña tu casa a tu compañero o compañera."
         }
       ],
+      // Handkorrektur 2026-09-04 (Final Review): entspricht de.js — agent.move(UP, 1) steht in
+      // der dritten Schleife, direkt nach dem Ring, nicht danach. Reconfirmed 2026-09-18 nach dem
+      // s06-Chunk-Neulauf (Formulierung geaendert, Platzierung weiterhin korrekt).
       "tipSolution": "Escribe for index3 in range(3): del todo afuera. Todo el anillo va dentro, con sangría. agent.move(UP, 1) también va dentro, justo después del anillo. Cuenta: tres bucles, uno dentro del otro.",
       "exercises": [
         {
