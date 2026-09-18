@@ -174,6 +174,9 @@ kyrillischer Schrift (jetzt mit eigenem Test gegen „Агент" abgesichert), 
 Verbalnomen; dazu der Boss-Titel-Trenner „: " in uk/ar s09 und s12. Ob der Agent über Löchern
 fällt, ist weiterhin offen (Prüfliste unten). Alle vier Boss-Aufgaben wurden beim letzten Box-Bau
 neu angelegt, weil der `ui`-Chunk (Tipp-Lücken-Hinweis) neu übersetzt wurde (erwartet, kein Fund).
+Ring-Tür-Hypothese aus s06 geklärt (gemessen 18.09.2026): der Ring hat 19 statt 20 Blöcke, Lücke
+am Startfeld (3, 5, -3); gilt genauso beim Zaun-Remix (32 gerechnet, 31 gebaut). Die Programme
+bleiben unverändert, die Lücke wird als Tür erklärt (`content/lehrkraft/ds06.md`).
 
 Nicht in Plan 4: Diamant, Audio, Cheat-Sheets, Deploy (Phase 6), Hour-of-Code-Verweise, neue
 Charakter-Posen, die it/es-Korrekturen aus Plan 3.
@@ -206,7 +209,6 @@ Charakter-Posen, die it/es-Korrekturen aus Plan 3.
 - Vor `erkunden` im Spiel prüfen: Bodenhöhe (Gras auf y=4?), Achsen (baut `pos(0, 0, 1)` nach
   Süden?), zeigt die Koordinatenanzeige die Fußhöhe? (Bauplan Abschnitt „Bodenhöhe",
   `docs/lehrkraft-probelauf.md` „Offene Punkte").
-- Ring-Tür-Hypothese (Boss-Check Stein): im Spiel nachzählen, ob der Ring 19 oder 20 Blöcke hat.
 - Weltdatei „ankunft" im Editor bauen (Bauplan + Bauskript liegen bereit, inkl. Erkundungsgebiet),
   als `.mcworld` exportieren, in den Lehrkraft-Ordner „Weltdateien" hochladen.
 - uk- und ar-Übersetzung von Muttersprachler:in gegenlesen lassen (Eisen und Gold kommen dazu; die
