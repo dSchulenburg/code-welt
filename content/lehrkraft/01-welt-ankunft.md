@@ -67,12 +67,14 @@ und Wegmarken bleiben frei.
 | Turm | DS 3 (s03) | 3 (Stein) | 2/5/-9 | Süden | x 2 / z -8 | 1×1, Höhe 3 |
 | Mauer | DS 4 (s04) | 10 (Bruchstein) | -8/5/-2 | Süden | x -8 / z -2…7 | 10 lang × 1 breit |
 | Wand | DS 5 (s05) | 18 = 6×3 (Bruchstein) | -3/5/-8 | Süden | x -3 / z -8…-3 | 6 lang × 1 breit, Höhe 3 |
-| Ring | DS 6 (s06, „haus") | 20 = 4 Seiten × 5 (Eiche) | 3/5/-3 | Süden | x 3…8 / z -3…2 | Umriss 6×6, Höhe 1 |
+| Ring | DS 6 (s06, „haus") | 20 gerechnet, 19 gebaut = 4 Seiten × 5 (Eiche) | 3/5/-3 | Süden | x 3…8 / z -3…2 | Umriss 6×6, Höhe 1 |
 
 Rechenprobe: Weg 4 Blöcke (drei in einer Linie, der vierte um die Ecke); Turm 3 Blöcke
 übereinander, er steht ein Feld **vor** dem Startfeld; Mauer 10 Blöcke aus einer Schleife
-(`range(10)`); Wand 6 breit × 3 hoch = 18 Blöcke; Ring 4 Seiten × 5 Blöcke = 20 Blöcke, Umriss
-aber 6×6 Felder — die vier Ecken gehören je zwei Seiten gleichzeitig.
+(`range(10)`); Wand 6 breit × 3 hoch = 18 Blöcke; Ring 4 Seiten × 5 Blöcke = 20 gerechnet, gebaut
+sind es 19 — der letzte Schritt läuft ins besetzte Startfeld (3, 5, -3) und bleibt davor stehen,
+das ist die Lücke (gemessen im Spiel 18.09.2026). Umriss aber 6×6 Felder — die vier Ecken gehören
+je zwei Seiten gleichzeitig.
 
 **Drehrichtung und Startfeld (Korrektur 16.09.2026):** Der Bauplan nahm früher Norden = +z an.
 Richtig ist Süden = +z. Die Bereiche in der Spalte „Belegte Felder" bleiben für alle fünf Bauten

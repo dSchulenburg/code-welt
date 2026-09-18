@@ -260,10 +260,10 @@ Diese Punkte kann kein Test in der Box beantworten — sie brauchen Minecraft Ed
   `LEFT_TURN` bei Blick nach Süden nach Osten; wie wandelt der Editor `if … else` und `while not
   …` zwischen Blöcken und Python, zeigt er `for index in range(20)` mit ungenutztem `index` als
   `repeat 20`; wie stoppt man ein endlos laufendes `while` im Code Builder (für `ds12.md`).
-- **Ring-Tür-Hypothese (Boss-Check Stein, „Der Zaun"):** Der Agent endet vermutlich auf seinem
-  Startfeld, das schon einen Block trägt — dann fehlt der letzte Block und der Ring hat von
-  selbst eine Lücke. Einmal `haus` bauen lassen und nachzählen: **19 oder 20 Blöcke?** (Details
-  und beide Fälle: `content/lehrkraft/ds06.md`.)
+- **Ring-Tür-Hypothese — geklärt (gemessen 18.09.2026):** Der Agent endet auf seinem Startfeld
+  (3, 5, -3), das schon einen Block trägt — der letzte Block fehlt, der Ring hat von selbst eine
+  Lücke. Nachgezählt: **19 statt 20 Blöcke.** Gilt genauso beim Zaun-Remix (4×8 = 32 gerechnet,
+  31 gebaut). (Details: `content/lehrkraft/ds06.md`.)
 - **Weltdatei „ankunft":** Bauplan (`content/lehrkraft/01-welt-ankunft.md`), Bauskript
   (`scripts/minecraft/welt-ankunft-bau.py`) und die Chat-Befehle `erkunden` (Plan 3) und
   `parcours` (Plan 4, vier Bahnen: Ecke, Löcher, Ziel, Boss) liegen bereit. Welt im Editor um
