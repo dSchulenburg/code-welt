@@ -270,7 +270,7 @@ player.on_chat("wand", on_wand)`,
   s06: {
     etappe: 'stein',
     ds: 6,
-    iframeHeight: 5200,
+    iframeHeight: 5350, // gemessen 18.09.2026 (Ring-Tuer-Satz in bridge.game, alle Sprachen laenger)
     bossCheck: { key: 'boss-stein', gradeMax: 100 },
     // Entwurf nach der MakeCode-Python-API; Gegenpruefung im Browser-Editor (minecraft.makecode.com, Bloecke -> Python) steht noch aus.
     python: `def on_haus():

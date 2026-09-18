@@ -36,7 +36,7 @@
       },
       "s06-station": {
         "cmid": 140,
-        "hash": "576081d3636d"
+        "hash": "5899f0e01658"
       },
       "page-ds01": {
         "cmid": 103,
@@ -53,10 +53,6 @@
       "page-ds05": {
         "cmid": 106,
         "hash": "fc99cbec5ebf"
-      },
-      "page-ds06": {
-        "cmid": 107,
-        "hash": "fc6f64bf6fe5"
       },
       "forum-nour": {
         "cmid": 122,
@@ -91,12 +87,6 @@
         "quizId": 23,
         "questions": 4,
         "hash": "0b9f74a047fe"
-      },
-      "s06-quiz": {
-        "cmid": 134,
-        "quizId": 24,
-        "questions": 4,
-        "hash": "28829f67fb77"
       },
       "s07-station": {
         "cmid": 153,
@@ -160,10 +150,6 @@
         "cmid": 599,
         "hash": "635f393a44f6"
       },
-      "boss-stein": {
-        "cmid": 600,
-        "hash": "1fa3169da73a"
-      },
       "boss-eisen": {
         "cmid": 601,
         "hash": "9f1f6d8dfe4d"
@@ -184,10 +170,6 @@
         "cmid": 605,
         "hash": "98ded3a3ea7d"
       },
-      "page-01-welt-ankunft": {
-        "cmid": 606,
-        "hash": "5435f695999f"
-      },
       "page-ds10": {
         "cmid": 607,
         "hash": "d10ede94bf01"
@@ -205,9 +187,27 @@
         "quizId": 60,
         "questions": 4,
         "hash": "0036a173ce15"
+      },
+      "page-01-welt-ankunft": {
+        "cmid": 611,
+        "hash": "85fc23f92255"
+      },
+      "page-ds06": {
+        "cmid": 612,
+        "hash": "d4717a1603e4"
+      },
+      "s06-quiz": {
+        "cmid": 613,
+        "quizId": 61,
+        "questions": 4,
+        "hash": "cdfff1dfe26c"
+      },
+      "boss-stein": {
+        "cmid": 614,
+        "hash": "ec64ea2e8893"
       }
     },
-    "criteriaCmids": "129,130,131,132,133,134,154,158,207,599,600,601,603,604,605,610",
+    "criteriaCmids": "129,130,131,132,133,154,158,207,599,601,603,604,605,610,613,614",
     "badges": {
       "badge-holz": 1,
       "badge-stein": 2,
