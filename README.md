@@ -52,6 +52,28 @@ außerdem die Kriterien-Änderung (`ACTIVE_LOCKED`) — dafür gibt es `moodle/p
 sichern, nicht blind `moodle:build` laufen lassen. Das Forum „Fragen an Nour" ist von diesem
 Tradeoff nicht betroffen (s. o., `managedBy`).
 
+### Produktion (seit 29.09.2026)
+
+App: https://lernmodule.dirk-schulenburg.net/code-welt/ (statisch im nginx-Volume
+`lernmodule/html/code-welt/` auf Server 1, Deploy-Skript `deploy-code-welt.sh` im docker-Repo).
+Kurs: `moodle.dirk-schulenburg.net`, Kurs 93 in Kategorie 9 „Code-Welt", Register-Abschnitt
+`prod` in `moodle/registry.json`.
+
+    node moodle/cw-prod.mjs probe        # nur lesend: Werkzeuge, Kategorien, Kurzname frei?
+    node moodle/cw-prod.mjs build 9      # REG_ENV=prod, Kategorie 9, sichtbar nur Abschnitt 0 + Holz
+
+`cw-prod.mjs` holt den Schlüssel aus `claude-proxies/context-keys.mjs` (Kontext education) und
+gibt ihn nie aus. `build-course.mjs` versteht dafür zwei Umgebungsvariablen: `CATEGORY_ID`
+(Standard 1) und `VISIBLE_SECTIONS` (z. B. `0,2`; ohne Variable gilt die Sichtbarkeit aus
+`course-def.mjs`). Forum, Badges und Quiz-Abschluss (`apply-*.sh`, `postbuild`) laufen per
+`docker exec ki-kurs-moodle` und sind auf Produktion noch **nicht** gesetzt.
+
+**Falle Git Bash:** `CODEWELT_BASE=/code-welt/ npx vite build` baut in Git Bash mit der Basis
+`/Program Files/Git/code-welt/`, weil MSYS den Wert als Pfad umschreibt. Die Seite bleibt dann
+leer (so am 29.09.2026 einmal live gegangen). Ohne die Variable bauen (`/code-welt/` ist der
+Standard in `vite.config.js`) oder `MSYS_NO_PATHCONV=1` davorsetzen. Und: Klon mit
+`core.autocrlf=false`, sonst schlagen fünf Tests fehl und `\r` landet im Bundle.
+
 ### Vor dem Probelauf (nur Box)
 
     bash moodle/apply-php.sh php/reset-test-student.php <courseid> schueler1

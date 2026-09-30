@@ -25,7 +25,15 @@ const registry = JSON.parse(fs.readFileSync(REG_PATH, 'utf8'));
 const reg = (registry[ENV] ||= { courseId: null, items: {} });
 const save = () => fs.writeFileSync(REG_PATH, JSON.stringify(registry, null, 2) + '\n');
 
+const CATEGORY_ID = Number(process.env.CATEGORY_ID || 1);
+
 const def = buildCourseDef({ bundles: { de, en, uk, ar, es, it }, appBase: APP_BASE });
+// VISIBLE_SECTIONS=0,2 schaltet nur diese Abschnitte sichtbar (z. B. Produktion: erst Holz),
+// alle anderen verborgen. Ohne Variable bleibt die Sichtbarkeit aus course-def.mjs.
+if (process.env.VISIBLE_SECTIONS) {
+  const show = new Set(process.env.VISIBLE_SECTIONS.split(',').map(Number));
+  for (const s of def.sections) s.visible = show.has(s.num) ? 1 : 0;
+}
 // Vor dem ersten API-Aufruf pruefen, nicht erst bei moodle_create_assignment scheitern lassen
 // (Fix-Report Task 3b: "Error writing to database" war das Symptom, nicht die Ursache).
 assertNameLengths(def);
@@ -52,7 +60,7 @@ function sectionIdFromDb(courseId, sectionNum) {
 if (!reg.courseId) {
   const list = await callTool('moodle_list_courses', {});
   if (hasShortname(list, def.shortname)) throw new Error(`Kurs ${def.shortname} existiert schon, aber nicht im Register — courseId von Hand in registry.json eintragen`);
-  const r = await callTool('moodle_create_course', { fullname: def.fullname, shortname: def.shortname, categoryid: 1, summary: def.summary, format: 'topics', numsections: 8, visible: 1 });
+  const r = await callTool('moodle_create_course', { fullname: def.fullname, shortname: def.shortname, categoryid: CATEGORY_ID, summary: def.summary, format: 'topics', numsections: 8, visible: 1 });
   reg.courseId = extractId(r, 'ID'); save();
   console.log(`Kurs angelegt: ${reg.courseId}`);
 } else {
